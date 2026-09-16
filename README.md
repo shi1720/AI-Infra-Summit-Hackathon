@@ -5,6 +5,8 @@
 Granted Robotics is a simulation workbench for bimanual table setting, action checks, and fault recovery. Created by **Shivam Gupta** for the AI Infra Summit Hackathon with AI-assisted development.
 
 - [Open the workbench](https://granted-robotics.web.app)
+- [Watch the complete demo](https://youtu.be/mSRJfgEWN08)
+- [Submitted project](https://lablab.ai/ai-hackathons/ai-infra-summit-hackathon/granted-robotics/granted-robotics-permission-before-motion)
 - [Project story](deliverables/project-story.md)
 - [Pitch deck](deliverables/granted-robotics-complete-presentation.pdf)
 - [Demo script](deliverables/complete-video-script.md)
