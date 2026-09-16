@@ -15,6 +15,6 @@ The published track brief asks for dual SO-101 manipulation, camera-based multim
 - The geometric OpenVINO graph is not a trained VLA policy and does not establish model optimization quality for a VLA.
 - The project trains a small joint-target imitation model and exports it to OpenVINO. It does not claim end-to-end VLA training or fine-tuning.
 - The current table-setting fixture is narrower than the full drawer, utensils, hand-off, and pouring sequence in the brief.
-- A 50-run evaluation across 10 seeds now exists using MuJoCo Menagerie SO101 arms. Randomization covers small position perturbations, mass, and friction. Lighting, shape, and background generalization are not demonstrated.
+- A 50-run evaluation across 10 seeds now exists using MuJoCo Menagerie SO101 arms. Randomization covers small position perturbations, mass, friction, cylinder radius and height, lighting, and table color. Generalization to novel objects or tasks is not demonstrated.
 
 The submission should present its actual contribution and these gaps honestly. No eligibility or track-compliance guarantee is made.

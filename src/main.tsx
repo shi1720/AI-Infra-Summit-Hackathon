@@ -574,9 +574,21 @@ function App() {
       <aside className={"sidebar " + (mobileNav ? "open" : "")}>
         <Logo />
         <div className="workspace-switch">
-          <span className="avatar">SG</span>
-          <div>
-            Shivam's workspace<small>Personal workspace</small>
+          <span className="avatar">
+            {user
+              ? (user.displayName || user.email || "Account")
+                  .slice(0, 2)
+                  .toUpperCase()
+              : "SG"}
+          </span>
+          <div
+            className="workspace-user"
+            title={user?.email || "Shivam’s workspace"}
+          >
+            {user ? user.displayName || user.email : "Shivam’s workspace"}
+            <small>
+              {user ? "Signed in · device-local runs" : "Personal workspace"}
+            </small>
           </div>
           <ChevronDown size={14} />
         </div>
@@ -1188,8 +1200,11 @@ function App() {
             <div className="workspace-footnote">
               <span>
                 <FlaskConical size={14} />
-                Browser simulation is illustrative. Connect the Python backend
-                for MuJoCo execution.
+                {backend
+                  ? "Illustration is a preview. Physics evidence above comes from live MuJoCo."
+                  : apiUrl && scenario === "serving"
+                    ? "Illustration is a preview. Validate your task to obtain live MuJoCo evidence."
+                    : "Browser simulation is illustrative. Connect the Python backend for MuJoCo execution."}
               </span>
               <button onClick={() => setTab("about")}>
                 Read the safety case <ArrowUpRight size={13} />
@@ -1559,12 +1574,13 @@ function PhysicsReplay() {
               </div>
             </div>
             <p>
-              Imported SO-101 meshes, contact-based grasp attachment, joint
+              Imported SO-101 meshes, simulated weld grasp attachment, joint
               control, and a recovery path following an injected grip loss. Ten
-              randomized seeds vary object position, mass, and friction. All 10
-              obstacle trials stopped safely. These small controlled tests are
-              not a generalization claim. The simulated grasp is simplified;
-              this is not a VLA policy benchmark or hardware validation.
+              randomized seeds vary object position, mass, friction, cylinder
+              dimensions, lighting, and background. All 10 obstacle trials
+              stopped safely. These small controlled tests are not a
+              generalization claim. The simulated grasp is simplified; this is
+              not a VLA policy benchmark or hardware validation.
             </p>
             <div>
               <a href="/evidence/so101-recovery.json" download>

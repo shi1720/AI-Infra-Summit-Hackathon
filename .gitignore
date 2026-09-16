@@ -15,3 +15,5 @@ backend/runs/
 .codex-finalizer/
 deliverables/.build/
 .chart-data-*/
+.venv-intel-validation/
+artifacts/

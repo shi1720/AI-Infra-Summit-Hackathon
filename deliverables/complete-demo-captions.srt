@@ -1,0 +1,235 @@
+1
+00:00:00,000 --> 00:00:05,459
+A robot setting a table looks impressive. But a moved cup or a failed
+
+2
+00:00:05,459 --> 00:00:09,748
+grasp can break that plan. Granted Robotics makes the recovery inspectable.
+
+3
+00:00:09,748 --> 00:00:14,037
+Created by Shivam Gupta, it combines a clear operator workbench with
+
+4
+00:00:14,037 --> 00:00:15,207
+reproducible simulation evidence.
+
+5
+00:00:15,207 --> 00:00:19,712
+Here is the hosted workbench. Choose the physics backed cup and bowl
+
+6
+00:00:19,712 --> 00:00:24,217
+task, then select grip loss. Validate the task in MuJoCo. The result
+
+7
+00:00:24,217 --> 00:00:27,596
+shows measured placement errors and backend events. The illustration
+
+8
+00:00:27,596 --> 00:00:31,351
+is clearly separate from that evidence. Replay the workflow, inspect
+
+9
+00:00:31,351 --> 00:00:36,232
+the recovery, and export the JSON record. A guest can test the core
+
+10
+00:00:36,232 --> 00:00:38,860
+flow, and Firebase sign in is available.
+
+11
+00:00:38,860 --> 00:00:43,997
+The React workbench accepts a task and shows the evidence. A FastAPI
+
+12
+00:00:43,997 --> 00:00:47,849
+service validates requests, then runs the MuJoCo fixture. Optional
+
+13
+00:00:47,849 --> 00:00:52,130
+camera and language validation can approve only the supported contract.
+
+14
+00:00:52,130 --> 00:00:56,410
+The controller and geometric monitor execute the task. Results include
+
+15
+00:00:56,410 --> 00:00:58,123
+events and measured errors.
+
+16
+00:00:58,123 --> 00:01:02,463
+A real camera image and instruction go to the constrained language
+
+17
+00:01:02,463 --> 00:01:06,409
+validator. Separately, we trained a small joint target imitation policy
+
+18
+00:01:06,409 --> 00:01:10,354
+on four hundred eighty inverse kinematics examples, with one hundred
+
+19
+00:01:10,354 --> 00:01:14,300
+twenty held out. OpenVINO runs its proposals. Mandatory numerical correction
+
+20
+00:01:14,300 --> 00:01:19,035
+remains part of control. This is not an end to end VLA.
+
+21
+00:01:19,035 --> 00:01:23,573
+This is actual MuJoCo rendering, separate from the browser illustration.
+
+22
+00:01:23,573 --> 00:01:28,565
+Both SO101 arms move objects to predefined targets. An injected grip
+
+23
+00:01:28,565 --> 00:01:33,104
+loss breaks the initial attempt. The controller detects the displaced
+
+24
+00:01:33,104 --> 00:01:37,642
+object and follows a recovery path. Simplified grasp attachment and
+
+25
+00:01:37,642 --> 00:01:39,911
+simulator state remain important limitations.
+
+26
+00:01:39,911 --> 00:01:44,987
+We evaluated ten seeds in five conditions, for fifty runs. We varied
+
+27
+00:01:44,987 --> 00:01:48,793
+object position, mass, friction, cylinder size, lighting, and table
+
+28
+00:01:48,793 --> 00:01:54,291
+color. Grip loss completed ten out of ten with recovery, and zero without
+
+29
+00:01:54,291 --> 00:01:59,367
+it. All ten obstacle cases blocked execution. A safe stop is reported
+
+30
+00:01:59,367 --> 00:02:01,059
+separately from task completion.
+
+31
+00:02:01,059 --> 00:02:05,740
+The per seed records make the result inspectable. Every grip loss recovery
+
+32
+00:02:05,740 --> 00:02:10,032
+trial completed, but errors still vary by initial condition. The comparison
+
+33
+00:02:10,032 --> 00:02:14,323
+shows mean cup error falling from about one hundred sixty millimeters
+
+34
+00:02:14,323 --> 00:02:18,615
+to about fifteen. This is a small controlled benchmark, not generalization
+
+35
+00:02:18,615 --> 00:02:19,785
+to new tasks.
+
+36
+00:02:19,785 --> 00:02:24,491
+OpenVINO runs both the geometric graph and the learned joint target
+
+37
+00:02:24,491 --> 00:02:28,769
+policy. In ten recovery trials, learned proposals plus correction reduced
+
+38
+00:02:28,769 --> 00:02:33,048
+average numerical iterations by five point three percent. Both approaches
+
+39
+00:02:33,048 --> 00:02:37,326
+completed every trial. The learned policy median inference was thirty
+
+40
+00:02:37,326 --> 00:02:41,177
+seven microseconds on Apple hardware. Intel validation remains open.
+
+41
+00:02:41,177 --> 00:02:45,893
+Twenty nine backend tests pass, covering task rejection, provider failures,
+
+42
+00:02:45,893 --> 00:02:50,137
+safety checks, and learned policy reference accuracy. The repository
+
+43
+00:02:50,137 --> 00:02:53,910
+includes reproducible training, evaluation, and device benchmark commands.
+
+44
+00:02:53,910 --> 00:03:00,041
+The biggest remaining gaps against the brief are an end to end VLA,
+
+45
+00:03:00,041 --> 00:03:04,758
+richer complementary manipulation, and a final Intel Core Ultra demonstration.
+
+46
+00:03:04,758 --> 00:03:09,396
+The business starts with a small paid pilot, not a market size claim.
+
+47
+00:03:09,396 --> 00:03:13,321
+We would import one integrator task and its recurring failure cases.
+
+48
+00:03:13,321 --> 00:03:17,603
+We would measure diagnosis time before and after. A five hundred dollar
+
+49
+00:03:17,603 --> 00:03:21,884
+monthly workspace is a pricing test. At an assumed seventy five dollars
+
+50
+00:03:21,884 --> 00:03:25,096
+an engineer hour, seven saved hours covers that fee.
+
+51
+00:03:25,096 --> 00:03:30,054
+The next milestone is a policy that reasons directly over vision and
+
+52
+00:03:30,054 --> 00:03:34,599
+language. We also need a richer dual arm task, broader randomization,
+
+53
+00:03:34,599 --> 00:03:39,558
+and an Intel Core Ultra run. Before commercial use, the product needs
+
+54
+00:03:39,558 --> 00:03:42,863
+durable tenant storage, workload controls, and operational monitoring.
+
+55
+00:03:42,863 --> 00:03:45,755
+Hardware safety validation is a separate effort.
+
+56
+00:03:45,755 --> 00:03:50,085
+Granted Robotics makes the recovery part of the product. Review the
+
+57
+00:03:50,085 --> 00:03:54,415
+workbench, replay the actual physics, and inspect the per seed records.
+
+58
+00:03:54,415 --> 00:03:59,139
+The repository and demo are public. Created by Shivam Gupta for the
+
+59
+00:03:59,139 --> 00:04:00,714
+AI Infra Summit Hackathon.

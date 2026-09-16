@@ -82,7 +82,9 @@ const labels: Record<string, string> = {
 export default function Evaluation({ onStart }: { onStart: () => void }) {
   const [policy, setPolicy] = useState<PolicyData | null>(null);
   useEffect(() => {
-    fetch("/evidence/policy-evaluation.json")
+    fetch("/evidence/policy-evaluation.json?v=37d69daabfec", {
+      cache: "no-store",
+    })
       .then((r) => (r.ok ? r.json() : null))
       .then(setPolicy)
       .catch(() => setPolicy(null));
@@ -92,7 +94,7 @@ export default function Evaluation({ onStart }: { onStart: () => void }) {
   const [filter, setFilter] = useState("all");
   const [selected, setSelected] = useState<EvalRun | null>(null);
   useEffect(() => {
-    fetch("/evidence/evaluation.json")
+    fetch("/evidence/evaluation.json?v=ba8460bf7fba", { cache: "no-store" })
       .then((r) => {
         if (!r.ok) throw new Error("Evidence could not load");
         return r.json();
@@ -267,6 +269,18 @@ export default function Evaluation({ onStart }: { onStart: () => void }) {
                 <dd>0.8× to 1.2× nominal mass</dd>
                 <dt>Sliding friction</dt>
                 <dd>0.8× to 1.2× nominal friction</dd>
+                <dt>Object geometry</dt>
+                <dd>
+                  Cylinder radius and height 0.92× to 1.08× nominal. No
+                  alternate shape families.
+                </dd>
+                <dt>Scene appearance</dt>
+                <dd>
+                  Light diffuse/ambient and table background RGB vary by seed.
+                  The controller still uses ground-truth poses.
+                </dd>
+                <dt>Full configuration</dt>
+                <dd>{data.randomization}</dd>
                 <dt>Grasp mechanism</dt>
                 <dd>
                   Simulated weld attachment, not finger-contact validation

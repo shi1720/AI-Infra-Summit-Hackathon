@@ -1,0 +1,181 @@
+{
+  "base_url": "https://granted-robotics.web.app",
+  "timestamp_utc": "2026-09-16T18:09:38Z",
+  "tests": [
+    {
+      "expected": "completed",
+      "actual": "completed",
+      "fault": "none",
+      "recovery": true,
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.33,
+          "bowl": 13.24
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 1146.81,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 303.13,
+        "monitor_median_ms": 0.1619,
+        "recoveries": 0,
+        "ik_iterations": 3506
+      },
+      "planner": "OpenAI constrained language planner",
+      "language_plan": {
+        "task": "table_setting",
+        "objects": [
+          "cup",
+          "bowl"
+        ],
+        "order": "parallel",
+        "source": "OpenAI constrained language planner",
+        "model": "gpt-4o-mini",
+        "vision_input": true,
+        "provider_status": "validated",
+        "reason": "Both colored object proxies and robot arms are visible."
+      },
+      "policy": {
+        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+        "learned": true,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 3506,
+        "inference_median_ms": 0.36324999999948204
+      },
+      "seconds": 14.03
+    },
+    {
+      "expected": "completed",
+      "actual": "completed",
+      "fault": "grip_loss",
+      "recovery": true,
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 13.97,
+          "bowl": 13.24
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 1427.74,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 303.02,
+        "monitor_median_ms": 0.1561,
+        "recoveries": 1,
+        "ik_iterations": 3511
+      },
+      "planner": "OpenAI constrained language planner",
+      "language_plan": {
+        "task": "table_setting",
+        "objects": [
+          "cup",
+          "bowl"
+        ],
+        "order": "parallel",
+        "source": "OpenAI constrained language planner",
+        "model": "gpt-4o-mini",
+        "vision_input": true,
+        "provider_status": "validated",
+        "reason": "Both colored object proxies and robot arms are visible."
+      },
+      "policy": {
+        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+        "learned": true,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 3511,
+        "inference_median_ms": 0.34599899998966066
+      },
+      "seconds": 7.44
+    },
+    {
+      "expected": "failed",
+      "actual": "failed",
+      "fault": "grip_loss",
+      "recovery": false,
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 156.95,
+          "bowl": 13.24
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 1189.34,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 303.13,
+        "monitor_median_ms": 0.1557,
+        "recoveries": 0,
+        "ik_iterations": 3506
+      },
+      "planner": "OpenAI constrained language planner",
+      "language_plan": {
+        "task": "table_setting",
+        "objects": [
+          "cup",
+          "bowl"
+        ],
+        "order": "parallel",
+        "source": "OpenAI constrained language planner",
+        "model": "gpt-4o-mini",
+        "vision_input": true,
+        "provider_status": "validated",
+        "reason": "Both colored object proxies and robot arms are visible."
+      },
+      "policy": {
+        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+        "learned": true,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 3506,
+        "inference_median_ms": 0.34762299999613333
+      },
+      "seconds": 6.78
+    },
+    {
+      "expected": "blocked",
+      "actual": "blocked",
+      "fault": "obstacle",
+      "recovery": true,
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 165.62,
+          "bowl": 165.88
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.29,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0,
+        "ik_iterations": 384
+      },
+      "planner": "OpenAI constrained language planner",
+      "language_plan": {
+        "task": "table_setting",
+        "objects": [
+          "cup",
+          "bowl"
+        ],
+        "order": "parallel",
+        "source": "OpenAI constrained language planner",
+        "model": "gpt-4o-mini",
+        "vision_input": true,
+        "provider_status": "validated",
+        "reason": "Both colored object proxies and robot arms are visible."
+      },
+      "policy": {
+        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+        "learned": true,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 384,
+        "inference_median_ms": 0.5432714999997756
+      },
+      "seconds": 5.26
+    },
+    {
+      "expected": "rejected",
+      "actual": "rejected",
+      "http_status": 422,
+      "detail": "{\"detail\":\"Unsupported task. This workcell can only place one cup and one bowl at their predefined serving positions. Try: \\\"Set the table with a cup and bowl\\\". Alternate objects, quantities and locations are not supported.\"}",
+      "seconds": 0.34
+    }
+  ]
+}

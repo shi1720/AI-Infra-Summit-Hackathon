@@ -10,3 +10,5 @@ firebase-debug.log
 backend/.venv
 .codex-finalizer
 .chart-data-*
+.venv-intel-validation
+artifacts

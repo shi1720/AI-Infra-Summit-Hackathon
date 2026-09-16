@@ -30,7 +30,7 @@ Shivam Gupta created this project with AI-assisted development. Our priority was
 
 The hardest challenge was separating a compelling visual explanation from actual robotics evidence. A browser animation can show an intended motion, but only execution data can establish what the physics engine did. We therefore distinguish the presentation layer from backend simulation and avoid treating a replay as a live robot run.
 
-The final implementation uses SO101 assets and includes an optional camera-aware language planner. We did not train a VLA policy, and we did not have an Intel Core Ultra system for the final demonstration. Those remain material gaps against the full track specification.
+The final implementation uses SO101 assets and includes an optional camera-aware language planner. We trained a small state-based joint-target model, not an end-to-end VLA policy, and we did not have an Intel Core Ultra system for the final demonstration. Those remain material gaps against the full track specification.
 
 Another challenge was defining useful safety checks without overstating them. Geometric clearance is one signal. Real deployments also need force limits, perception uncertainty, hardware interlocks, and validation for the specific robot and environment.
 

@@ -7,35 +7,35 @@
   },
   "seed_count": 10,
   "total_runs": 50,
-  "randomization": "Each object: +/-8 mm XY, mass and sliding friction 0.8x to 1.2x",
+  "randomization": "Each object: +/-8 mm XY, mass and sliding friction 0.8x to 1.2x, cylinder radius/height 0.92x to 1.08x. Light diffuse/ambient and table background RGB also vary. No alternate shape families.",
   "groups": {
     "none:recovery=True": {
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 15.66,
-      "mean_compute_ms": 209.99
+      "mean_cup_error_mm": 15.71,
+      "mean_compute_ms": 211.08
     },
     "object_displaced:recovery=True": {
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 9.12,
-      "mean_compute_ms": 190.63
+      "mean_cup_error_mm": 9.09,
+      "mean_compute_ms": 201.2
     },
     "grip_loss:recovery=True": {
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 13.81,
-      "mean_compute_ms": 244.48
+      "mean_cup_error_mm": 14.05,
+      "mean_compute_ms": 247.87
     },
     "grip_loss:recovery=False": {
       "runs": 10,
       "completed": 0,
       "blocked": 0,
-      "mean_cup_error_mm": 160.87,
-      "mean_compute_ms": 214.93
+      "mean_cup_error_mm": 160.96,
+      "mean_compute_ms": 220.05
     },
     "obstacle:recovery=True": {
       "runs": 10,
@@ -50,9 +50,9 @@
     "precision": "FP32 input and FP32 inference precision hint",
     "warmup": 100,
     "samples": 1000,
-    "p50_ms": 0.02404,
-    "p95_ms": 0.02854,
-    "serial_inferences_per_second": 39819.2,
+    "p50_ms": 0.02433,
+    "p95_ms": 0.03001,
+    "serial_inferences_per_second": 38274.6,
     "max_abs_distance_error_m": 2.384185791015625e-07,
     "scope": "Geometric separation graph only, not end-to-end VLA or Intel hardware benchmark"
   },
@@ -64,17 +64,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.87,
-          "bowl": 13.3
+          "cup": 16.18,
+          "bowl": 13.16
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 232.15,
+        "compute_ms": 221.8,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 303.86,
-        "monitor_median_ms": 0.0307,
+        "min_gripper_separation_mm": 302.64,
+        "monitor_median_ms": 0.0324,
         "recoveries": 0,
-        "ik_iterations": 4713
+        "ik_iterations": 4184
       },
       "perturbations": {
         "cup": {
@@ -83,15 +83,41 @@
             -3.683
           ],
           "mass_factor": 0.816,
-          "friction_factor": 0.807
+          "friction_factor": 0.807,
+          "radius_height_factors": [
+            1.05,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.012,
-            6.604
+            1.706,
+            3.672
           ],
-          "mass_factor": 1.043,
-          "friction_factor": 1.092
+          "mass_factor": 1.017,
+          "friction_factor": 1.174,
+          "radius_height_factors": [
+            1.051,
+            0.92
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.95,
+            0.662,
+            0.905
+          ],
+          "light_ambient": [
+            0.126,
+            0.229,
+            0.181
+          ],
+          "table_rgb": [
+            0.084,
+            0.118,
+            0.113
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -102,17 +128,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.19,
-          "bowl": 13.3
+          "cup": 8.98,
+          "bowl": 13.16
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 180.62,
+        "compute_ms": 202.14,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 309.03,
-        "monitor_median_ms": 0.0295,
+        "min_gripper_separation_mm": 311.86,
+        "monitor_median_ms": 0.0315,
         "recoveries": 1,
-        "ik_iterations": 3465
+        "ik_iterations": 3811
       },
       "perturbations": {
         "cup": {
@@ -121,15 +147,41 @@
             -3.683
           ],
           "mass_factor": 0.816,
-          "friction_factor": 0.807
+          "friction_factor": 0.807,
+          "radius_height_factors": [
+            1.05,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.012,
-            6.604
+            1.706,
+            3.672
           ],
-          "mass_factor": 1.043,
-          "friction_factor": 1.092
+          "mass_factor": 1.017,
+          "friction_factor": 1.174,
+          "radius_height_factors": [
+            1.051,
+            0.92
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.95,
+            0.662,
+            0.905
+          ],
+          "light_ambient": [
+            0.126,
+            0.229,
+            0.181
+          ],
+          "table_rgb": [
+            0.084,
+            0.118,
+            0.113
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -140,17 +192,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 13.52,
-          "bowl": 13.3
+          "cup": 15.11,
+          "bowl": 13.16
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 261.82,
+        "compute_ms": 263.17,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 303.86,
-        "monitor_median_ms": 0.0294,
+        "min_gripper_separation_mm": 302.72,
+        "monitor_median_ms": 0.0314,
         "recoveries": 1,
-        "ik_iterations": 4718
+        "ik_iterations": 4189
       },
       "perturbations": {
         "cup": {
@@ -159,15 +211,41 @@
             -3.683
           ],
           "mass_factor": 0.816,
-          "friction_factor": 0.807
+          "friction_factor": 0.807,
+          "radius_height_factors": [
+            1.05,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.012,
-            6.604
+            1.706,
+            3.672
           ],
-          "mass_factor": 1.043,
-          "friction_factor": 1.092
+          "mass_factor": 1.017,
+          "friction_factor": 1.174,
+          "radius_height_factors": [
+            1.051,
+            0.92
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.95,
+            0.662,
+            0.905
+          ],
+          "light_ambient": [
+            0.126,
+            0.229,
+            0.181
+          ],
+          "table_rgb": [
+            0.084,
+            0.118,
+            0.113
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -178,17 +256,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 156.76,
-          "bowl": 13.3
+          "cup": 158.43,
+          "bowl": 13.16
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 234.26,
+        "compute_ms": 230.53,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 303.86,
-        "monitor_median_ms": 0.03,
+        "min_gripper_separation_mm": 302.63,
+        "monitor_median_ms": 0.0323,
         "recoveries": 0,
-        "ik_iterations": 4713
+        "ik_iterations": 4184
       },
       "perturbations": {
         "cup": {
@@ -197,15 +275,41 @@
             -3.683
           ],
           "mass_factor": 0.816,
-          "friction_factor": 0.807
+          "friction_factor": 0.807,
+          "radius_height_factors": [
+            1.05,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.012,
-            6.604
+            1.706,
+            3.672
           ],
-          "mass_factor": 1.043,
-          "friction_factor": 1.092
+          "mass_factor": 1.017,
+          "friction_factor": 1.174,
+          "radius_height_factors": [
+            1.051,
+            0.92
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.95,
+            0.662,
+            0.905
+          ],
+          "light_ambient": [
+            0.126,
+            0.229,
+            0.181
+          ],
+          "table_rgb": [
+            0.084,
+            0.118,
+            0.113
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -217,7 +321,7 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 167.85,
-          "bowl": 165.12
+          "bowl": 168.33
         },
         "success": false,
         "simulated_seconds": 0.0,
@@ -226,7 +330,7 @@
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 198
+        "ik_iterations": 194
       },
       "perturbations": {
         "cup": {
@@ -235,15 +339,41 @@
             -3.683
           ],
           "mass_factor": 0.816,
-          "friction_factor": 0.807
+          "friction_factor": 0.807,
+          "radius_height_factors": [
+            1.05,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.012,
-            6.604
+            1.706,
+            3.672
           ],
-          "mass_factor": 1.043,
-          "friction_factor": 1.092
+          "mass_factor": 1.017,
+          "friction_factor": 1.174,
+          "radius_height_factors": [
+            1.051,
+            0.92
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.95,
+            0.662,
+            0.905
+          ],
+          "light_ambient": [
+            0.126,
+            0.229,
+            0.181
+          ],
+          "table_rgb": [
+            0.084,
+            0.118,
+            0.113
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -254,17 +384,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.28,
-          "bowl": 12.92
+          "cup": 15.27,
+          "bowl": 12.56
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 189.63,
+        "compute_ms": 210.55,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 280.29,
-        "monitor_median_ms": 0.0293,
+        "min_gripper_separation_mm": 293.18,
+        "monitor_median_ms": 0.0312,
         "recoveries": 0,
-        "ik_iterations": 3667
+        "ik_iterations": 4063
       },
       "perturbations": {
         "cup": {
@@ -273,15 +403,41 @@
             7.207
           ],
           "mass_factor": 0.858,
-          "friction_factor": 1.179
+          "friction_factor": 1.179,
+          "radius_height_factors": [
+            0.97,
+            0.988
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.011,
-            -1.227
+            5.243,
+            -1.453
           ],
-          "mass_factor": 1.131,
-          "friction_factor": 0.964
+          "mass_factor": 1.02,
+          "friction_factor": 0.811,
+          "radius_height_factors": [
+            1.041,
+            1.006
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.765,
+            0.926,
+            0.756
+          ],
+          "light_ambient": [
+            0.168,
+            0.12,
+            0.16
+          ],
+          "table_rgb": [
+            0.076,
+            0.104,
+            0.2
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -292,17 +448,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.1,
-          "bowl": 12.92
+          "cup": 9.17,
+          "bowl": 12.56
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 196.35,
+        "compute_ms": 185.39,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 302.33,
-        "monitor_median_ms": 0.0304,
+        "min_gripper_separation_mm": 297.59,
+        "monitor_median_ms": 0.0313,
         "recoveries": 1,
-        "ik_iterations": 3652
+        "ik_iterations": 3293
       },
       "perturbations": {
         "cup": {
@@ -311,15 +467,41 @@
             7.207
           ],
           "mass_factor": 0.858,
-          "friction_factor": 1.179
+          "friction_factor": 1.179,
+          "radius_height_factors": [
+            0.97,
+            0.988
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.011,
-            -1.227
+            5.243,
+            -1.453
           ],
-          "mass_factor": 1.131,
-          "friction_factor": 0.964
+          "mass_factor": 1.02,
+          "friction_factor": 0.811,
+          "radius_height_factors": [
+            1.041,
+            1.006
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.765,
+            0.926,
+            0.756
+          ],
+          "light_ambient": [
+            0.168,
+            0.12,
+            0.16
+          ],
+          "table_rgb": [
+            0.076,
+            0.104,
+            0.2
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -330,17 +512,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.27,
-          "bowl": 12.92
+          "cup": 12.73,
+          "bowl": 12.56
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 222.03,
+        "compute_ms": 270.24,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 282.2,
-        "monitor_median_ms": 0.0301,
+        "min_gripper_separation_mm": 249.75,
+        "monitor_median_ms": 0.0308,
         "recoveries": 1,
-        "ik_iterations": 3689
+        "ik_iterations": 4795
       },
       "perturbations": {
         "cup": {
@@ -349,15 +531,41 @@
             7.207
           ],
           "mass_factor": 0.858,
-          "friction_factor": 1.179
+          "friction_factor": 1.179,
+          "radius_height_factors": [
+            0.97,
+            0.988
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.011,
-            -1.227
+            5.243,
+            -1.453
           ],
-          "mass_factor": 1.131,
-          "friction_factor": 0.964
+          "mass_factor": 1.02,
+          "friction_factor": 0.811,
+          "radius_height_factors": [
+            1.041,
+            1.006
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.765,
+            0.926,
+            0.756
+          ],
+          "light_ambient": [
+            0.168,
+            0.12,
+            0.16
+          ],
+          "table_rgb": [
+            0.076,
+            0.104,
+            0.2
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -368,17 +576,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 164.58,
-          "bowl": 12.92
+          "cup": 161.62,
+          "bowl": 12.56
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 195.06,
+        "compute_ms": 217.28,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 280.29,
-        "monitor_median_ms": 0.0297,
+        "min_gripper_separation_mm": 293.17,
+        "monitor_median_ms": 0.0318,
         "recoveries": 0,
-        "ik_iterations": 3667
+        "ik_iterations": 4063
       },
       "perturbations": {
         "cup": {
@@ -387,15 +595,41 @@
             7.207
           ],
           "mass_factor": 0.858,
-          "friction_factor": 1.179
+          "friction_factor": 1.179,
+          "radius_height_factors": [
+            0.97,
+            0.988
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.011,
-            -1.227
+            5.243,
+            -1.453
           ],
-          "mass_factor": 1.131,
-          "friction_factor": 0.964
+          "mass_factor": 1.02,
+          "friction_factor": 0.811,
+          "radius_height_factors": [
+            1.041,
+            1.006
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.765,
+            0.926,
+            0.756
+          ],
+          "light_ambient": [
+            0.168,
+            0.12,
+            0.16
+          ],
+          "table_rgb": [
+            0.076,
+            0.104,
+            0.2
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -407,16 +641,16 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 169.96,
-          "bowl": 173.02
+          "bowl": 164.76
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.08,
+        "compute_ms": 0.07,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 197
+        "ik_iterations": 194
       },
       "perturbations": {
         "cup": {
@@ -425,15 +659,41 @@
             7.207
           ],
           "mass_factor": 0.858,
-          "friction_factor": 1.179
+          "friction_factor": 1.179,
+          "radius_height_factors": [
+            0.97,
+            0.988
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.011,
-            -1.227
+            5.243,
+            -1.453
           ],
-          "mass_factor": 1.131,
-          "friction_factor": 0.964
+          "mass_factor": 1.02,
+          "friction_factor": 0.811,
+          "radius_height_factors": [
+            1.041,
+            1.006
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.765,
+            0.926,
+            0.756
+          ],
+          "light_ambient": [
+            0.168,
+            0.12,
+            0.16
+          ],
+          "table_rgb": [
+            0.076,
+            0.104,
+            0.2
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -444,17 +704,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 16.86,
-          "bowl": 13.12
+          "cup": 17.02,
+          "bowl": 12.62
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 209.78,
+        "compute_ms": 238.95,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 300.45,
-        "monitor_median_ms": 0.0298,
+        "min_gripper_separation_mm": 296.29,
+        "monitor_median_ms": 0.0312,
         "recoveries": 0,
-        "ik_iterations": 4200
+        "ik_iterations": 4768
       },
       "perturbations": {
         "cup": {
@@ -463,15 +723,41 @@
             -3.224
           ],
           "mass_factor": 1.126,
-          "friction_factor": 0.837
+          "friction_factor": 0.837,
+          "radius_height_factors": [
+            1.016,
+            1.037
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.602,
-            3.657
+            -4.994,
+            -7.118
           ],
-          "mass_factor": 0.875,
-          "friction_factor": 0.822
+          "mass_factor": 0.91,
+          "friction_factor": 1.063,
+          "radius_height_factors": [
+            1.01,
+            0.944
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.884,
+            0.798
+          ],
+          "light_ambient": [
+            0.195,
+            0.245,
+            0.202
+          ],
+          "table_rgb": [
+            0.091,
+            0.097,
+            0.152
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -482,17 +768,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.64,
-          "bowl": 13.12
+          "cup": 9.59,
+          "bowl": 12.62
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 194.88,
+        "compute_ms": 210.14,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 306.15,
-        "monitor_median_ms": 0.0295,
+        "min_gripper_separation_mm": 303.18,
+        "monitor_median_ms": 0.0324,
         "recoveries": 1,
-        "ik_iterations": 3815
+        "ik_iterations": 4005
       },
       "perturbations": {
         "cup": {
@@ -501,15 +787,41 @@
             -3.224
           ],
           "mass_factor": 1.126,
-          "friction_factor": 0.837
+          "friction_factor": 0.837,
+          "radius_height_factors": [
+            1.016,
+            1.037
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.602,
-            3.657
+            -4.994,
+            -7.118
           ],
-          "mass_factor": 0.875,
-          "friction_factor": 0.822
+          "mass_factor": 0.91,
+          "friction_factor": 1.063,
+          "radius_height_factors": [
+            1.01,
+            0.944
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.884,
+            0.798
+          ],
+          "light_ambient": [
+            0.195,
+            0.245,
+            0.202
+          ],
+          "table_rgb": [
+            0.091,
+            0.097,
+            0.152
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -520,17 +832,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.94,
-          "bowl": 13.12
+          "cup": 15.67,
+          "bowl": 12.62
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 258.4,
+        "compute_ms": 264.51,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 300.45,
-        "monitor_median_ms": 0.0299,
+        "min_gripper_separation_mm": 293.09,
+        "monitor_median_ms": 0.0311,
         "recoveries": 1,
-        "ik_iterations": 4580
+        "ik_iterations": 4815
       },
       "perturbations": {
         "cup": {
@@ -539,15 +851,41 @@
             -3.224
           ],
           "mass_factor": 1.126,
-          "friction_factor": 0.837
+          "friction_factor": 0.837,
+          "radius_height_factors": [
+            1.016,
+            1.037
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.602,
-            3.657
+            -4.994,
+            -7.118
           ],
-          "mass_factor": 0.875,
-          "friction_factor": 0.822
+          "mass_factor": 0.91,
+          "friction_factor": 1.063,
+          "radius_height_factors": [
+            1.01,
+            0.944
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.884,
+            0.798
+          ],
+          "light_ambient": [
+            0.195,
+            0.245,
+            0.202
+          ],
+          "table_rgb": [
+            0.091,
+            0.097,
+            0.152
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -558,17 +896,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 165.02,
-          "bowl": 13.12
+          "cup": 164.31,
+          "bowl": 12.62
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 216.08,
+        "compute_ms": 245.73,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 300.45,
-        "monitor_median_ms": 0.0305,
+        "min_gripper_separation_mm": 296.29,
+        "monitor_median_ms": 0.0325,
         "recoveries": 0,
-        "ik_iterations": 4200
+        "ik_iterations": 4768
       },
       "perturbations": {
         "cup": {
@@ -577,15 +915,41 @@
             -3.224
           ],
           "mass_factor": 1.126,
-          "friction_factor": 0.837
+          "friction_factor": 0.837,
+          "radius_height_factors": [
+            1.016,
+            1.037
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.602,
-            3.657
+            -4.994,
+            -7.118
           ],
-          "mass_factor": 0.875,
-          "friction_factor": 0.822
+          "mass_factor": 0.91,
+          "friction_factor": 1.063,
+          "radius_height_factors": [
+            1.01,
+            0.944
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.884,
+            0.798
+          ],
+          "light_ambient": [
+            0.195,
+            0.245,
+            0.202
+          ],
+          "table_rgb": [
+            0.091,
+            0.097,
+            0.152
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -597,7 +961,7 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 173.84,
-          "bowl": 168.44
+          "bowl": 175.14
         },
         "success": false,
         "simulated_seconds": 0.0,
@@ -606,7 +970,7 @@
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 198
+        "ik_iterations": 387
       },
       "perturbations": {
         "cup": {
@@ -615,15 +979,41 @@
             -3.224
           ],
           "mass_factor": 1.126,
-          "friction_factor": 0.837
+          "friction_factor": 0.837,
+          "radius_height_factors": [
+            1.016,
+            1.037
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.602,
-            3.657
+            -4.994,
+            -7.118
           ],
-          "mass_factor": 0.875,
-          "friction_factor": 0.822
+          "mass_factor": 0.91,
+          "friction_factor": 1.063,
+          "radius_height_factors": [
+            1.01,
+            0.944
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.884,
+            0.798
+          ],
+          "light_ambient": [
+            0.195,
+            0.245,
+            0.202
+          ],
+          "table_rgb": [
+            0.091,
+            0.097,
+            0.152
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -634,17 +1024,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 17.1,
-          "bowl": 13.01
+          "cup": 17.01,
+          "bowl": 12.66
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 235.79,
+        "compute_ms": 237.19,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 298.41,
-        "monitor_median_ms": 0.0294,
+        "min_gripper_separation_mm": 297.53,
+        "monitor_median_ms": 0.0315,
         "recoveries": 0,
-        "ik_iterations": 4925
+        "ik_iterations": 4940
       },
       "perturbations": {
         "cup": {
@@ -653,15 +1043,41 @@
             -4.211
           ],
           "mass_factor": 1.121,
-          "friction_factor": 1.033
+          "friction_factor": 1.033,
+          "radius_height_factors": [
+            0.935,
+            0.989
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -6.494,
-            -1.07
+            -0.335,
+            -5.444
           ],
-          "mass_factor": 0.992,
-          "friction_factor": 0.864
+          "mass_factor": 1.094,
+          "friction_factor": 0.845,
+          "radius_height_factors": [
+            0.983,
+            1.003
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.855,
+            0.908
+          ],
+          "light_ambient": [
+            0.243,
+            0.143,
+            0.197
+          ],
+          "table_rgb": [
+            0.116,
+            0.106,
+            0.11
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -672,17 +1088,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.99,
-          "bowl": 13.01
+          "cup": 10.16,
+          "bowl": 12.66
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 194.3,
+        "compute_ms": 221.98,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 307.26,
-        "monitor_median_ms": 0.0295,
+        "min_gripper_separation_mm": 305.47,
+        "monitor_median_ms": 0.0327,
         "recoveries": 1,
-        "ik_iterations": 3821
+        "ik_iterations": 4168
       },
       "perturbations": {
         "cup": {
@@ -691,15 +1107,41 @@
             -4.211
           ],
           "mass_factor": 1.121,
-          "friction_factor": 1.033
+          "friction_factor": 1.033,
+          "radius_height_factors": [
+            0.935,
+            0.989
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -6.494,
-            -1.07
+            -0.335,
+            -5.444
           ],
-          "mass_factor": 0.992,
-          "friction_factor": 0.864
+          "mass_factor": 1.094,
+          "friction_factor": 0.845,
+          "radius_height_factors": [
+            0.983,
+            1.003
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.855,
+            0.908
+          ],
+          "light_ambient": [
+            0.243,
+            0.143,
+            0.197
+          ],
+          "table_rgb": [
+            0.116,
+            0.106,
+            0.11
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -710,17 +1152,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.1,
-          "bowl": 13.01
+          "cup": 15.09,
+          "bowl": 12.67
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 267.96,
+        "compute_ms": 265.8,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 297.49,
-        "monitor_median_ms": 0.0297,
+        "min_gripper_separation_mm": 293.5,
+        "monitor_median_ms": 0.031,
         "recoveries": 1,
-        "ik_iterations": 4981
+        "ik_iterations": 4961
       },
       "perturbations": {
         "cup": {
@@ -729,15 +1171,41 @@
             -4.211
           ],
           "mass_factor": 1.121,
-          "friction_factor": 1.033
+          "friction_factor": 1.033,
+          "radius_height_factors": [
+            0.935,
+            0.989
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -6.494,
-            -1.07
+            -0.335,
+            -5.444
           ],
-          "mass_factor": 0.992,
-          "friction_factor": 0.864
+          "mass_factor": 1.094,
+          "friction_factor": 0.845,
+          "radius_height_factors": [
+            0.983,
+            1.003
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.855,
+            0.908
+          ],
+          "light_ambient": [
+            0.243,
+            0.143,
+            0.197
+          ],
+          "table_rgb": [
+            0.116,
+            0.106,
+            0.11
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -748,17 +1216,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 166.83,
-          "bowl": 13.01
+          "cup": 166.92,
+          "bowl": 12.66
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 242.11,
+        "compute_ms": 239.24,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 298.41,
-        "monitor_median_ms": 0.029,
+        "min_gripper_separation_mm": 297.53,
+        "monitor_median_ms": 0.0318,
         "recoveries": 0,
-        "ik_iterations": 4925
+        "ik_iterations": 4940
       },
       "perturbations": {
         "cup": {
@@ -767,15 +1235,41 @@
             -4.211
           ],
           "mass_factor": 1.121,
-          "friction_factor": 1.033
+          "friction_factor": 1.033,
+          "radius_height_factors": [
+            0.935,
+            0.989
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -6.494,
-            -1.07
+            -0.335,
+            -5.444
           ],
-          "mass_factor": 0.992,
-          "friction_factor": 0.864
+          "mass_factor": 1.094,
+          "friction_factor": 0.845,
+          "radius_height_factors": [
+            0.983,
+            1.003
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.855,
+            0.908
+          ],
+          "light_ambient": [
+            0.243,
+            0.143,
+            0.197
+          ],
+          "table_rgb": [
+            0.116,
+            0.106,
+            0.11
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -787,16 +1281,16 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 176.68,
-          "bowl": 176.5
+          "bowl": 170.42
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.09,
+        "compute_ms": 0.08,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 203
+        "ik_iterations": 551
       },
       "perturbations": {
         "cup": {
@@ -805,15 +1299,41 @@
             -4.211
           ],
           "mass_factor": 1.121,
-          "friction_factor": 1.033
+          "friction_factor": 1.033,
+          "radius_height_factors": [
+            0.935,
+            0.989
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -6.494,
-            -1.07
+            -0.335,
+            -5.444
           ],
-          "mass_factor": 0.992,
-          "friction_factor": 0.864
+          "mass_factor": 1.094,
+          "friction_factor": 0.845,
+          "radius_height_factors": [
+            0.983,
+            1.003
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.855,
+            0.908
+          ],
+          "light_ambient": [
+            0.243,
+            0.143,
+            0.197
+          ],
+          "table_rgb": [
+            0.116,
+            0.106,
+            0.11
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -824,17 +1344,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.76,
-          "bowl": 12.76
+          "cup": 14.77,
+          "bowl": 12.26
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 191.64,
+        "compute_ms": 199.21,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 298.47,
-        "monitor_median_ms": 0.0296,
+        "min_gripper_separation_mm": 296.76,
+        "monitor_median_ms": 0.031,
         "recoveries": 0,
-        "ik_iterations": 3666
+        "ik_iterations": 3814
       },
       "perturbations": {
         "cup": {
@@ -843,15 +1363,41 @@
             0.181
           ],
           "mass_factor": 1.19,
-          "friction_factor": 0.832
+          "friction_factor": 0.832,
+          "radius_height_factors": [
+            1.017,
+            0.98
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.718,
-            -1.976
+            4.83,
+            -5.208
           ],
-          "mass_factor": 1.121,
-          "friction_factor": 0.87
+          "mass_factor": 1.149,
+          "friction_factor": 1.018,
+          "radius_height_factors": [
+            1.064,
+            0.996
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.926,
+            0.994
+          ],
+          "light_ambient": [
+            0.155,
+            0.245,
+            0.239
+          ],
+          "table_rgb": [
+            0.074,
+            0.135,
+            0.195
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -862,17 +1408,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 8.55,
-          "bowl": 12.76
+          "cup": 8.5,
+          "bowl": 12.26
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 190.9,
+        "compute_ms": 197.78,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 306.97,
-        "monitor_median_ms": 0.0297,
+        "min_gripper_separation_mm": 305.25,
+        "monitor_median_ms": 0.0309,
         "recoveries": 1,
-        "ik_iterations": 3666
+        "ik_iterations": 3814
       },
       "perturbations": {
         "cup": {
@@ -881,15 +1427,41 @@
             0.181
           ],
           "mass_factor": 1.19,
-          "friction_factor": 0.832
+          "friction_factor": 0.832,
+          "radius_height_factors": [
+            1.017,
+            0.98
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.718,
-            -1.976
+            4.83,
+            -5.208
           ],
-          "mass_factor": 1.121,
-          "friction_factor": 0.87
+          "mass_factor": 1.149,
+          "friction_factor": 1.018,
+          "radius_height_factors": [
+            1.064,
+            0.996
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.926,
+            0.994
+          ],
+          "light_ambient": [
+            0.155,
+            0.245,
+            0.239
+          ],
+          "table_rgb": [
+            0.074,
+            0.135,
+            0.195
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -900,17 +1472,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 12.98,
-          "bowl": 12.76
+          "cup": 12.81,
+          "bowl": 12.26
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 220.58,
+        "compute_ms": 223.75,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 297.22,
-        "monitor_median_ms": 0.0288,
+        "min_gripper_separation_mm": 295.43,
+        "monitor_median_ms": 0.0301,
         "recoveries": 1,
-        "ik_iterations": 3671
+        "ik_iterations": 3819
       },
       "perturbations": {
         "cup": {
@@ -919,15 +1491,41 @@
             0.181
           ],
           "mass_factor": 1.19,
-          "friction_factor": 0.832
+          "friction_factor": 0.832,
+          "radius_height_factors": [
+            1.017,
+            0.98
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.718,
-            -1.976
+            4.83,
+            -5.208
           ],
-          "mass_factor": 1.121,
-          "friction_factor": 0.87
+          "mass_factor": 1.149,
+          "friction_factor": 1.018,
+          "radius_height_factors": [
+            1.064,
+            0.996
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.926,
+            0.994
+          ],
+          "light_ambient": [
+            0.155,
+            0.245,
+            0.239
+          ],
+          "table_rgb": [
+            0.074,
+            0.135,
+            0.195
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -938,17 +1536,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 154.19,
-          "bowl": 12.76
+          "cup": 154.14,
+          "bowl": 12.26
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 195.46,
+        "compute_ms": 203.05,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 298.46,
-        "monitor_median_ms": 0.0292,
+        "min_gripper_separation_mm": 296.75,
+        "monitor_median_ms": 0.0308,
         "recoveries": 0,
-        "ik_iterations": 3666
+        "ik_iterations": 3814
       },
       "perturbations": {
         "cup": {
@@ -957,15 +1555,41 @@
             0.181
           ],
           "mass_factor": 1.19,
-          "friction_factor": 0.832
+          "friction_factor": 0.832,
+          "radius_height_factors": [
+            1.017,
+            0.98
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.718,
-            -1.976
+            4.83,
+            -5.208
           ],
-          "mass_factor": 1.121,
-          "friction_factor": 0.87
+          "mass_factor": 1.149,
+          "friction_factor": 1.018,
+          "radius_height_factors": [
+            1.064,
+            0.996
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.926,
+            0.994
+          ],
+          "light_ambient": [
+            0.155,
+            0.245,
+            0.239
+          ],
+          "table_rgb": [
+            0.074,
+            0.135,
+            0.195
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -977,16 +1601,16 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 162.91,
-          "bowl": 168.29
+          "bowl": 165.25
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.08,
+        "compute_ms": 0.09,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 201
+        "ik_iterations": 198
       },
       "perturbations": {
         "cup": {
@@ -995,15 +1619,41 @@
             0.181
           ],
           "mass_factor": 1.19,
-          "friction_factor": 0.832
+          "friction_factor": 0.832,
+          "radius_height_factors": [
+            1.017,
+            0.98
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            1.718,
-            -1.976
+            4.83,
+            -5.208
           ],
-          "mass_factor": 1.121,
-          "friction_factor": 0.87
+          "mass_factor": 1.149,
+          "friction_factor": 1.018,
+          "radius_height_factors": [
+            1.064,
+            0.996
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.801,
+            0.926,
+            0.994
+          ],
+          "light_ambient": [
+            0.155,
+            0.245,
+            0.239
+          ],
+          "table_rgb": [
+            0.074,
+            0.135,
+            0.195
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1014,17 +1664,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.79,
-          "bowl": 12.96
+          "cup": 14.77,
+          "bowl": 12.72
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 209.82,
+        "compute_ms": 201.2,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 280.18,
-        "monitor_median_ms": 0.0297,
+        "min_gripper_separation_mm": 289.2,
+        "monitor_median_ms": 0.0304,
         "recoveries": 0,
-        "ik_iterations": 4208
+        "ik_iterations": 4214
       },
       "perturbations": {
         "cup": {
@@ -1033,15 +1683,41 @@
             4.927
           ],
           "mass_factor": 1.006,
-          "friction_factor": 0.914
+          "friction_factor": 0.914,
+          "radius_height_factors": [
+            0.929,
+            0.981
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -7.137,
-            -1.866
+            -1.464,
+            -7.276
           ],
-          "mass_factor": 0.963,
-          "friction_factor": 0.818
+          "mass_factor": 0.82,
+          "friction_factor": 1.2,
+          "radius_height_factors": [
+            1.024,
+            0.958
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.802,
+            0.991,
+            0.964
+          ],
+          "light_ambient": [
+            0.227,
+            0.159,
+            0.174
+          ],
+          "table_rgb": [
+            0.114,
+            0.085,
+            0.177
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1052,17 +1728,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 8.54,
-          "bowl": 12.96
+          "cup": 8.77,
+          "bowl": 12.72
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 194.92,
+        "compute_ms": 198.42,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 303.15,
-        "monitor_median_ms": 0.0299,
+        "min_gripper_separation_mm": 300.18,
+        "monitor_median_ms": 0.0312,
         "recoveries": 1,
-        "ik_iterations": 3817
+        "ik_iterations": 3994
       },
       "perturbations": {
         "cup": {
@@ -1071,15 +1747,41 @@
             4.927
           ],
           "mass_factor": 1.006,
-          "friction_factor": 0.914
+          "friction_factor": 0.914,
+          "radius_height_factors": [
+            0.929,
+            0.981
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -7.137,
-            -1.866
+            -1.464,
+            -7.276
           ],
-          "mass_factor": 0.963,
-          "friction_factor": 0.818
+          "mass_factor": 0.82,
+          "friction_factor": 1.2,
+          "radius_height_factors": [
+            1.024,
+            0.958
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.802,
+            0.991,
+            0.964
+          ],
+          "light_ambient": [
+            0.227,
+            0.159,
+            0.174
+          ],
+          "table_rgb": [
+            0.114,
+            0.085,
+            0.177
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1090,17 +1792,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 12.91,
-          "bowl": 12.96
+          "cup": 12.53,
+          "bowl": 12.72
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 238.99,
+        "compute_ms": 238.44,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 280.83,
-        "monitor_median_ms": 0.03,
+        "min_gripper_separation_mm": 288.23,
+        "monitor_median_ms": 0.0303,
         "recoveries": 1,
-        "ik_iterations": 4213
+        "ik_iterations": 4219
       },
       "perturbations": {
         "cup": {
@@ -1109,15 +1811,41 @@
             4.927
           ],
           "mass_factor": 1.006,
-          "friction_factor": 0.914
+          "friction_factor": 0.914,
+          "radius_height_factors": [
+            0.929,
+            0.981
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -7.137,
-            -1.866
+            -1.464,
+            -7.276
           ],
-          "mass_factor": 0.963,
-          "friction_factor": 0.818
+          "mass_factor": 0.82,
+          "friction_factor": 1.2,
+          "radius_height_factors": [
+            1.024,
+            0.958
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.802,
+            0.991,
+            0.964
+          ],
+          "light_ambient": [
+            0.227,
+            0.159,
+            0.174
+          ],
+          "table_rgb": [
+            0.114,
+            0.085,
+            0.177
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1128,17 +1856,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 158.27,
-          "bowl": 12.96
+          "cup": 155.81,
+          "bowl": 12.72
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 215.47,
+        "compute_ms": 232.14,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 280.18,
-        "monitor_median_ms": 0.0305,
+        "min_gripper_separation_mm": 289.2,
+        "monitor_median_ms": 0.0319,
         "recoveries": 0,
-        "ik_iterations": 4208
+        "ik_iterations": 4214
       },
       "perturbations": {
         "cup": {
@@ -1147,15 +1875,41 @@
             4.927
           ],
           "mass_factor": 1.006,
-          "friction_factor": 0.914
+          "friction_factor": 0.914,
+          "radius_height_factors": [
+            0.929,
+            0.981
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -7.137,
-            -1.866
+            -1.464,
+            -7.276
           ],
-          "mass_factor": 0.963,
-          "friction_factor": 0.818
+          "mass_factor": 0.82,
+          "friction_factor": 1.2,
+          "radius_height_factors": [
+            1.024,
+            0.958
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.802,
+            0.991,
+            0.964
+          ],
+          "light_ambient": [
+            0.227,
+            0.159,
+            0.174
+          ],
+          "table_rgb": [
+            0.114,
+            0.085,
+            0.177
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1167,16 +1921,16 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 165.19,
-          "bowl": 177.15
+          "bowl": 171.62
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.06,
+        "compute_ms": 0.09,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 199
+        "ik_iterations": 377
       },
       "perturbations": {
         "cup": {
@@ -1185,15 +1939,41 @@
             4.927
           ],
           "mass_factor": 1.006,
-          "friction_factor": 0.914
+          "friction_factor": 0.914,
+          "radius_height_factors": [
+            0.929,
+            0.981
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -7.137,
-            -1.866
+            -1.464,
+            -7.276
           ],
-          "mass_factor": 0.963,
-          "friction_factor": 0.818
+          "mass_factor": 0.82,
+          "friction_factor": 1.2,
+          "radius_height_factors": [
+            1.024,
+            0.958
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.802,
+            0.991,
+            0.964
+          ],
+          "light_ambient": [
+            0.227,
+            0.159,
+            0.174
+          ],
+          "table_rgb": [
+            0.114,
+            0.085,
+            0.177
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1204,17 +1984,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 16.05,
-          "bowl": 12.85
+          "cup": 16.32,
+          "bowl": 12.97
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 216.3,
+        "compute_ms": 212.59,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 303.87,
-        "monitor_median_ms": 0.0299,
+        "min_gripper_separation_mm": 285.85,
+        "monitor_median_ms": 0.032,
         "recoveries": 0,
-        "ik_iterations": 4406
+        "ik_iterations": 4013
       },
       "perturbations": {
         "cup": {
@@ -1223,15 +2003,41 @@
             -2.508
           ],
           "mass_factor": 0.948,
-          "friction_factor": 0.95
+          "friction_factor": 0.95,
+          "radius_height_factors": [
+            1.078,
+            1.021
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            7.799,
-            2.124
+            2.789,
+            -2.721
           ],
-          "mass_factor": 1.07,
-          "friction_factor": 0.932
+          "mass_factor": 1.072,
+          "friction_factor": 0.849,
+          "radius_height_factors": [
+            0.928,
+            1.056
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.653,
+            0.993,
+            0.939
+          ],
+          "light_ambient": [
+            0.218,
+            0.107,
+            0.131
+          ],
+          "table_rgb": [
+            0.128,
+            0.119,
+            0.185
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1242,17 +2048,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.26,
-          "bowl": 12.85
+          "cup": 8.94,
+          "bowl": 12.97
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 164.69,
+        "compute_ms": 199.89,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 311.34,
-        "monitor_median_ms": 0.0297,
+        "min_gripper_separation_mm": 307.35,
+        "monitor_median_ms": 0.0315,
         "recoveries": 1,
-        "ik_iterations": 2974
+        "ik_iterations": 3809
       },
       "perturbations": {
         "cup": {
@@ -1261,15 +2067,41 @@
             -2.508
           ],
           "mass_factor": 0.948,
-          "friction_factor": 0.95
+          "friction_factor": 0.95,
+          "radius_height_factors": [
+            1.078,
+            1.021
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            7.799,
-            2.124
+            2.789,
+            -2.721
           ],
-          "mass_factor": 1.07,
-          "friction_factor": 0.932
+          "mass_factor": 1.072,
+          "friction_factor": 0.849,
+          "radius_height_factors": [
+            0.928,
+            1.056
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.653,
+            0.993,
+            0.939
+          ],
+          "light_ambient": [
+            0.218,
+            0.107,
+            0.131
+          ],
+          "table_rgb": [
+            0.128,
+            0.119,
+            0.185
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1280,17 +2112,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 13.88,
-          "bowl": 12.85
+          "cup": 16.68,
+          "bowl": 12.97
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 248.24,
+        "compute_ms": 254.88,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 301.74,
-        "monitor_median_ms": 0.0298,
+        "min_gripper_separation_mm": 292.51,
+        "monitor_median_ms": 0.0308,
         "recoveries": 1,
-        "ik_iterations": 4411
+        "ik_iterations": 4399
       },
       "perturbations": {
         "cup": {
@@ -1299,15 +2131,41 @@
             -2.508
           ],
           "mass_factor": 0.948,
-          "friction_factor": 0.95
+          "friction_factor": 0.95,
+          "radius_height_factors": [
+            1.078,
+            1.021
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            7.799,
-            2.124
+            2.789,
+            -2.721
           ],
-          "mass_factor": 1.07,
-          "friction_factor": 0.932
+          "mass_factor": 1.072,
+          "friction_factor": 0.849,
+          "radius_height_factors": [
+            0.928,
+            1.056
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.653,
+            0.993,
+            0.939
+          ],
+          "light_ambient": [
+            0.218,
+            0.107,
+            0.131
+          ],
+          "table_rgb": [
+            0.128,
+            0.119,
+            0.185
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1318,17 +2176,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 160.45,
-          "bowl": 12.85
+          "cup": 164.04,
+          "bowl": 12.97
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 224.28,
+        "compute_ms": 212.99,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 303.87,
-        "monitor_median_ms": 0.0305,
+        "min_gripper_separation_mm": 285.85,
+        "monitor_median_ms": 0.0313,
         "recoveries": 0,
-        "ik_iterations": 4406
+        "ik_iterations": 4013
       },
       "perturbations": {
         "cup": {
@@ -1337,15 +2195,41 @@
             -2.508
           ],
           "mass_factor": 0.948,
-          "friction_factor": 0.95
+          "friction_factor": 0.95,
+          "radius_height_factors": [
+            1.078,
+            1.021
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            7.799,
-            2.124
+            2.789,
+            -2.721
           ],
-          "mass_factor": 1.07,
-          "friction_factor": 0.932
+          "mass_factor": 1.072,
+          "friction_factor": 0.849,
+          "radius_height_factors": [
+            0.928,
+            1.056
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.653,
+            0.993,
+            0.939
+          ],
+          "light_ambient": [
+            0.218,
+            0.107,
+            0.131
+          ],
+          "table_rgb": [
+            0.128,
+            0.119,
+            0.185
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1357,16 +2241,16 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 169.41,
-          "bowl": 162.21
+          "bowl": 167.23
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.09,
+        "compute_ms": 0.08,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 207
+        "ik_iterations": 193
       },
       "perturbations": {
         "cup": {
@@ -1375,15 +2259,41 @@
             -2.508
           ],
           "mass_factor": 0.948,
-          "friction_factor": 0.95
+          "friction_factor": 0.95,
+          "radius_height_factors": [
+            1.078,
+            1.021
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            7.799,
-            2.124
+            2.789,
+            -2.721
           ],
-          "mass_factor": 1.07,
-          "friction_factor": 0.932
+          "mass_factor": 1.072,
+          "friction_factor": 0.849,
+          "radius_height_factors": [
+            0.928,
+            1.056
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.653,
+            0.993,
+            0.939
+          ],
+          "light_ambient": [
+            0.218,
+            0.107,
+            0.131
+          ],
+          "table_rgb": [
+            0.128,
+            0.119,
+            0.185
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1394,17 +2304,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.13,
-          "bowl": 13.56
+          "cup": 15.18,
+          "bowl": 13.5
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 209.51,
+        "compute_ms": 219.4,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 297.98,
-        "monitor_median_ms": 0.03,
+        "min_gripper_separation_mm": 277.71,
+        "monitor_median_ms": 0.0313,
         "recoveries": 0,
-        "ik_iterations": 4226
+        "ik_iterations": 4764
       },
       "perturbations": {
         "cup": {
@@ -1413,15 +2323,41 @@
             6.355
           ],
           "mass_factor": 1.11,
-          "friction_factor": 0.89
+          "friction_factor": 0.89,
+          "radius_height_factors": [
+            0.968,
+            1.06
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.197,
-            5.977
+            -7.916,
+            5.14
           ],
-          "mass_factor": 0.802,
-          "friction_factor": 1.128
+          "mass_factor": 1.119,
+          "friction_factor": 0.987,
+          "radius_height_factors": [
+            0.968,
+            0.965
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.739,
+            0.806,
+            0.827
+          ],
+          "light_ambient": [
+            0.183,
+            0.249,
+            0.219
+          ],
+          "table_rgb": [
+            0.11,
+            0.169,
+            0.136
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1432,17 +2368,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 8.69,
-          "bowl": 13.56
+          "cup": 8.79,
+          "bowl": 13.5
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 195.64,
+        "compute_ms": 204.59,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 305.57,
-        "monitor_median_ms": 0.0304,
+        "min_gripper_separation_mm": 303.9,
+        "monitor_median_ms": 0.0294,
         "recoveries": 1,
-        "ik_iterations": 3820
+        "ik_iterations": 4379
       },
       "perturbations": {
         "cup": {
@@ -1451,15 +2387,41 @@
             6.355
           ],
           "mass_factor": 1.11,
-          "friction_factor": 0.89
+          "friction_factor": 0.89,
+          "radius_height_factors": [
+            0.968,
+            1.06
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.197,
-            5.977
+            -7.916,
+            5.14
           ],
-          "mass_factor": 0.802,
-          "friction_factor": 1.128
+          "mass_factor": 1.119,
+          "friction_factor": 0.987,
+          "radius_height_factors": [
+            0.968,
+            0.965
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.739,
+            0.806,
+            0.827
+          ],
+          "light_ambient": [
+            0.183,
+            0.249,
+            0.219
+          ],
+          "table_rgb": [
+            0.11,
+            0.169,
+            0.136
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1470,17 +2432,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 12.54,
-          "bowl": 13.56
+          "cup": 13.72,
+          "bowl": 13.5
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 251.84,
+        "compute_ms": 254.65,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 297.35,
-        "monitor_median_ms": 0.0301,
+        "min_gripper_separation_mm": 286.03,
+        "monitor_median_ms": 0.0302,
         "recoveries": 1,
-        "ik_iterations": 4231
+        "ik_iterations": 4798
       },
       "perturbations": {
         "cup": {
@@ -1489,15 +2451,41 @@
             6.355
           ],
           "mass_factor": 1.11,
-          "friction_factor": 0.89
+          "friction_factor": 0.89,
+          "radius_height_factors": [
+            0.968,
+            1.06
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.197,
-            5.977
+            -7.916,
+            5.14
           ],
-          "mass_factor": 0.802,
-          "friction_factor": 1.128
+          "mass_factor": 1.119,
+          "friction_factor": 0.987,
+          "radius_height_factors": [
+            0.968,
+            0.965
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.739,
+            0.806,
+            0.827
+          ],
+          "light_ambient": [
+            0.183,
+            0.249,
+            0.219
+          ],
+          "table_rgb": [
+            0.11,
+            0.169,
+            0.136
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1508,17 +2496,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 159.25,
-          "bowl": 13.56
+          "cup": 166.33,
+          "bowl": 13.5
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 217.73,
+        "compute_ms": 221.84,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 297.98,
-        "monitor_median_ms": 0.031,
+        "min_gripper_separation_mm": 277.71,
+        "monitor_median_ms": 0.0305,
         "recoveries": 0,
-        "ik_iterations": 4226
+        "ik_iterations": 4764
       },
       "perturbations": {
         "cup": {
@@ -1527,15 +2515,41 @@
             6.355
           ],
           "mass_factor": 1.11,
-          "friction_factor": 0.89
+          "friction_factor": 0.89,
+          "radius_height_factors": [
+            0.968,
+            1.06
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.197,
-            5.977
+            -7.916,
+            5.14
           ],
-          "mass_factor": 0.802,
-          "friction_factor": 1.128
+          "mass_factor": 1.119,
+          "friction_factor": 0.987,
+          "radius_height_factors": [
+            0.968,
+            0.965
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.739,
+            0.806,
+            0.827
+          ],
+          "light_ambient": [
+            0.183,
+            0.249,
+            0.219
+          ],
+          "table_rgb": [
+            0.11,
+            0.169,
+            0.136
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1547,16 +2561,16 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 168.12,
-          "bowl": 173.3
+          "bowl": 177.99
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.07,
+        "compute_ms": 0.08,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 203
+        "ik_iterations": 563
       },
       "perturbations": {
         "cup": {
@@ -1565,15 +2579,41 @@
             6.355
           ],
           "mass_factor": 1.11,
-          "friction_factor": 0.89
+          "friction_factor": 0.89,
+          "radius_height_factors": [
+            0.968,
+            1.06
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            -3.197,
-            5.977
+            -7.916,
+            5.14
           ],
-          "mass_factor": 0.802,
-          "friction_factor": 1.128
+          "mass_factor": 1.119,
+          "friction_factor": 0.987,
+          "radius_height_factors": [
+            0.968,
+            0.965
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.739,
+            0.806,
+            0.827
+          ],
+          "light_ambient": [
+            0.183,
+            0.249,
+            0.219
+          ],
+          "table_rgb": [
+            0.11,
+            0.169,
+            0.136
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1584,17 +2624,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.64,
-          "bowl": 12.68
+          "cup": 15.46,
+          "bowl": 12.95
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 208.4,
+        "compute_ms": 178.9,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 279.7,
-        "monitor_median_ms": 0.0301,
+        "min_gripper_separation_mm": 290.15,
+        "monitor_median_ms": 0.0306,
         "recoveries": 0,
-        "ik_iterations": 4020
+        "ik_iterations": 3355
       },
       "perturbations": {
         "cup": {
@@ -1603,15 +2643,41 @@
             7.796
           ],
           "mass_factor": 0.927,
-          "friction_factor": 1.115
+          "friction_factor": 1.115,
+          "radius_height_factors": [
+            1.059,
+            0.983
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.918,
-            -1.743
+            -0.994,
+            -2.036
           ],
-          "mass_factor": 0.975,
-          "friction_factor": 0.949
+          "mass_factor": 0.843,
+          "friction_factor": 0.992,
+          "radius_height_factors": [
+            0.959,
+            0.961
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.715,
+            0.718,
+            0.935
+          ],
+          "light_ambient": [
+            0.163,
+            0.138,
+            0.189
+          ],
+          "table_rgb": [
+            0.108,
+            0.138,
+            0.219
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1622,17 +2688,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.23,
-          "bowl": 12.68
+          "cup": 9.06,
+          "bowl": 12.95
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 196.05,
+        "compute_ms": 200.03,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 299.39,
-        "monitor_median_ms": 0.0305,
+        "min_gripper_separation_mm": 299.56,
+        "monitor_median_ms": 0.0322,
         "recoveries": 1,
-        "ik_iterations": 3820
+        "ik_iterations": 3483
       },
       "perturbations": {
         "cup": {
@@ -1641,15 +2707,41 @@
             7.796
           ],
           "mass_factor": 0.927,
-          "friction_factor": 1.115
+          "friction_factor": 1.115,
+          "radius_height_factors": [
+            1.059,
+            0.983
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.918,
-            -1.743
+            -0.994,
+            -2.036
           ],
-          "mass_factor": 0.975,
-          "friction_factor": 0.949
+          "mass_factor": 0.843,
+          "friction_factor": 0.992,
+          "radius_height_factors": [
+            0.959,
+            0.961
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.715,
+            0.718,
+            0.935
+          ],
+          "light_ambient": [
+            0.163,
+            0.138,
+            0.189
+          ],
+          "table_rgb": [
+            0.108,
+            0.138,
+            0.219
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1660,17 +2752,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.47,
-          "bowl": 12.68
+          "cup": 12.35,
+          "bowl": 12.95
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 243.69,
+        "compute_ms": 222.71,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 281.85,
-        "monitor_median_ms": 0.0297,
+        "min_gripper_separation_mm": 272.11,
+        "monitor_median_ms": 0.0309,
         "recoveries": 1,
-        "ik_iterations": 4220
+        "ik_iterations": 3376
       },
       "perturbations": {
         "cup": {
@@ -1679,15 +2771,41 @@
             7.796
           ],
           "mass_factor": 0.927,
-          "friction_factor": 1.115
+          "friction_factor": 1.115,
+          "radius_height_factors": [
+            1.059,
+            0.983
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.918,
-            -1.743
+            -0.994,
+            -2.036
           ],
-          "mass_factor": 0.975,
-          "friction_factor": 0.949
+          "mass_factor": 0.843,
+          "friction_factor": 0.992,
+          "radius_height_factors": [
+            0.959,
+            0.961
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.715,
+            0.718,
+            0.935
+          ],
+          "light_ambient": [
+            0.163,
+            0.138,
+            0.189
+          ],
+          "table_rgb": [
+            0.108,
+            0.138,
+            0.219
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1698,17 +2816,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 168.41,
-          "bowl": 12.68
+          "cup": 163.08,
+          "bowl": 12.95
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 206.33,
+        "compute_ms": 210.4,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 279.71,
-        "monitor_median_ms": 0.0308,
+        "min_gripper_separation_mm": 290.15,
+        "monitor_median_ms": 0.0311,
         "recoveries": 0,
-        "ik_iterations": 4020
+        "ik_iterations": 3355
       },
       "perturbations": {
         "cup": {
@@ -1717,15 +2835,41 @@
             7.796
           ],
           "mass_factor": 0.927,
-          "friction_factor": 1.115
+          "friction_factor": 1.115,
+          "radius_height_factors": [
+            1.059,
+            0.983
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.918,
-            -1.743
+            -0.994,
+            -2.036
           ],
-          "mass_factor": 0.975,
-          "friction_factor": 0.949
+          "mass_factor": 0.843,
+          "friction_factor": 0.992,
+          "radius_height_factors": [
+            0.959,
+            0.961
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.715,
+            0.718,
+            0.935
+          ],
+          "light_ambient": [
+            0.163,
+            0.138,
+            0.189
+          ],
+          "table_rgb": [
+            0.108,
+            0.138,
+            0.219
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1737,16 +2881,16 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 172.94,
-          "bowl": 164.09
+          "bowl": 171.01
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.08,
+        "compute_ms": 0.09,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 204
+        "ik_iterations": 203
       },
       "perturbations": {
         "cup": {
@@ -1755,15 +2899,41 @@
             7.796
           ],
           "mass_factor": 0.927,
-          "friction_factor": 1.115
+          "friction_factor": 1.115,
+          "radius_height_factors": [
+            1.059,
+            0.983
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            5.918,
-            -1.743
+            -0.994,
+            -2.036
           ],
-          "mass_factor": 0.975,
-          "friction_factor": 0.949
+          "mass_factor": 0.843,
+          "friction_factor": 0.992,
+          "radius_height_factors": [
+            0.959,
+            0.961
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.715,
+            0.718,
+            0.935
+          ],
+          "light_ambient": [
+            0.163,
+            0.138,
+            0.189
+          ],
+          "table_rgb": [
+            0.108,
+            0.138,
+            0.219
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1774,17 +2944,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.08,
-          "bowl": 13.42
+          "cup": 15.11,
+          "bowl": 13.11
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 196.86,
+        "compute_ms": 191.04,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 306.79,
-        "monitor_median_ms": 0.031,
+        "min_gripper_separation_mm": 304.16,
+        "monitor_median_ms": 0.0302,
         "recoveries": 0,
-        "ik_iterations": 3846
+        "ik_iterations": 3506
       },
       "perturbations": {
         "cup": {
@@ -1793,15 +2963,41 @@
             -3.411
           ],
           "mass_factor": 1.041,
-          "friction_factor": 1.111
+          "friction_factor": 1.111,
+          "radius_height_factors": [
+            1.035,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            3.457,
-            6.646
+            5.766,
+            6.692
           ],
-          "mass_factor": 1.144,
-          "friction_factor": 1.167
+          "mass_factor": 0.811,
+          "friction_factor": 0.975,
+          "radius_height_factors": [
+            0.998,
+            0.93
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.652,
+            0.941,
+            0.994
+          ],
+          "light_ambient": [
+            0.218,
+            0.147,
+            0.206
+          ],
+          "table_rgb": [
+            0.084,
+            0.147,
+            0.144
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1812,17 +3008,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.0,
-          "bowl": 13.42
+          "cup": 8.91,
+          "bowl": 13.11
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 197.97,
+        "compute_ms": 191.64,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 313.97,
-        "monitor_median_ms": 0.0308,
+        "min_gripper_separation_mm": 299.96,
+        "monitor_median_ms": 0.0304,
         "recoveries": 1,
-        "ik_iterations": 3846
+        "ik_iterations": 3506
       },
       "perturbations": {
         "cup": {
@@ -1831,15 +3027,41 @@
             -3.411
           ],
           "mass_factor": 1.041,
-          "friction_factor": 1.111
+          "friction_factor": 1.111,
+          "radius_height_factors": [
+            1.035,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            3.457,
-            6.646
+            5.766,
+            6.692
           ],
-          "mass_factor": 1.144,
-          "friction_factor": 1.167
+          "mass_factor": 0.811,
+          "friction_factor": 0.975,
+          "radius_height_factors": [
+            0.998,
+            0.93
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.652,
+            0.941,
+            0.994
+          ],
+          "light_ambient": [
+            0.218,
+            0.147,
+            0.206
+          ],
+          "table_rgb": [
+            0.084,
+            0.147,
+            0.144
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1850,17 +3072,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 13.47,
-          "bowl": 13.42
+          "cup": 13.79,
+          "bowl": 13.11
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 231.27,
+        "compute_ms": 220.51,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 305.77,
-        "monitor_median_ms": 0.0296,
+        "min_gripper_separation_mm": 300.6,
+        "monitor_median_ms": 0.0308,
         "recoveries": 1,
-        "ik_iterations": 3851
+        "ik_iterations": 3511
       },
       "perturbations": {
         "cup": {
@@ -1869,15 +3091,41 @@
             -3.411
           ],
           "mass_factor": 1.041,
-          "friction_factor": 1.111
+          "friction_factor": 1.111,
+          "radius_height_factors": [
+            1.035,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            3.457,
-            6.646
+            5.766,
+            6.692
           ],
-          "mass_factor": 1.144,
-          "friction_factor": 1.167
+          "mass_factor": 0.811,
+          "friction_factor": 0.975,
+          "radius_height_factors": [
+            0.998,
+            0.93
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.652,
+            0.941,
+            0.994
+          ],
+          "light_ambient": [
+            0.218,
+            0.147,
+            0.206
+          ],
+          "table_rgb": [
+            0.084,
+            0.147,
+            0.144
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1888,17 +3136,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 154.93,
-          "bowl": 13.42
+          "cup": 154.96,
+          "bowl": 13.11
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 202.56,
+        "compute_ms": 187.34,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 306.78,
-        "monitor_median_ms": 0.03,
+        "min_gripper_separation_mm": 304.16,
+        "monitor_median_ms": 0.031,
         "recoveries": 0,
-        "ik_iterations": 3846
+        "ik_iterations": 3506
       },
       "perturbations": {
         "cup": {
@@ -1907,15 +3155,41 @@
             -3.411
           ],
           "mass_factor": 1.041,
-          "friction_factor": 1.111
+          "friction_factor": 1.111,
+          "radius_height_factors": [
+            1.035,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            3.457,
-            6.646
+            5.766,
+            6.692
           ],
-          "mass_factor": 1.144,
-          "friction_factor": 1.167
+          "mass_factor": 0.811,
+          "friction_factor": 0.975,
+          "radius_height_factors": [
+            0.998,
+            0.93
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.652,
+            0.941,
+            0.994
+          ],
+          "light_ambient": [
+            0.218,
+            0.147,
+            0.206
+          ],
+          "table_rgb": [
+            0.084,
+            0.147,
+            0.144
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     },
@@ -1927,7 +3201,7 @@
       "metrics": {
         "placement_error_mm": {
           "cup": 164.11,
-          "bowl": 166.68
+          "bowl": 164.37
         },
         "success": false,
         "simulated_seconds": 0.0,
@@ -1936,7 +3210,7 @@
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
         "recoveries": 0,
-        "ik_iterations": 229
+        "ik_iterations": 399
       },
       "perturbations": {
         "cup": {
@@ -1945,15 +3219,41 @@
             -3.411
           ],
           "mass_factor": 1.041,
-          "friction_factor": 1.111
+          "friction_factor": 1.111,
+          "radius_height_factors": [
+            1.035,
+            1.066
+          ]
         },
         "bowl": {
           "xy_delta_mm": [
-            3.457,
-            6.646
+            5.766,
+            6.692
           ],
-          "mass_factor": 1.144,
-          "friction_factor": 1.167
+          "mass_factor": 0.811,
+          "friction_factor": 0.975,
+          "radius_height_factors": [
+            0.998,
+            0.93
+          ]
+        },
+        "environment": {
+          "light_diffuse": [
+            0.652,
+            0.941,
+            0.994
+          ],
+          "light_ambient": [
+            0.218,
+            0.147,
+            0.206
+          ],
+          "table_rgb": [
+            0.084,
+            0.147,
+            0.144
+          ],
+          "shape_scope": "Cylinder radius and height vary; no alternate shape families"
         }
       }
     }

@@ -5,12 +5,14 @@ Repository: https://github.com/shi1720/AI-Infra-Summit-Hackathon
 
 ## Browser walkthrough
 
-1. Open the app in a recent desktop or mobile browser.
-2. Choose the Serve with confidence preset and a disturbance scenario.
-3. Generate the plan, review its steps, and approve execution.
-4. For a recovery scenario, inspect the safety hold and approve recovery.
-5. Inspect the resulting event trail and export JSON evidence.
-6. Open the backend evidence view if available. Recorded evidence is labeled separately from browser workflow animation.
+1. Open the app in a recent desktop or mobile browser. Guest access works without an account. Firebase email sign-in is optional.
+2. Choose **Serve with confidence**. Use the exact task: **Set the table with a cup and bowl**.
+3. Select **Grip lost during placement**, leave recovery enabled, and click **Validate in MuJoCo**.
+4. Inspect **Physics evidence**. It reports actual backend completion, placement errors, physics steps, recovery events, camera validation, and the joint proposal policy.
+5. Click **Approve playback** to see the separate explanatory animation. Inspect its hold and approve recovery.
+6. Export the JSON evidence or open the completed record in **Run history**. History is local to this browser.
+7. Open **Evaluation** for the 50-run condition matrix and per-seed records. Try **Compare recovery on / off** to execute a live paired experiment.
+8. Expand **See the real physics** to watch an actual MuJoCo recording. It is separate from the browser illustration.
 
 The browser walkthrough illustrates the interaction flow. It does not establish that a physical robot ran or that its animation is a MuJoCo rendering.
 
@@ -38,4 +40,4 @@ The evaluation covers five conditions for each of ten seeds. The submitted monta
 
 ## Limits
 
-This submission uses deterministic control in a custom simulation fixture. It does not claim a trained VLA integration, a hardware benchmark, or certified safety. Commercial pricing and customer demand are hypotheses.
+This submission uses learned state-based proposals and mandatory numerical correction in a MuJoCo SO101 fixture. It does not claim a trained VLA integration, a hardware benchmark, or certified safety. Commercial pricing and customer demand are hypotheses.

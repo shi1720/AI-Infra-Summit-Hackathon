@@ -13,7 +13,7 @@ When a robot's plan breaks, Granted makes the recovery inspectable.
 Granted Robotics
 
 ## Team description
-Solo project by Shivam Gupta. We are building a safety and recovery workbench for bimanual table setting using simulated SO101 arms in MuJoCo, geometric checks in OpenVINO, and an optional camera-aware language planner. The product helps robotics integrators reproduce failures and inspect recovery evidence. Our local evaluation covers 50 runs across 10 randomized seeds. We disclose the remaining VLA training and Intel Core Ultra demonstration gaps in the technical README.
+Solo project by Shivam Gupta. We are building a safety and recovery workbench for bimanual table setting using simulated SO101 arms in MuJoCo, geometric checks and a learned joint-target model in OpenVINO, and a camera-aware language validator. The product helps robotics integrators reproduce failures and inspect recovery evidence. Our local evaluation covers 50 runs across 10 randomized seeds. We disclose the remaining end-to-end VLA and Intel Core Ultra demonstration gaps in the technical README.
 
 ## Creator
 Shivam Gupta
@@ -40,13 +40,13 @@ Firebase Hosting
 Use the complete Markdown in project-story.md.
 
 ## Presentation
-Upload granted-robotics-pitch.pdf. Editable source: granted-robotics-pitch.pptx.
+Upload granted-robotics-complete-presentation.pdf. Editable source: granted-robotics-complete-presentation.pptx.
 
 ## Cover
 Upload cover.png.
 
 ## Video
-Upload granted-robotics-demo.mp4 to YouTube and use its verified public URL. YouTube title and description are in youtube.md.
+Upload granted-robotics-complete-demo.mp4 to YouTube and use its verified public URL. YouTube title and description are in youtube.md.
 
 ## Testing instructions
 Use testing-instructions.md. The browser's illustrative flow and the real backend evidence are separately labeled.

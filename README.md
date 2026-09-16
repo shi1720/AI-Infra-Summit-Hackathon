@@ -6,8 +6,8 @@ Granted Robotics is a simulation workbench for bimanual table setting, action ch
 
 - [Open the workbench](https://granted-robotics.web.app)
 - [Project story](deliverables/project-story.md)
-- [Pitch deck](deliverables/granted-robotics-pitch.pdf)
-- [Demo script](deliverables/video-script.md)
+- [Pitch deck](deliverables/granted-robotics-complete-presentation.pdf)
+- [Demo script](deliverables/complete-video-script.md)
 
 ## Why it exists
 
@@ -23,7 +23,7 @@ Fault scenarios include a displaced object, grip loss, and a workspace obstacle.
 
 ## Track compliance
 
-The full Intel online brief additionally requires camera-based multimodal reasoning, policy training or fine-tuning, a ten-seed demonstration, and final execution on Intel Core Ultra Series 2/3. This prototype does not claim full track compliance. We have not demonstrated it on Intel Core Ultra hardware or trained a VLA policy. See [track readiness](deliverables/track-readiness.md) for the precise gaps.
+The full Intel online brief additionally requires camera-based multimodal reasoning, policy training or fine-tuning, a ten-seed demonstration, and final execution on Intel Core Ultra Series 2/3. This prototype does not claim full track compliance. We have not demonstrated it on Intel Core Ultra hardware or trained an end-to-end VLA policy. See [track readiness](deliverables/track-readiness.md) for the precise gaps.
 
 ## Run the web app
 
@@ -96,14 +96,14 @@ The files in `backend/evidence/` are actual local MuJoCo executions. The final e
 
 The fixture randomizes each object's initial XY position by +/-8 mm and scales mass and sliding friction from 0.8x to 1.2x, varies cylinder radius and height by +/-8%, and varies lighting and table color. Mean cup error for grip-loss recovery is 14.05 mm, compared with 160.96 mm without recovery. These controlled fixture results do not establish broad generalization to new tasks, novel objects, or hardware.
 
-The FP32 OpenVINO geometric graph benchmark reports p50 0.02367 ms and p95 0.03050 ms across 1,000 samples after 100 warmups. This was measured on an Apple arm64 development machine. It is **not an Intel Core Ultra benchmark** and does not measure VLA inference. See `backend/evidence/evaluation.json` for full configuration and records. `backend/evidence/so101-recovery.mp4` shows actual MuJoCo rendering.
+The FP32 OpenVINO geometric graph benchmark reports p50 0.02433 ms and p95 0.03001 ms across 1,000 samples after 100 warmups. This was measured on an Apple arm64 development machine. It is **not an Intel Core Ultra benchmark** and does not measure VLA inference. See `backend/evidence/evaluation.json` for full configuration and records. `backend/evidence/so101-recovery.mp4` shows actual MuJoCo rendering.
 
 
 ## Learned policy and paired evaluation
 
 A degree-4 polynomial model learns joint-target proposals from 600 SO101 inverse-kinematics demonstrations, split into 480 training and 120 held-out examples. Held-out joint RMSE is 0.19644 radians and MAE is 0.05373 radians. The model exports to OpenVINO FP32 IR. Its output initializes mandatory numerical pose correction rather than replacing it.
 
-Across ten paired grip-loss seeds, both the baseline and learned-plus-correction controller completed 10/10 trials. Mean numerical IK iterations fell from 4,528.1 to 4,288.2, about 5.3%. Local mean simulation compute time changed from 271.05 ms to 255.76 ms. These timings include workload and host variation and do not establish Intel performance. The learned policy's local OpenVINO median inference was 0.03712 ms across 1,000 samples after 100 warmups. See `backend/evidence/policy-evaluation.json` and `backend/assets/joint_policy/training-report.json`.
+Across ten paired grip-loss seeds, both the baseline and learned-plus-correction controller completed 10/10 trials. Mean numerical IK iterations fell from 4,528.1 to 4,288.2, about 5.3%. Local mean simulation compute time changed from 271.05 ms to 255.76 ms. These timings include workload and host variation and do not establish Intel performance. The learned policy's local OpenVINO median inference was 0.03750 ms across 1,000 samples after 100 warmups. See `backend/evidence/policy-evaluation.json` and `backend/assets/joint_policy/training-report.json`.
 
 This state-based imitation model does not learn vision or language. The camera-aware language validator is a separate component. Neither the joint prediction error nor the small fixture evaluation establishes unassisted learned manipulation.
 
@@ -117,7 +117,7 @@ Web workbench (React + TypeScript)
 FastAPI request validation and bounded workers
     |
     +-- Structured task planner (deterministic or optional OpenAI)
-    +-- MuJoCo physics and deterministic controller
+    +-- MuJoCo physics, learned proposals and numerical correction
     +-- OpenVINO geometric safety graph
     +-- Events, sampled states, metrics, exported evidence
 ```
@@ -136,4 +136,4 @@ A commercial deployment needs durable storage, tenant authorization and isolatio
 
 ## License
 
-MIT. See [LICENSE](LICENSE). Third-party packages retain their respective licenses.
+MIT. See [LICENSE](LICENSE). Third-party packages and robot assets retain their respective licenses. See the license files shipped with the MuJoCo Menagerie assets.

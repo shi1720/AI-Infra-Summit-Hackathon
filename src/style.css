@@ -2880,3 +2880,13 @@ textarea:disabled {
   border-radius: 5px;
   margin: 15px auto;
 }
+.workspace-user {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.workspace-user small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

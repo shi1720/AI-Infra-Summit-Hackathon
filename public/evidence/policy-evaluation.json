@@ -16,25 +16,25 @@
     "ik_only": {
       "successes": 10,
       "trials": 10,
-      "mean_ik_iterations": 4654.0,
-      "mean_compute_ms": 263.73900000000003,
-      "mean_cup_error_mm": 14.761000000000001
+      "mean_ik_iterations": 4528.1,
+      "mean_compute_ms": 271.051,
+      "mean_cup_error_mm": 16.557
     },
     "learned_plus_correction": {
       "successes": 10,
       "trials": 10,
-      "mean_ik_iterations": 4256.5,
-      "mean_compute_ms": 243.527,
-      "mean_cup_error_mm": 13.808000000000002
+      "mean_ik_iterations": 4288.2,
+      "mean_compute_ms": 255.756,
+      "mean_cup_error_mm": 14.047999999999998
     }
   },
   "policy_benchmark": {
     "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
     "samples": 1000,
     "warmup": 100,
-    "p50_ms": 0.037124991649761796,
-    "p95_ms": 0.04155450660618952,
-    "serial_inferences_per_second": 25816.112495931233,
+    "p50_ms": 0.03750000905711204,
+    "p95_ms": 0.051262498163850964,
+    "serial_inferences_per_second": 24157.70528827979,
     "max_abs_vs_numpy_rad": 6.887747279193945e-07
   },
   "limitations": "Learned joint-target proposals initialize numerical pose correction. Success includes that correction, not unassisted learned control. Camera and language validation are separate from this state-based imitation policy.",
@@ -45,23 +45,23 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.29,
-          "bowl": 15.74
+          "cup": 17.63,
+          "bowl": 15.81
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 268.33,
+        "compute_ms": 270.1,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 305.54,
-        "monitor_median_ms": 0.03,
+        "min_gripper_separation_mm": 303.23,
+        "monitor_median_ms": 0.031,
         "recoveries": 1,
-        "ik_iterations": 4786
+        "ik_iterations": 4602
       },
       "policy": {
         "engine": "numerical IK only",
         "learned": false,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4786,
+        "ik_iterations": 4602,
         "inference_median_ms": null
       }
     },
@@ -71,24 +71,24 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 13.52,
-          "bowl": 13.3
+          "cup": 15.11,
+          "bowl": 13.16
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 260.45,
+        "compute_ms": 246.94,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 303.86,
-        "monitor_median_ms": 0.029,
+        "min_gripper_separation_mm": 302.72,
+        "monitor_median_ms": 0.0304,
         "recoveries": 1,
-        "ik_iterations": 4718
+        "ik_iterations": 4189
       },
       "policy": {
         "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
         "learned": true,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4718,
-        "inference_median_ms": 0.07375000859610736
+        "ik_iterations": 4189,
+        "inference_median_ms": 0.07083298987708986
       }
     },
     {
@@ -97,75 +97,75 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.28,
-          "bowl": 16.61
+          "cup": 16.05,
+          "bowl": 20.66
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 230.43,
+        "compute_ms": 278.52,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 274.25,
-        "monitor_median_ms": 0.0293,
-        "recoveries": 1,
-        "ik_iterations": 3732
-      },
-      "policy": {
-        "engine": "numerical IK only",
-        "learned": false,
-        "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 3732,
-        "inference_median_ms": null
-      }
-    },
-    {
-      "seed": 1,
-      "learned": true,
-      "status": "completed",
-      "metrics": {
-        "placement_error_mm": {
-          "cup": 14.27,
-          "bowl": 12.92
-        },
-        "success": true,
-        "simulated_seconds": 16.882,
-        "compute_ms": 223.58,
-        "physics_steps": 8441,
-        "min_gripper_separation_mm": 282.2,
-        "monitor_median_ms": 0.0296,
-        "recoveries": 1,
-        "ik_iterations": 3689
-      },
-      "policy": {
-        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
-        "learned": true,
-        "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 3689,
-        "inference_median_ms": 0.08195800182875246
-      }
-    },
-    {
-      "seed": 2,
-      "learned": false,
-      "status": "completed",
-      "metrics": {
-        "placement_error_mm": {
-          "cup": 14.91,
-          "bowl": 16.28
-        },
-        "success": true,
-        "simulated_seconds": 16.882,
-        "compute_ms": 261.05,
-        "physics_steps": 8441,
-        "min_gripper_separation_mm": 299.22,
+        "min_gripper_separation_mm": 272.41,
         "monitor_median_ms": 0.0299,
         "recoveries": 1,
-        "ik_iterations": 4614
+        "ik_iterations": 4883
       },
       "policy": {
         "engine": "numerical IK only",
         "learned": false,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4614,
+        "ik_iterations": 4883,
+        "inference_median_ms": null
+      }
+    },
+    {
+      "seed": 1,
+      "learned": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 12.73,
+          "bowl": 12.56
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 271.75,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 249.75,
+        "monitor_median_ms": 0.0306,
+        "recoveries": 1,
+        "ik_iterations": 4795
+      },
+      "policy": {
+        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+        "learned": true,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 4795,
+        "inference_median_ms": 0.08974999946076423
+      }
+    },
+    {
+      "seed": 2,
+      "learned": false,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 17.56,
+          "bowl": 16.99
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 299.76,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 280.69,
+        "monitor_median_ms": 0.0325,
+        "recoveries": 1,
+        "ik_iterations": 4844
+      },
+      "policy": {
+        "engine": "numerical IK only",
+        "learned": false,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 4844,
         "inference_median_ms": null
       }
     },
@@ -175,24 +175,24 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.94,
-          "bowl": 13.12
+          "cup": 15.67,
+          "bowl": 12.62
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 256.65,
+        "compute_ms": 270.5,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 300.45,
-        "monitor_median_ms": 0.0305,
+        "min_gripper_separation_mm": 293.09,
+        "monitor_median_ms": 0.0309,
         "recoveries": 1,
-        "ik_iterations": 4580
+        "ik_iterations": 4815
       },
       "policy": {
         "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
         "learned": true,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4580,
-        "inference_median_ms": 0.07829199603293091
+        "ik_iterations": 4815,
+        "inference_median_ms": 0.08562499715480953
       }
     },
     {
@@ -201,23 +201,23 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 16.13,
-          "bowl": 17.18
+          "cup": 15.45,
+          "bowl": 15.91
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 280.56,
+        "compute_ms": 283.73,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 296.46,
-        "monitor_median_ms": 0.03,
+        "min_gripper_separation_mm": 292.74,
+        "monitor_median_ms": 0.0308,
         "recoveries": 1,
-        "ik_iterations": 5136
+        "ik_iterations": 5017
       },
       "policy": {
         "engine": "numerical IK only",
         "learned": false,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 5136,
+        "ik_iterations": 5017,
         "inference_median_ms": null
       }
     },
@@ -227,232 +227,232 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.1,
-          "bowl": 13.01
+          "cup": 15.09,
+          "bowl": 12.67
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 268.76,
+        "compute_ms": 262.25,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 293.5,
+        "monitor_median_ms": 0.0308,
+        "recoveries": 1,
+        "ik_iterations": 4961
+      },
+      "policy": {
+        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+        "learned": true,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 4961,
+        "inference_median_ms": 0.08016699575819075
+      }
+    },
+    {
+      "seed": 4,
+      "learned": false,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.49,
+          "bowl": 15.24
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 254.65,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 295.23,
+        "monitor_median_ms": 0.0308,
+        "recoveries": 1,
+        "ik_iterations": 4299
+      },
+      "policy": {
+        "engine": "numerical IK only",
+        "learned": false,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 4299,
+        "inference_median_ms": null
+      }
+    },
+    {
+      "seed": 4,
+      "learned": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 12.81,
+          "bowl": 12.26
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 235.92,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 295.43,
+        "monitor_median_ms": 0.0308,
+        "recoveries": 1,
+        "ik_iterations": 3819
+      },
+      "policy": {
+        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+        "learned": true,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 3819,
+        "inference_median_ms": 0.07716599793639034
+      }
+    },
+    {
+      "seed": 5,
+      "learned": false,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 14.92,
+          "bowl": 15.74
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 280.27,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 287.77,
+        "monitor_median_ms": 0.0312,
+        "recoveries": 1,
+        "ik_iterations": 4633
+      },
+      "policy": {
+        "engine": "numerical IK only",
+        "learned": false,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 4633,
+        "inference_median_ms": null
+      }
+    },
+    {
+      "seed": 5,
+      "learned": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 12.53,
+          "bowl": 12.72
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 287.94,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 288.23,
+        "monitor_median_ms": 0.0325,
+        "recoveries": 1,
+        "ik_iterations": 4219
+      },
+      "policy": {
+        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+        "learned": true,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 4219,
+        "inference_median_ms": 0.14637499407399446
+      }
+    },
+    {
+      "seed": 6,
+      "learned": false,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 17.08,
+          "bowl": 15.71
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 264.24,
         "physics_steps": 8441,
         "min_gripper_separation_mm": 297.49,
-        "monitor_median_ms": 0.0302,
+        "monitor_median_ms": 0.0321,
         "recoveries": 1,
-        "ik_iterations": 4981
-      },
-      "policy": {
-        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
-        "learned": true,
-        "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4981,
-        "inference_median_ms": 0.0804169976618141
-      }
-    },
-    {
-      "seed": 4,
-      "learned": false,
-      "status": "completed",
-      "metrics": {
-        "placement_error_mm": {
-          "cup": 15.02,
-          "bowl": 15.87
-        },
-        "success": true,
-        "simulated_seconds": 16.882,
-        "compute_ms": 269.26,
-        "physics_steps": 8441,
-        "min_gripper_separation_mm": 295.91,
-        "monitor_median_ms": 0.0302,
-        "recoveries": 1,
-        "ik_iterations": 4786
+        "ik_iterations": 4280
       },
       "policy": {
         "engine": "numerical IK only",
         "learned": false,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4786,
+        "ik_iterations": 4280,
         "inference_median_ms": null
       }
     },
     {
-      "seed": 4,
+      "seed": 6,
       "learned": true,
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 12.98,
-          "bowl": 12.76
+          "cup": 16.68,
+          "bowl": 12.97
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 222.21,
+        "compute_ms": 256.95,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 297.22,
-        "monitor_median_ms": 0.0303,
+        "min_gripper_separation_mm": 292.51,
+        "monitor_median_ms": 0.0308,
         "recoveries": 1,
-        "ik_iterations": 3671
+        "ik_iterations": 4399
       },
       "policy": {
         "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
         "learned": true,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 3671,
-        "inference_median_ms": 0.05933298962190747
+        "ik_iterations": 4399,
+        "inference_median_ms": 0.07049999840091914
       }
     },
     {
-      "seed": 5,
+      "seed": 7,
       "learned": false,
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.18,
-          "bowl": 17.21
+          "cup": 17.26,
+          "bowl": 19.17
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 275.11,
+        "compute_ms": 285.15,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 288.26,
+        "min_gripper_separation_mm": 288.15,
+        "monitor_median_ms": 0.0314,
+        "recoveries": 1,
+        "ik_iterations": 4815
+      },
+      "policy": {
+        "engine": "numerical IK only",
+        "learned": false,
+        "role": "joint-target proposal with mandatory numerical pose correction",
+        "ik_iterations": 4815,
+        "inference_median_ms": null
+      }
+    },
+    {
+      "seed": 7,
+      "learned": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 13.72,
+          "bowl": 13.5
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 256.95,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 286.03,
         "monitor_median_ms": 0.031,
         "recoveries": 1,
-        "ik_iterations": 4976
-      },
-      "policy": {
-        "engine": "numerical IK only",
-        "learned": false,
-        "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4976,
-        "inference_median_ms": null
-      }
-    },
-    {
-      "seed": 5,
-      "learned": true,
-      "status": "completed",
-      "metrics": {
-        "placement_error_mm": {
-          "cup": 12.91,
-          "bowl": 12.96
-        },
-        "success": true,
-        "simulated_seconds": 16.882,
-        "compute_ms": 240.3,
-        "physics_steps": 8441,
-        "min_gripper_separation_mm": 280.83,
-        "monitor_median_ms": 0.0302,
-        "recoveries": 1,
-        "ik_iterations": 4213
+        "ik_iterations": 4798
       },
       "policy": {
         "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
         "learned": true,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4213,
-        "inference_median_ms": 0.0662079983158037
-      }
-    },
-    {
-      "seed": 6,
-      "learned": false,
-      "status": "completed",
-      "metrics": {
-        "placement_error_mm": {
-          "cup": 14.35,
-          "bowl": 15.32
-        },
-        "success": true,
-        "simulated_seconds": 16.882,
-        "compute_ms": 247.94,
-        "physics_steps": 8441,
-        "min_gripper_separation_mm": 282.27,
-        "monitor_median_ms": 0.0301,
-        "recoveries": 1,
-        "ik_iterations": 4262
-      },
-      "policy": {
-        "engine": "numerical IK only",
-        "learned": false,
-        "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4262,
-        "inference_median_ms": null
-      }
-    },
-    {
-      "seed": 6,
-      "learned": true,
-      "status": "completed",
-      "metrics": {
-        "placement_error_mm": {
-          "cup": 13.88,
-          "bowl": 12.85
-        },
-        "success": true,
-        "simulated_seconds": 16.882,
-        "compute_ms": 249.84,
-        "physics_steps": 8441,
-        "min_gripper_separation_mm": 301.74,
-        "monitor_median_ms": 0.0298,
-        "recoveries": 1,
-        "ik_iterations": 4411
-      },
-      "policy": {
-        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
-        "learned": true,
-        "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4411,
-        "inference_median_ms": 0.07945900142658502
-      }
-    },
-    {
-      "seed": 7,
-      "learned": false,
-      "status": "completed",
-      "metrics": {
-        "placement_error_mm": {
-          "cup": 15.68,
-          "bowl": 16.75
-        },
-        "success": true,
-        "simulated_seconds": 16.882,
-        "compute_ms": 278.15,
-        "physics_steps": 8441,
-        "min_gripper_separation_mm": 278.49,
-        "monitor_median_ms": 0.0296,
-        "recoveries": 1,
-        "ik_iterations": 4990
-      },
-      "policy": {
-        "engine": "numerical IK only",
-        "learned": false,
-        "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4990,
-        "inference_median_ms": null
-      }
-    },
-    {
-      "seed": 7,
-      "learned": true,
-      "status": "completed",
-      "metrics": {
-        "placement_error_mm": {
-          "cup": 12.54,
-          "bowl": 13.56
-        },
-        "success": true,
-        "simulated_seconds": 16.882,
-        "compute_ms": 244.96,
-        "physics_steps": 8441,
-        "min_gripper_separation_mm": 297.35,
-        "monitor_median_ms": 0.0297,
-        "recoveries": 1,
-        "ik_iterations": 4231
-      },
-      "policy": {
-        "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
-        "learned": true,
-        "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4231,
-        "inference_median_ms": 0.05599998985417187
+        "ik_iterations": 4798,
+        "inference_median_ms": 0.07875000301282853
       }
     },
     {
@@ -461,23 +461,23 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 16.21,
-          "bowl": 15.36
+          "cup": 15.88,
+          "bowl": 16.02
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 250.78,
+        "compute_ms": 225.24,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 272.06,
+        "min_gripper_separation_mm": 270.77,
         "monitor_median_ms": 0.0305,
         "recoveries": 1,
-        "ik_iterations": 4291
+        "ik_iterations": 3447
       },
       "policy": {
         "engine": "numerical IK only",
         "learned": false,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4291,
+        "ik_iterations": 3447,
         "inference_median_ms": null
       }
     },
@@ -487,24 +487,24 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.47,
-          "bowl": 12.68
+          "cup": 12.35,
+          "bowl": 12.95
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 240.65,
+        "compute_ms": 245.56,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 281.85,
-        "monitor_median_ms": 0.0296,
+        "min_gripper_separation_mm": 272.11,
+        "monitor_median_ms": 0.0311,
         "recoveries": 1,
-        "ik_iterations": 4220
+        "ik_iterations": 3376
       },
       "policy": {
         "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
         "learned": true,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4220,
-        "inference_median_ms": 0.05966599564999342
+        "ik_iterations": 3376,
+        "inference_median_ms": 0.08504099969286472
       }
     },
     {
@@ -513,23 +513,23 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.56,
-          "bowl": 15.97
+          "cup": 18.25,
+          "bowl": 15.71
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 275.78,
+        "compute_ms": 268.85,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 284.85,
-        "monitor_median_ms": 0.0294,
+        "min_gripper_separation_mm": 291.35,
+        "monitor_median_ms": 0.0311,
         "recoveries": 1,
-        "ik_iterations": 4967
+        "ik_iterations": 4461
       },
       "policy": {
         "engine": "numerical IK only",
         "learned": false,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 4967,
+        "ik_iterations": 4461,
         "inference_median_ms": null
       }
     },
@@ -539,24 +539,24 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 13.47,
-          "bowl": 13.42
+          "cup": 13.79,
+          "bowl": 13.11
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 227.87,
+        "compute_ms": 222.8,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 305.77,
-        "monitor_median_ms": 0.0302,
+        "min_gripper_separation_mm": 300.6,
+        "monitor_median_ms": 0.0315,
         "recoveries": 1,
-        "ik_iterations": 3851
+        "ik_iterations": 3511
       },
       "policy": {
         "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
         "learned": true,
         "role": "joint-target proposal with mandatory numerical pose correction",
-        "ik_iterations": 3851,
-        "inference_median_ms": 0.050125003326684237
+        "ik_iterations": 3511,
+        "inference_median_ms": 0.08225000055972487
       }
     }
   ]
