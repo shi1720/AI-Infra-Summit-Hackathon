@@ -1,0 +1,16 @@
+{
+  "verified_at_utc": "2026-09-16T18:16:10.321824+00:00",
+  "submission_status": "Accepted: lablab displayed Congratulations and Your submission has been accepted",
+  "submission_url": "https://lablab.ai/ai-hackathons/ai-infra-summit-hackathon/granted-robotics/granted-robotics-permission-before-motion",
+  "application_url": "https://granted-robotics.web.app",
+  "youtube_url": "https://youtu.be/mSRJfgEWN08",
+  "youtube_visibility": "Public",
+  "youtube_checks": "No issues found; HD complete",
+  "submitted_video_seconds": 240.71356,
+  "deck": "granted-robotics-complete-presentation.pdf",
+  "repository": "https://github.com/shi1720/AI-Infra-Summit-Hackathon",
+  "branch": "main",
+  "ci_url": "https://github.com/shi1720/AI-Infra-Summit-Hackathon/actions/runs/35133017937",
+  "ci_conclusion": "success",
+  "hardware_status": "Intel Cloud Core Ultra 7 265T reservation Pending Review; no hardware validation claimed"
+}
