@@ -14,3 +14,4 @@ backend/runs/
 *.tsbuildinfo
 .codex-finalizer/
 deliverables/.build/
+.chart-data-*/

@@ -39,6 +39,8 @@ task schema. MuJoCo ground-truth poses feed the numerical IK controller.
 backend/.venv/bin/python -m pytest tests/test_backend.py -q
 backend/.venv/bin/python -m backend.cli --fault grip_loss --output artifacts/run.json
 backend/.venv/bin/python -m backend.cli --fault grip_loss --no-recovery --output artifacts/ablation.json
+backend/.venv/bin/python -m backend.train_policy --samples 600
+backend/.venv/bin/python -m backend.evaluate_policy
 backend/.venv/bin/python -m backend.evaluate --seeds 10
 backend/.venv/bin/python -m backend.benchmark --device CPU
 backend/.venv/bin/python -m backend.benchmark --device NPU
@@ -60,7 +62,10 @@ GPU benchmark records unavailability rather than substituting CPU results.
   provide full-body collision avoidance or a physical robot safety guarantee.
 - The obstacle test exercises a software exclusion-zone stop, not camera
   obstacle detection or simulated collision response.
-- OpenVINO executes a geometric FP32 graph. It is not a trained or distilled VLA.
+- OpenVINO executes a trained polynomial joint-target imitation policy and a
+  geometric FP32 separation graph. The learned proposal always undergoes numerical
+  pose correction. It is not an end-to-end trained vision-language-action model.
+  Training data, weights, OpenVINO IR, held-out errors and rollout ablations are included.
 - Local benchmarks were measured on Apple M4 Pro. Intel Core Ultra performance
   is unverified. Cloud CPU execution is not equivalent to the required edge device.
 - Tasks do not yet include drawers, tool retrieval, handoffs or liquid pouring.

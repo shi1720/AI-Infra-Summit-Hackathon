@@ -1,5 +1,6 @@
 from __future__ import annotations
 import os
+import base64
 import time
 from fastapi import Request
 from collections import OrderedDict
@@ -59,6 +60,7 @@ def create_run(request:RunRequest, http_request:Request):
         recovery=request.recovery if request.recovery_enabled is None else request.recovery_enabled
         result=simulation.run(request.instruction,request.fault,recovery)
         result['planner']=plan['source'];result['language_plan']=plan
+        result['observation_image']=('data:image/png;base64,'+base64.b64encode(observation).decode()) if observation else None
         result['camera_observation']=('rendered MuJoCo RGB validated by language model' if plan.get('vision_input') else 'provider unavailable; deterministic task executed without vision validation' if observation else 'not used')
         with lock:
             runs[result['id']]=result

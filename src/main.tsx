@@ -1,70 +1,2353 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import { ArrowRight, ArrowUpRight, Check, CheckCircle2, ChevronDown, ChevronRight, CircleHelp, Download, Expand, FlaskConical, History, Layers3, Link2, LoaderCircle, Menu, Pause, Play, Plus, Radio, RotateCcw, Settings2, ShieldCheck, Sparkles, Square, Terminal, TriangleAlert, X } from 'lucide-react';
-import './style.css';
-import { auth } from './auth';
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
-import type { User } from 'firebase/auth';
+import React, { useEffect, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  CheckCircle2,
+  ChevronDown,
+  ChevronRight,
+  CircleHelp,
+  Download,
+  Expand,
+  FlaskConical,
+  History,
+  Layers3,
+  Link2,
+  LoaderCircle,
+  Menu,
+  Pause,
+  Play,
+  Plus,
+  Radio,
+  RotateCcw,
+  Settings2,
+  ShieldCheck,
+  Sparkles,
+  Square,
+  Terminal,
+  TriangleAlert,
+  X,
+} from "lucide-react";
+import "./style.css";
+import Evaluation from "./Evaluation";
+import { auth } from "./auth";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
+import type { User } from "firebase/auth";
 
-type BackendRun = {id:string;status:string;engine:string;planner:string;summary:{completed_objects:number;total_objects:number;recoveries:number;message:string};metrics:{placement_error_mm:Record<string,number>;success:boolean;simulated_seconds:number;compute_ms:number;physics_steps:number;min_gripper_separation_mm:number;recoveries:number};events:{time:number;kind:string;message:string}[];limitations:string[]};
-type Phase = 'idle'|'planned'|'running'|'paused'|'blocked'|'complete';
-type Step = {id:number; action:string; detail:string; arm:'Left arm'|'Right arm'|'Both arms'; object:string; target:string};
-type Event = {time:string; type:'info'|'success'|'warning'; message:string};
-type SavedRun = {id:string; date:string; instruction:string; scenario:string; steps:number; recovered:boolean; runtime:string; events:Event[]; plan:Step[]; backend?:unknown};
-const scenarios = [ {id:'serving',name:'Serve with confidence',subtitle:'Physics-backed cup + bowl',instruction:'Move the cup and bowl to their serving positions. Keep the two arms safely separated.',objects:2}, {id:'dinner', name:'Dinner for two', subtitle:'Plates, cutlery, and cups', instruction:'Set the table for two. Place a plate at each setting, forks on the left, and cups above the plates.', objects:6}, {id:'coffee', name:'Coffee service', subtitle:'Two cups. One shared table.', instruction:'Prepare coffee for two. Place one cup at each setting and keep the center of the table clear.',objects:2}, {id:'accessible',name:'Accessible setting',subtitle:'Bring every object within reach',instruction:'Set two accessible place settings. Move plates and cups toward the front edge, with forks beside each plate.',objects:6} ];
-const stepSets:Record<string,Step[]> = {
- serving:[{id:1,action:'Place the cup',detail:'Left pickup → serving position A',arm:'Left arm',object:'cup-a',target:'A'},{id:2,action:'Place the bowl',detail:'Right pickup → serving position B',arm:'Right arm',object:'plate-b',target:'B'}],
- dinner:[{id:1,action:'Place the first plate',detail:'Left tray → setting A',arm:'Left arm',object:'plate-a',target:'A'},{id:2,action:'Place the second plate',detail:'Right tray → setting B',arm:'Right arm',object:'plate-b',target:'B'},{id:3,action:'Align the first fork',detail:'Left of plate A · 8 cm clearance',arm:'Left arm',object:'fork-a',target:'A'},{id:4,action:'Align the second fork',detail:'Left of plate B · 8 cm clearance',arm:'Right arm',object:'fork-b',target:'B'},{id:5,action:'Position the first cup',detail:'Above plate A · upright grasp',arm:'Left arm',object:'cup-a',target:'A'},{id:6,action:'Position the second cup',detail:'Above plate B · upright grasp',arm:'Right arm',object:'cup-b',target:'B'}],
- coffee:[{id:1,action:'Position the first cup',detail:'Left tray → setting A',arm:'Left arm',object:'cup-a',target:'A'},{id:2,action:'Position the second cup',detail:'Right tray → setting B',arm:'Right arm',object:'cup-b',target:'B'}]
+type BackendRun = {
+  seed: number;
+  fault: string;
+  recovery_enabled: boolean;
+  observation_image?: string;
+  camera_observation?: string;
+  language_plan?: { source?: string; vision_input?: boolean };
+  policy?: {
+    engine: string;
+    learned: boolean;
+    role: string;
+    ik_iterations: number;
+    inference_median_ms: number | null;
+  };
+  id: string;
+  status: string;
+  engine: string;
+  planner: string;
+  summary: {
+    completed_objects: number;
+    total_objects: number;
+    recoveries: number;
+    message: string;
+  };
+  metrics: {
+    placement_error_mm: Record<string, number>;
+    success: boolean;
+    simulated_seconds: number;
+    compute_ms: number;
+    physics_steps: number;
+    min_gripper_separation_mm: number;
+    recoveries: number;
+  };
+  events: { time: number; kind: string; message: string }[];
+  limitations: string[];
 };
-const readRuns=():SavedRun[]=>{try{return JSON.parse(localStorage.getItem('granted-runs')||'[]')}catch{return []}};
-function download(name:string,data:string,type='application/json'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
-function Logo(){return <div className="brand"><span className="brand-icon">g<span>↗</span></span><span>granted<span className="brand-sub">ROBOTICS</span></span></div>}
-function App(){
- const [user,setUser]=useState<User|null>(null);const [authOpen,setAuthOpen]=useState(false);
- useEffect(()=>onAuthStateChanged(auth,setUser),[]);
- const [tab,setTab]=useState('workspace'); const [scenario,setScenario]=useState('serving'); const [instruction,setInstruction]=useState(scenarios[0].instruction); const [phase,setPhase]=useState<Phase>('idle'); const [plan,setPlan]=useState<Step[]>([]); const [completed,setCompleted]=useState(0); const [events,setEvents]=useState<Event[]>([]); const [fault,setFault]=useState('none'); const [recovered,setRecovered]=useState(false); const [faultUsed,setFaultUsed]=useState(false); const [runs,setRuns]=useState(readRuns); const [settings,setSettings]=useState(false); const [apiUrl,setApiUrl]=useState(()=>localStorage.getItem('granted-api-url')||((import.meta as unknown as {env:Record<string,string>}).env.VITE_API_URL)||(window.location.hostname.endsWith('.web.app')?window.location.origin:'')); const [apiDraft,setApiDraft]=useState(apiUrl); const [toast,setToast]=useState(''); const [error,setError]=useState(''); const [loading,setLoading]=useState(false); const [backend,setBackend]=useState<BackendRun|null>(null); const [fullScreen,setFullScreen]=useState(false); const [mobileNav,setMobileNav]=useState(false); const [selectedRun,setSelectedRun]=useState<SavedRun|null>(null); const [showHelp,setShowHelp]=useState(false); const timer=useRef<number|null>(null); const runStart=useRef('');
- const addEvent=(message:string,type:Event['type']='info')=>setEvents(e=>[...e,{time:new Date().toLocaleTimeString('en-GB'),type,message}]);
- useEffect(()=>{if(toast){const t=setTimeout(()=>setToast(''),4500);return()=>clearTimeout(t)}},[toast]);
- useEffect(()=>{if(phase!=='running')return;timer.current=window.setTimeout(()=>{if(fault!=='none'&&!faultUsed&&completed===Math.min(2,plan.length-1)){setPhase('blocked');setFaultUsed(true);addEvent(fault==='grip_loss'?'Grasp confidence dropped. Motion stopped before release.':fault==='obstacle'?'Unexpected obstacle inside the shared workspace. Motion stopped.':'Object position changed. Stale target rejected before grasp.','warning');return}if(completed<plan.length){addEvent(`${plan[completed].action}: target reached and release verified.`,'success');setCompleted(c=>c+1)}if(completed+1>=plan.length){setPhase('complete');addEvent('All requested placements verified. Arms returned to safe rest.','success')}},1450);return()=>{if(timer.current)clearTimeout(timer.current)}},[phase,completed,plan,fault,faultUsed]);
- useEffect(()=>{if(phase!=='complete')return;const run:SavedRun={id:runStart.current||crypto.randomUUID(),date:new Date().toISOString(),instruction,scenario,steps:plan.length,recovered,runtime:backend?'Python / MuJoCo backend':'Browser simulation',events,plan,backend:backend||undefined};setRuns(old=>{const next=[run,...old.filter(r=>r.id!==run.id)].slice(0,50);localStorage.setItem('granted-runs',JSON.stringify(next));return next})},[phase]);
- function reset(){setPhase('idle');setPlan([]);setCompleted(0);setEvents([]);setRecovered(false);setFaultUsed(false);setBackend(null);setError('')}
- function selectScenario(id:string){reset();setScenario(id);setInstruction(scenarios.find(s=>s.id===id)!.instruction)}
- async function createPlan(){if(!instruction.trim()){setError('Tell Granted what to arrange before generating a plan.');return}if(/throw|smash|break|hit|hurt|spill|weapon/i.test(instruction)){setError('That instruction is outside the bounded placement contract. Choose a supported serving or table-setting task.');return}if(!/plate|bowl|cup|fork|table|coffee|setting|dinner/i.test(instruction)){setError('This workcell supports plates, forks, and cups. Try “Set the table for two” or choose a scenario.');return}setLoading(true);setError('');setEvents([]);setBackend(null);try {if(apiUrl&&scenario==='serving'){const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),45000);try{const res=await fetch(apiUrl.replace(/\/$/,'')+'/api/runs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({instruction,fault,seed:42}),signal:controller.signal});if(!res.ok){const failure=await res.json().catch(()=>({detail:'Runtime request failed'}));throw new Error(`${res.status===422?'Task rejected':'Runtime error'}: ${typeof failure.detail==='string'?failure.detail:JSON.stringify(failure.detail)}`)}setBackend(await res.json());}finally{clearTimeout(timeout)}} const isCoffee=/coffee/i.test(instruction)||(!/plate|fork/i.test(instruction)&&/cup/i.test(instruction));const next=(scenario==='serving'?stepSets.serving:isCoffee?stepSets.coffee:stepSets.dinner).map(s=>({...s,detail:scenario==='accessible'?s.detail+' · near edge':s.detail}));setPlan(next);setCompleted(0);setPhase('planned');setRecovered(false);setFaultUsed(false);addEvent(apiUrl&&scenario==='serving'?'Backend execution received. Review the plan and inspect the playback.':'Instruction mapped to supported table-setting primitives.');addEvent(apiUrl&&scenario==='serving'?'Fixed cup-and-bowl task accepted. Inspect backend evidence for execution results.':'Browser template accepted: known objects and bounded placement steps.','success');runStart.current=crypto.randomUUID()}catch(e){setError(`Validation could not complete. ${e instanceof Error?e.message:'Connection failed'}. Review your instruction or runtime settings.`)}finally{setLoading(false)}}
- function run(){setPhase('running');addEvent(phase==='paused'?'Playback resumed.':'Plan approved by operator. Starting verified placement sequence.','success')}
- function recover(){setRecovered(true);addEvent(fault==='obstacle'?'Recovery approved: obstacle cleared in simulation. Workspace revalidated.':fault==='grip_loss'?'Recovery approved: retry grasp with lower approach speed.':'Recovery approved: re-localize object and recompute approach.','success');setPhase('running')}
- function exportRun(){const data={project:'Granted Robotics',version:'1.0',runtime:backend?'backend-connected':'browser-simulation',notice:'Browser playback is illustrative and is not a hardware safety certification.',instruction,scenario,fault,recovered,status:phase,completed,plan,events,backend};download('granted-evidence-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(data,null,2));setToast('Evidence bundle downloaded')}
- const busy=loading||phase==='running'||phase==='paused'||phase==='blocked';const activeScenario=scenarios.find(s=>s.id===scenario)!;
- return <div className="app-shell"><aside className={'sidebar '+(mobileNav?'open':'')}><Logo/><div className="workspace-switch"><span className="avatar">SG</span><div>Shivam's workspace<small>Personal workspace</small></div><ChevronDown size={14}/></div><div className="nav-caption">WORKSPACE</div><nav><button className={tab==='workspace'?'active':''} onClick={()=>{setTab('workspace');setMobileNav(false)}}><Layers3 size={18}/>Workcell<span className="nav-dot"/></button><button className={tab==='runs'?'active':''} onClick={()=>{setTab('runs');setMobileNav(false)}}><History size={18}/>Run history<span className="nav-count">{runs.length}</span></button><button className={tab==='about'?'active':''} onClick={()=>{setTab('about');setMobileNav(false)}}><ShieldCheck size={18}/>The safety case<ArrowUpRight size={14}/></button></nav><div className="sidebar-bottom"><div className="build-card"><div className="build-icon"><FlaskConical size={19}/></div><strong>Built for the real world.</strong><p>Test the unexpected.<br/>Before it happens.</p><span>AI Infra Summit 2026 <ArrowUpRight size={12}/></span></div><button className="sidebar-setting" onClick={()=>{setApiDraft(apiUrl);setSettings(true)}}><Settings2 size={17}/> Runtime settings</button><div className="sidebar-footer"><span className="avatar small">SG</span><div>Shivam Gupta<small>Builder · Granted Robotics</small></div></div></div></aside>
- <main><header className="topbar"><button className="mobile-menu icon-button" onClick={()=>setMobileNav(!mobileNav)}><Menu size={20}/></button><div className="breadcrumb">Workspace <ChevronRight size={13}/><span>{tab==='workspace'?'Workcell':tab==='runs'?'Run history':'The safety case'}</span></div><div className="topbar-right"><span className="connection"><span/> {apiUrl&&scenario==='serving'?'MuJoCo runtime':'Browser simulation'}</span><button className="icon-button" aria-label="Help" onClick={()=>setShowHelp(true)}><CircleHelp size={18}/></button><button className="account-button" onClick={()=>user?signOut(auth).then(()=>setToast('Signed out')):setAuthOpen(true)}>{user?'Sign out':'Sign in'}<span className="avatar small">{user?user.email?.slice(0,2).toUpperCase():'SG'}</span></button></div></header>
- {tab==='workspace'?<div className="content"><div className="page-heading"><div><div className="eyebrow"><span/> B I M A N U A L &nbsp; W O R K C E L L</div><h1>A safer path to action<span>.</span></h1><p>Give two arms a task. Know exactly what happens next.</p></div><button className="button secondary new-run" onClick={()=>{reset();setToast('Fresh workcell ready')}} disabled={phase==='running'||loading}><Plus size={16}/>New run</button></div>
- <div className="scenario-bar"><div className="scenario-label">SCENARIO<small>Choose your starting point</small></div>{scenarios.filter(s=>s.id!=='accessible').map((s,i)=><button disabled={busy} key={s.id} className={'scenario '+(scenario===s.id?'selected':'')} onClick={()=>selectScenario(s.id)}><span className="scenario-number">0{i+1}</span><span>{s.name}<small>{s.subtitle}</small></span>{scenario===s.id&&<CheckCircle2 size={17}/>}</button>)}</div>
- <div className="work-grid"><section className={'scene-card '+(fullScreen?'fullscreen':'')}><div className="panel-header"><div><span className="live-dot"/>Workcell preview<span className="badge subtle">TABLETOP / 02 ARMS</span></div><button className="icon-button" onClick={()=>setFullScreen(!fullScreen)} aria-label={fullScreen?'Exit full screen':'Expand workcell'}>{fullScreen?<X size={16}/>:<Expand size={16}/>}</button></div><div className="scene-area"><div className="scene-top-label"><span className="scene-pill"><span/> {phase==='running'?'Executing placement':phase==='blocked'?'Motion held':phase==='complete'?'Task completed':'Ready for instruction'}</span><span className="scene-meta">{backend?'Illustration · backend evidence below':'Illustrative browser simulation'}</span></div><Scene completed={completed} plan={plan} phase={phase} scenario={scenario}/><div className="scene-legend"><span><i className="legend-dot left"/>Left arm</span><span><i className="legend-dot right"/>Right arm</span><span><i className="legend-target"/>Target pose</span></div><div className="scene-coordinate">x <span>↗</span> y <span>↑</span> z</div></div><div className="scene-footer"><div><ShieldCheck size={17}/><span>{phase==='blocked'?'Safety hold active':'Safety envelope active'}</span></div><span>{completed.toString().padStart(2,'0')} / {(plan.length||activeScenario.objects).toString().padStart(2,'0')} placements</span><div className="progress-track"><span style={{width:`${plan.length?completed/plan.length*100:0}%`}}/></div></div></section>
- <section className="command-card"><div className="panel-header"><span><Sparkles size={16}/>Intent to action</span><span className="tiny-label">01</span></div><div className="command-body"><label htmlFor="instruction">What should the robot do?</label><textarea id="instruction" value={instruction} maxLength={500} disabled={busy} onChange={e=>{setInstruction(e.target.value);if(phase!=='idle')reset()}} placeholder="Set the table for two…"/><div className="input-hint"><span>Plain language. Bounded actions.</span><span>{instruction.length}/500</span></div><div className="constraint-row"><ShieldCheck size={14}/><span>Gripper separation monitoring</span><Check size={13}/></div><div className="constraint-row"><Layers3 size={14}/><span>Bounded placement contract</span><Check size={13}/></div><div className="fault-control"><label htmlFor="fault">Test the unexpected <span>FAULT INJECTION</span></label><select id="fault" disabled={busy} value={fault} onChange={e=>{setFault(e.target.value);if(phase==='planned')reset()}}><option value="none">No fault · nominal run</option><option value="object_displaced">Object moved after planning</option><option value="grip_loss">Grip lost during placement</option><option value="obstacle">Obstacle enters workspace</option></select></div>{error&&<div className="error-box" role="alert"><TriangleAlert size={15}/>{error}</div>}{phase==='idle'||phase==='complete'?<button className="button primary generate" disabled={loading} onClick={createPlan}>{loading?<LoaderCircle className="spin" size={17}/>:<Sparkles size={16}/>} {loading?'Running physics validation…':phase==='complete'?'Plan another run':apiUrl&&scenario==='serving'?'Validate in MuJoCo':'Generate safe plan'}<ArrowRight size={16}/></button>:phase==='planned'?<button className="button primary generate" onClick={run} disabled={!!backend&&!backend.metrics.success}><Play size={16}/>{backend?(backend.metrics.success?'Approve playback':'Motion blocked'):'Approve & run'}<ArrowRight size={16}/></button>:phase==='blocked'?<button className="button warning generate" onClick={recover}><RotateCcw size={16}/>Approve recovery<ArrowRight size={16}/></button>:<button className="button primary generate" onClick={()=>{if(phase==='running'){setPhase('paused');addEvent('Playback paused by operator.')}else run()}}>{phase==='running'?<Pause size={16}/>:<Play size={16}/>} {phase==='running'?'Pause execution':'Resume execution'}</button>}<div className="command-note">{phase==='planned'?(backend?(backend.metrics.success?'Physics check finished. Approve the explanatory playback.':'Motion blocked. Inspect evidence or start a new run.'):'Review the plan below. You stay in control.'):phase==='blocked'?'Motion stopped. Review the trace before recovery.':'Every action has a precondition. Every run has a record.'}</div></div></section></div>
- <PhysicsReplay/>{backend&&<BackendEvidence run={backend}/>}<div className="bottom-grid"><section className="plan-card"><div className="panel-header"><span><Layers3 size={16}/>Execution plan <span className="badge">{plan.length||'0'} steps</span></span><span className={'status-text '+(phase==='complete'?'green':'')}>{phase==='idle'?'AWAITING INTENT':phase==='complete'?'VERIFIED':phase==='blocked'?'ON HOLD':'SEQUENTIAL · CHECKED'}</span></div>{!plan.length?<div className="empty-plan"><div className="empty-icon"><Layers3 size={23}/></div><h3>Understand first. Move second.</h3><p>Your instruction becomes an inspectable sequence<br/>of bounded robot actions.</p><div className="mini-flow"><span>Intent</span><ChevronRight size={12}/><span>Validation</span><ChevronRight size={12}/><span>Action</span></div></div>:<div className="step-list">{plan.map((s,i)=><div key={s.id} className={'step '+(i<completed?'done':i===completed&&busy?'current':'')}><div className="step-number">{i<completed?<Check size={13}/>:i===completed&&phase==='running'?<LoaderCircle size={14} className="spin"/>:String(i+1).padStart(2,'0')}</div><div><strong>{s.action}</strong><small>{s.detail}</small></div><span className={'arm-tag '+(s.arm==='Right arm'?'orange':'')}>{s.arm}</span>{i<completed&&<CheckCircle2 size={14} className="success-icon"/>}</div>)}</div>}</section>
- <section className="trace-card"><div className="panel-header"><span><Terminal size={16}/>{backend?'Illustration trace':'Decision trace'}</span><button className="text-button" disabled={!events.length} onClick={exportRun}><Download size={13}/>Export</button></div><div className="trace-body">{events.length?events.map((e,i)=><div className={'event '+e.type} key={i}><span className="event-dot"/><div><time>{e.time}</time><p>{e.message}</p></div></div>):<div className="trace-empty"><div className="trace-prompt">›<span className="cursor"/></div><p>Nothing hidden in the black box.</p><small>Decisions, safety checks, and recovery events<br/>will appear here as your run unfolds.</small></div>}</div><div className="trace-footer"><span className="live-dot"/> Stored on this device <span>JSON export available</span></div></section></div><div className="workspace-footnote"><span><FlaskConical size={14}/>Browser simulation is illustrative. Connect the Python backend for MuJoCo execution.</span><button onClick={()=>setTab('about')}>Read the safety case <ArrowUpRight size={13}/></button></div></div>:tab==='runs'?<div className="content"><div className="page-heading"><div><div className="eyebrow">AN AUDIT TRAIL FOR EVERY ACTION</div><h1>Nothing lost in motion<span>.</span></h1><p>Completed runs, recovered faults, and the decisions behind them.</p></div><button className="button primary" onClick={()=>{setTab('workspace');reset()}}><Plus size={16}/>New run</button></div><div className="history-stats"><div><span>Completed runs</span><strong>{runs.length.toString().padStart(2,'0')}</strong></div><div><span>Faults recovered</span><strong>{runs.filter(r=>r.recovered).length.toString().padStart(2,'0')}</strong></div><div><span>Storage</span><strong className="small-value">This browser</strong></div></div><section className="history-list">{!runs.length?<div className="empty-plan"><History size={28}/><h3>Your first run starts a paper trail.</h3><p>Complete a workcell simulation to save an evidence record.</p><button className="button primary" onClick={()=>setTab('workspace')}>Open workcell <ArrowRight size={15}/></button></div>:runs.map(r=><button key={r.id} className="history-row" onClick={()=>setSelectedRun(r)}><span className="history-check"><CheckCircle2 size={21}/></span><div><strong>{scenarios.find(s=>s.id===r.scenario)?.name||'Custom run'}</strong><small>{new Date(r.date).toLocaleString()} · {r.runtime}</small></div><span className="history-instruction">{r.instruction}</span><span className={'badge '+(r.recovered?'recovered':'')}>{r.recovered?'Recovered':'Completed'}</span><ArrowUpRight size={16}/></button>)}</section></div>:<About onStart={()=>setTab('workspace')}/>}
- <footer className="main-footer"><span>GRANTED ROBOTICS</span><span>Built by Shivam Gupta · AI Infra Summit 2026</span><a href="https://github.com/shi1720/AI-Infra-Summit-Hackathon" target="_blank" rel="noreferrer">Open source <ArrowUpRight size={12}/></a></footer></main>
- {authOpen&&<AuthModal close={()=>setAuthOpen(false)} onSuccess={()=>{setAuthOpen(false);setToast('Welcome. You are signed in.')}}/>}
- {toast&&<div className="toast" role="status"><CheckCircle2 size={18}/>{toast}</div>}
- {settings&&<Modal title="Runtime settings" close={()=>setSettings(false)}><p className="modal-lead">Start in the browser. Connect the robotics backend when you are ready.</p><label className="field-label">Backend API URL</label><input className="text-input" value={apiDraft} onChange={e=>setApiDraft(e.target.value)} placeholder="https://your-backend.example.com"/><p className="help-text">Leave empty for local browser simulation. The backend must allow this website through CORS and expose POST /api/runs. No API keys belong in this field.</p><div className="info-box"><ShieldCheck size={20}/><div><strong>Honest by design</strong><p>The browser view illustrates the action sequence. Backend evidence is included in your exported run when connected. This is a prototype, not a certified robot safety system.</p></div></div><button className="button primary" onClick={()=>{if(apiDraft&&!/^https?:\/\//.test(apiDraft)){setToast('Use a full http:// or https:// URL');return}setApiUrl(apiDraft.trim());localStorage.setItem('granted-api-url',apiDraft.trim());setSettings(false);setToast('Runtime settings saved')}}>Save settings <Check size={16}/></button></Modal>}
- {showHelp&&<Modal title="Your first safe run" close={()=>setShowHelp(false)}><div className="help-steps"><p><b>01</b> Choose a scenario or describe a supported table-setting task.</p><p><b>02</b> Select an optional fault to see how recovery works.</p><p><b>03</b> Generate the plan, inspect each step, then approve the run.</p><p><b>04</b> If motion stops, inspect the trace and approve recovery.</p><p><b>05</b> Export the evidence or revisit completed runs in history.</p></div><p className="help-text">Guest workspace requires no account. Runs stay in this browser. Clearing browser data removes them, so export important evidence.</p><button className="button primary" onClick={()=>setShowHelp(false)}>Let's build <ArrowRight size={15}/></button></Modal>}
- {selectedRun&&<Modal title="Run evidence" close={()=>setSelectedRun(null)}><span className="badge">{selectedRun.runtime}</span><h3>{selectedRun.instruction}</h3><p className="help-text">{new Date(selectedRun.date).toLocaleString()} · {selectedRun.steps} placements · {selectedRun.recovered?'Fault recovered':'Nominal execution'}</p><div className="modal-events">{selectedRun.events.map((e,i)=><p key={i}><time>{e.time}</time> {e.message}</p>)}</div><button className="button primary" onClick={()=>download(`granted-${selectedRun.id.slice(0,8)}.json`,JSON.stringify(selectedRun,null,2))}><Download size={16}/>Download evidence</button></Modal>}
- </div>
+type Phase = "idle" | "planned" | "running" | "paused" | "blocked" | "complete";
+type Step = {
+  id: number;
+  action: string;
+  detail: string;
+  arm: "Left arm" | "Right arm" | "Both arms";
+  object: string;
+  target: string;
+};
+type Event = {
+  time: string;
+  type: "info" | "success" | "warning";
+  message: string;
+};
+type SavedRun = {
+  id: string;
+  date: string;
+  instruction: string;
+  scenario: string;
+  steps: number;
+  recovered: boolean;
+  runtime: string;
+  events: Event[];
+  plan: Step[];
+  backend?: unknown;
+};
+const scenarios = [
+  {
+    id: "serving",
+    name: "Serve with confidence",
+    subtitle: "Physics-backed cup + bowl",
+    instruction: "Set the table with a cup and bowl",
+    objects: 2,
+  },
+  {
+    id: "dinner",
+    name: "Dinner for two",
+    subtitle: "Plates, cutlery, and cups",
+    instruction:
+      "Set the table for two. Place a plate at each setting, forks on the left, and cups above the plates.",
+    objects: 6,
+  },
+  {
+    id: "coffee",
+    name: "Coffee service",
+    subtitle: "Two cups. One shared table.",
+    instruction:
+      "Prepare coffee for two. Place one cup at each setting and keep the center of the table clear.",
+    objects: 2,
+  },
+  {
+    id: "accessible",
+    name: "Accessible setting",
+    subtitle: "Bring every object within reach",
+    instruction:
+      "Set two accessible place settings. Move plates and cups toward the front edge, with forks beside each plate.",
+    objects: 6,
+  },
+];
+const stepSets: Record<string, Step[]> = {
+  serving: [
+    {
+      id: 1,
+      action: "Place the cup",
+      detail: "Left pickup → serving position A",
+      arm: "Left arm",
+      object: "cup-a",
+      target: "A",
+    },
+    {
+      id: 2,
+      action: "Place the bowl",
+      detail: "Right pickup → serving position B",
+      arm: "Right arm",
+      object: "plate-b",
+      target: "B",
+    },
+  ],
+  dinner: [
+    {
+      id: 1,
+      action: "Place the first plate",
+      detail: "Left tray → setting A",
+      arm: "Left arm",
+      object: "plate-a",
+      target: "A",
+    },
+    {
+      id: 2,
+      action: "Place the second plate",
+      detail: "Right tray → setting B",
+      arm: "Right arm",
+      object: "plate-b",
+      target: "B",
+    },
+    {
+      id: 3,
+      action: "Align the first fork",
+      detail: "Left of plate A · 8 cm clearance",
+      arm: "Left arm",
+      object: "fork-a",
+      target: "A",
+    },
+    {
+      id: 4,
+      action: "Align the second fork",
+      detail: "Left of plate B · 8 cm clearance",
+      arm: "Right arm",
+      object: "fork-b",
+      target: "B",
+    },
+    {
+      id: 5,
+      action: "Position the first cup",
+      detail: "Above plate A · upright grasp",
+      arm: "Left arm",
+      object: "cup-a",
+      target: "A",
+    },
+    {
+      id: 6,
+      action: "Position the second cup",
+      detail: "Above plate B · upright grasp",
+      arm: "Right arm",
+      object: "cup-b",
+      target: "B",
+    },
+  ],
+  coffee: [
+    {
+      id: 1,
+      action: "Position the first cup",
+      detail: "Left tray → setting A",
+      arm: "Left arm",
+      object: "cup-a",
+      target: "A",
+    },
+    {
+      id: 2,
+      action: "Position the second cup",
+      detail: "Right tray → setting B",
+      arm: "Right arm",
+      object: "cup-b",
+      target: "B",
+    },
+  ],
+};
+const readRuns = (): SavedRun[] => {
+  try {
+    return JSON.parse(localStorage.getItem("granted-runs") || "[]");
+  } catch {
+    return [];
+  }
+};
+function download(name: string, data: string, type = "application/json") {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([data], { type }));
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
-function PhysicsReplay(){const [open,setOpen]=useState(false);return <section className="physics-replay"><button className="replay-header" onClick={()=>setOpen(!open)} aria-expanded={open}><span className="replay-play"><Play size={15}/></span><span><strong>See the real physics</strong><small>SO-101 robot meshes · MuJoCo rendering · grip-loss recovery</small></span><span className="replay-proof">50 seeded evaluation runs</span><ChevronDown size={16} style={{transform:open?'rotate(180deg)':'none'}}/></button>{open&&<div className="replay-content"><video controls playsInline preload="metadata" poster="/evidence/workcell.png"><source src="/evidence/so101-recovery.mp4" type="video/mp4"/><p>Your browser cannot play this video. <a href="/evidence/so101-recovery.mp4">Download the physics replay</a>.</p></video><div className="replay-caption"><strong>Recovery changes the outcome.</strong><div className="recovery-results"><div><b>10/10</b><span>Grip-loss runs recovered</span></div><div><b>0/10</b><span>Completed without recovery</span></div></div><p>Imported SO-101 meshes, contact-based grasp attachment, joint control, and a recovery path following an injected grip loss. Ten randomized seeds vary object position, mass, and friction. All 10 obstacle trials stopped safely. These small controlled tests are not a generalization claim. The simulated grasp is simplified; this is not a VLA policy benchmark or hardware validation.</p><div><a href="/evidence/so101-recovery.json" download>Run evidence <Download size={12}/></a><a href="/evidence/evaluation.json" download>50-run evaluation <Download size={12}/></a><a href="/evidence/ten-seed-montage.mp4" target="_blank" rel="noreferrer">Watch 10 seeds <ArrowUpRight size={12}/></a></div></div></div>}</section>}
-function AuthModal({close,onSuccess}:{close:()=>void;onSuccess:()=>void}){const [register,setRegister]=useState(false);const [email,setEmail]=useState('');const [password,setPassword]=useState('');const [error,setError]=useState('');const [busy,setBusy]=useState(false);async function submit(e:React.FormEvent){e.preventDefault();setBusy(true);setError('');try{if(register)await createUserWithEmailAndPassword(auth,email,password);else await signInWithEmailAndPassword(auth,email,password);onSuccess()}catch(e){const code=(e as {code?:string}).code;setError(code==='auth/email-already-in-use'?'An account already exists for that email. Sign in instead.':code==='auth/invalid-credential'?'Email or password was not recognized.':code==='auth/weak-password'?'Choose a password of at least 6 characters.':code==='auth/invalid-email'?'Enter a valid email address.':'Could not complete sign in. Please try again.')}finally{setBusy(false)}}return <Modal title={register?'Create your account':'Welcome to Granted'} close={close}><p className="modal-lead">Your workcell is ready. Sign in securely with Firebase Authentication or continue as a guest.</p><form onSubmit={submit}><label className="field-label" htmlFor="email">Email address</label><input className="text-input" id="email" type="email" autoComplete="email" required value={email} onChange={e=>setEmail(e.target.value)}/><label className="field-label" htmlFor="password">Password</label><input className="text-input" id="password" type="password" autoComplete={register?'new-password':'current-password'} minLength={6} required value={password} onChange={e=>setPassword(e.target.value)}/>{error&&<p className="error-box" role="alert">{error}</p>}<button className="button primary auth-submit" disabled={busy} type="submit">{busy?<LoaderCircle size={16} className="spin"/>:null}{register?'Create account':'Sign in'}<ArrowRight size={15}/></button></form><button className="auth-toggle" onClick={()=>{setRegister(!register);setError('')}}>{register?'Already have an account? Sign in':'New here? Create an account'}</button><p className="help-text">Run history is stored on this device only. Signing in does not sync runs to the cloud. No account is required to test the complete demo.</p></Modal>}
-function BackendEvidence({run}:{run:BackendRun}){return <section className="backend-evidence"><div className="backend-heading"><div><FlaskConical size={19}/><strong>Physics evidence</strong><span className="badge">{run.engine}</span></div><span className={run.metrics.success?'verified':'not-verified'}>{run.metrics.success?'TARGETS VERIFIED':run.status.toUpperCase()}</span></div><div className="backend-metrics"><div><span>Verified objects</span><strong>{run.summary.completed_objects} / {run.summary.total_objects}</strong></div><div><span>Placement error</span><strong>{Object.values(run.metrics.placement_error_mm).map(n=>n.toFixed(2)).join(' / ')}<small> mm</small></strong></div><div><span>Physics steps</span><strong>{run.metrics.physics_steps.toLocaleString()}</strong></div><div><span>Recovery events</span><strong>{run.summary.recoveries}</strong></div></div><details><summary>Inspect {run.events.length} backend events and limitations <ChevronDown size={14}/></summary><div className="backend-events">{run.events.map((e,i)=><p key={i}><time>{Number(e.time).toFixed(2)}s</time><span className="badge">{e.kind}</span> {e.message}</p>)}</div><div className="backend-limitations">{run.limitations.map((l,i)=><p key={i}>{l}</p>)}</div></details><p className="backend-notice">These metrics come from the Python physics runtime. The workcell illustration above is a separate explanatory animation.</p></section>}
-function Modal({title,close,children}:{title:string;close:()=>void;children:React.ReactNode}){return <div className="modal-backdrop" onClick={close}><div className="modal" role="dialog" aria-modal="true" aria-label={title} onClick={e=>e.stopPropagation()}><div className="modal-heading"><h2>{title}</h2><button className="icon-button" onClick={close} aria-label="Close"><X size={20}/></button></div>{children}</div></div>}
-function About({onStart}:{onStart:()=>void}){return <div className="content about"><div className="eyebrow">THE SAFETY CASE</div><h1>The expensive part of robotics<br/>is the unexpected<span>.</span></h1><p className="about-intro">A cup moves. A grip slips. A person steps in. Granted is the missing decision layer between a robot's instruction and its next move.</p><div className="about-hero"><ShieldCheck size={36}/><h2>Permission to act.<br/>Evidence to trust.</h2><p>For robotics integrators moving table-setting workflows from a controlled demo to a changing environment.</p></div><div className="about-cards"><article><span>01 / THE PROBLEM</span><h3>Happy paths are easy.<br/>Recovery is expensive.</h3><p>Integrators spend engineering time reproducing failures and explaining decisions. A successful demo rarely shows what happens when reality changes.</p></article><article><span>02 / THE PRODUCT</span><h3>An inspectable contract<br/>for every movement.</h3><p>Bounded task planning, explicit approval, fault injection, recovery, and exportable evidence in one workbench. Humans can inspect what the system will do before it does it.</p></article><article><span>03 / THE BUSINESS</span><h3>Sell faster debugging.<br/>Earn deployment trust.</h3><p>Our initial customer is a small robotics integrator. The proposed model is a per-workcell subscription for shared regression suites and auditable run histories. Customer demand and pricing still need validation.</p></article></div><div className="architecture"><div><span>01</span><strong>Natural language</strong><small>Operator intent</small></div><ArrowRight size={20}/><div><span>02</span><strong>Bounded plan</strong><small>Supported primitives</small></div><ArrowRight size={20}/><div><span>03</span><strong>Safety checks</strong><small>Stop and recover</small></div><ArrowRight size={20}/><div><span>04</span><strong>Evidence</strong><small>Replay and export</small></div></div><div className="limits"><h3>What this prototype proves</h3><p>A complete interaction from instruction to inspectable plan, simulated execution, fault recovery, and a portable run record. The optional Python service provides physics-backed evidence. The static browser preview is an illustration, not a physics engine.</p><h3>What comes next</h3><p>Hardware validation, measured regression benchmarks, VLA model integration, and design partnerships with integrators. Safety certification, production multi-user authentication, and customer traction are not claimed.</p></div><button className="button primary" onClick={onStart}>Explore the workcell <ArrowRight size={16}/></button></div>}
-function Scene({completed,plan,phase,scenario}:{completed:number;plan:Step[];phase:Phase;scenario:string}){
- const done=(obj:string)=>plan.findIndex(s=>s.object===obj)>=0&&plan.findIndex(s=>s.object===obj)<completed;const moving=phase==='running';const active=plan[completed];const near=scenario==='accessible'?25:0;
- const poses:Record<string,[number,number]>={'plate-a':done('plate-a')?[310,280+near]:[186,256],'plate-b':done('plate-b')?[492,280+near]:[620,256],'cup-a':done('cup-a')?[350,227+near]:[202,210],'cup-b':done('cup-b')?[532,227+near]:[602,210],'fork-a':done('fork-a')?[257,280+near]:[230,283],'fork-b':done('fork-b')?[439,280+near]:[571,283]};
- return <svg className={'workcell-svg '+(moving?'moving':'')} viewBox="0 0 800 425" role="img" aria-label="Illustrated dual arm robot table setting workcell"><defs><linearGradient id="table" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fafbf7"/><stop offset="1" stopColor="#e7ece4"/></linearGradient><linearGradient id="edge" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#d5ddd1"/><stop offset="1" stopColor="#b5c2b1"/></linearGradient><linearGradient id="leftarm"><stop stopColor="#255d51"/><stop offset=".5" stopColor="#579182"/><stop offset="1" stopColor="#1d5448"/></linearGradient><linearGradient id="rightarm"><stop stopColor="#bc7648"/><stop offset=".5" stopColor="#e7ad79"/><stop offset="1" stopColor="#c18353"/></linearGradient><radialGradient id="plate"><stop stopColor="#fff"/><stop offset=".78" stopColor="#eff0e7"/><stop offset=".82" stopColor="#d1d8c9"/><stop offset="1" stopColor="#fff"/></radialGradient><filter id="shadow"><feGaussianBlur stdDeviation="9"/></filter><pattern id="grid" width="32" height="18" patternUnits="userSpaceOnUse"><path d="M 32 0 L 0 0 0 18" fill="none" stroke="#d4ddd1" strokeWidth=".55"/></pattern></defs><ellipse cx="401" cy="337" rx="295" ry="38" fill="#899783" opacity=".18" filter="url(#shadow)"/><path d="M110 184L408 105 701 188 696 317 399 409 112 316Z" fill="url(#grid)" opacity=".52"/><path d="M126 246L400 163 678 246 678 282 400 368 126 282Z" fill="url(#edge)"/><path d="M150 280v54l17 7v-55M637 285v51l-18 8v-53" fill="#a2afa0"/><path d="M126 246L400 163 678 246 400 334Z" fill="url(#table)" stroke="#cbd5c7"/>
- <path d="M149 245L400 173 655 245 400 320Z" fill="none" stroke="#a5b99d" strokeDasharray="4 5" opacity=".75"/><path d="M400 175v146" stroke="#cbd5c7" strokeDasharray="3 5"/><ellipse cx="310" cy={280+near} rx="52" ry="19" fill="#dce8cf" fillOpacity=".25" stroke="#9aac92" strokeDasharray="4 5"/><ellipse cx="492" cy={280+near} rx="52" ry="19" fill="#dce8cf" fillOpacity=".25" stroke="#9aac92" strokeDasharray="4 5"/><text x="310" y={284+near} fill="#a0ad96" fontSize="11" textAnchor="middle" fontFamily="monospace">A</text><text x="492" y={284+near} fill="#a0ad96" fontSize="11" textAnchor="middle" fontFamily="monospace">B</text>
- <g className={'robot-arm left-arm '+(moving&&active?.arm==='Left arm'?'arm-active':'')}><ellipse cx="265" cy="195" rx="38" ry="15" fill="#a9bbae"/><path d="M231 187v13c0 17 67 17 67 0v-13" fill="#335e53"/><ellipse cx="265" cy="187" rx="34" ry="13" fill="#659080"/><path d="M264 184L236 137 281 88 323 137" fill="none" stroke="#173e34" strokeWidth="26" strokeLinejoin="round"/><path d="M264 179L237 135 281 88 323 137" fill="none" stroke="url(#leftarm)" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round"/><circle cx="238" cy="137" r="15" fill="#2b584c"/><circle cx="238" cy="137" r="8" fill="#9db5a6"/><circle cx="280" cy="90" r="14" fill="#406c5d"/><circle cx="280" cy="90" r="6" fill="#b7cbbc"/><path d="M323 134v25" stroke="#3b5e51" strokeWidth="15" strokeLinecap="round"/><path d="M316 162v16m14-16v16" stroke="#294337" strokeWidth="4"/><path d="M249 157l12 20" stroke="#a2c6b2" strokeWidth="3"/></g>
- <g className={'robot-arm right-arm '+(moving&&active?.arm==='Right arm'?'arm-active':'')}><ellipse cx="535" cy="195" rx="38" ry="15" fill="#c6b7a5"/><path d="M501 187v13c0 17 67 17 67 0v-13" fill="#aa774f"/><ellipse cx="535" cy="187" rx="34" ry="13" fill="#d3a37c"/><path d="M535 184L565 137 520 88 478 137" fill="none" stroke="#a87149" strokeWidth="26" strokeLinejoin="round"/><path d="M535 179L564 135 520 88 478 137" fill="none" stroke="url(#rightarm)" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round"/><circle cx="563" cy="137" r="15" fill="#b48560"/><circle cx="563" cy="137" r="8" fill="#eed4b4"/><circle cx="520" cy="90" r="14" fill="#bc8b61"/><circle cx="520" cy="90" r="6" fill="#f0d6b8"/><path d="M478 134v25" stroke="#ac805c" strokeWidth="15" strokeLinecap="round"/><path d="M471 162v16m14-16v16" stroke="#5e5443" strokeWidth="4"/><path d="M550 157l-12 20" stroke="#efcda8" strokeWidth="3"/></g>
- {Object.entries(poses).filter(([k])=>scenario==='serving'?['cup-a','plate-b'].includes(k):scenario!=='coffee'||k.startsWith('cup')).map(([name,[x,y]])=><g key={name} style={{transform:`translate(${x}px, ${y}px)`,transition:'transform 1s cubic-bezier(.4,0,.2,1)'}}>{name.startsWith('plate')?<><ellipse cy="5" rx="37" ry="13" fill="#839381" opacity=".18"/>{scenario==='serving'&&<path d="M-37 0q6 26 37 26T37 0" fill="#d0dbc2" stroke="#b8c8aa"/>}<ellipse rx="37" ry="13" fill="url(#plate)" stroke="#ccd4c5"/><ellipse rx="28" ry="9" fill="none" stroke="#d7dece"/></>:name.startsWith('cup')?<><ellipse cy="10" rx="16" ry="6" fill="#849681" opacity=".2"/><path d="M11-6c18-3 17 15 0 12" fill="none" stroke={name.endsWith('a')?'#7b9885':'#bf9973'} strokeWidth="5"/><path d="M-13-10v17c0 8 26 8 26 0v-17" fill={name.endsWith('a')?'#aac0ab':'#dbbb96'}/><ellipse cy="-10" rx="13" ry="5" fill={name.endsWith('a')?'#c8d7bf':'#ead5b7'} stroke={name.endsWith('a')?'#7b9885':'#bf9973'}/><ellipse cy="-10" rx="8" ry="2.5" fill="#616b52"/></>:<g transform="rotate(-15)"><path d="M0 13V-6m-4-8v7q4 7 8 0v-7m-4 0v8" stroke="#829182" strokeWidth="2.5" fill="none" strokeLinecap="round"/></g>}</g>)}
- <g><path d="M239 93L197 74H150" fill="none" stroke="#9cb4a3" strokeWidth=".8"/><rect x="98" y="54" width="90" height="25" rx="6" fill="#fff" fillOpacity=".8"/><circle cx="111" cy="67" r="3" fill="#427c68"/><text x="121" y="71" fontSize="10" fill="#50725e" fontFamily="monospace">ARM / L</text><path d="M562 93L604 74H650" fill="none" stroke="#c2ac92" strokeWidth=".8"/><rect x="613" y="54" width="90" height="25" rx="6" fill="#fff" fillOpacity=".8"/><circle cx="626" cy="67" r="3" fill="#c89563"/><text x="636" y="71" fontSize="10" fill="#947354" fontFamily="monospace">ARM / R</text></g>{phase==='blocked'&&<g><rect x="278" y="355" width="244" height="32" rx="16" fill="#fff4e3" stroke="#d8a767"/><text x="400" y="375" textAnchor="middle" fill="#9a6629" fontSize="11" fontWeight="600">SAFETY HOLD · RECOVERY REQUIRED</text></g>}{phase==='complete'&&<g><rect x="304" y="355" width="192" height="32" rx="16" fill="#e2eddc" stroke="#a6bf96"/><text x="400" y="375" textAnchor="middle" fill="#426637" fontSize="11" fontWeight="600">ALL PLACEMENTS VERIFIED</text></g>}</svg>
+function Logo() {
+  return (
+    <div className="brand">
+      <span className="brand-icon">
+        g<span>↗</span>
+      </span>
+      <span>
+        granted<span className="brand-sub">ROBOTICS</span>
+      </span>
+    </div>
+  );
+}
+function App() {
+  const [seed, setSeed] = useState(42);
+  const [recoveryEnabled, setRecoveryEnabled] = useState(true);
+  const [comparing, setComparing] = useState(false);
+  const [comparison, setComparison] = useState<BackendRun[] | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  useEffect(() => onAuthStateChanged(auth, setUser), []);
+  const [tab, setTab] = useState("workspace");
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [tab]);
+  const [scenario, setScenario] = useState("serving");
+  const [instruction, setInstruction] = useState(scenarios[0].instruction);
+  const [phase, setPhase] = useState<Phase>("idle");
+  const [plan, setPlan] = useState<Step[]>([]);
+  const [completed, setCompleted] = useState(0);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [fault, setFault] = useState("none");
+  const [recovered, setRecovered] = useState(false);
+  const [faultUsed, setFaultUsed] = useState(false);
+  const [runs, setRuns] = useState(readRuns);
+  const [settings, setSettings] = useState(false);
+  const [apiUrl, setApiUrl] = useState(
+    () =>
+      localStorage.getItem("granted-api-url") ||
+      (import.meta as unknown as { env: Record<string, string> }).env
+        .VITE_API_URL ||
+      (window.location.hostname.endsWith(".web.app")
+        ? window.location.origin
+        : ""),
+  );
+  const [apiDraft, setApiDraft] = useState(apiUrl);
+  const [toast, setToast] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [backend, setBackend] = useState<BackendRun | null>(null);
+  const [fullScreen, setFullScreen] = useState(false);
+  const [mobileNav, setMobileNav] = useState(false);
+  const [selectedRun, setSelectedRun] = useState<SavedRun | null>(null);
+  const [showHelp, setShowHelp] = useState(false);
+  const timer = useRef<number | null>(null);
+  const runStart = useRef("");
+  const addEvent = (message: string, type: Event["type"] = "info") =>
+    setEvents((e) => [
+      ...e,
+      { time: new Date().toLocaleTimeString("en-GB"), type, message },
+    ]);
+  useEffect(() => {
+    if (toast) {
+      const t = setTimeout(() => setToast(""), 4500);
+      return () => clearTimeout(t);
+    }
+  }, [toast]);
+  useEffect(() => {
+    if (phase !== "running") return;
+    timer.current = window.setTimeout(() => {
+      if (
+        fault !== "none" &&
+        !faultUsed &&
+        completed === Math.min(2, plan.length - 1)
+      ) {
+        setPhase("blocked");
+        setFaultUsed(true);
+        addEvent(
+          fault === "grip_loss"
+            ? "Grasp confidence dropped. Motion stopped before release."
+            : fault === "obstacle"
+              ? "Unexpected obstacle inside the shared workspace. Motion stopped."
+              : "Object position changed. Stale target rejected before grasp.",
+          "warning",
+        );
+        return;
+      }
+      if (completed < plan.length) {
+        addEvent(
+          `${plan[completed].action}: target reached and release verified.`,
+          "success",
+        );
+        setCompleted((c) => c + 1);
+      }
+      if (completed + 1 >= plan.length) {
+        setPhase("complete");
+        addEvent(
+          "All requested placements verified. Arms returned to safe rest.",
+          "success",
+        );
+      }
+    }, 1450);
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, [phase, completed, plan, fault, faultUsed]);
+  useEffect(() => {
+    if (phase !== "complete") return;
+    const run: SavedRun = {
+      id: runStart.current || crypto.randomUUID(),
+      date: new Date().toISOString(),
+      instruction,
+      scenario,
+      steps: plan.length,
+      recovered,
+      runtime: backend ? "Python / MuJoCo backend" : "Browser simulation",
+      events,
+      plan,
+      backend: backend || undefined,
+    };
+    setRuns((old) => {
+      const next = [run, ...old.filter((r) => r.id !== run.id)].slice(0, 50);
+      localStorage.setItem("granted-runs", JSON.stringify(next));
+      return next;
+    });
+  }, [phase]);
+  function reset() {
+    setComparison(null);
+    setPhase("idle");
+    setPlan([]);
+    setCompleted(0);
+    setEvents([]);
+    setRecovered(false);
+    setFaultUsed(false);
+    setBackend(null);
+    setError("");
+  }
+  function selectScenario(id: string) {
+    reset();
+    setScenario(id);
+    setInstruction(scenarios.find((s) => s.id === id)!.instruction);
+  }
+  async function createPlan() {
+    if (!instruction.trim()) {
+      setError("Tell Granted what to arrange before generating a plan.");
+      return;
+    }
+    if (/throw|smash|break|hit|hurt|spill|weapon/i.test(instruction)) {
+      setError(
+        "That instruction is outside the bounded placement contract. Choose a supported serving or table-setting task.",
+      );
+      return;
+    }
+    if (!/plate|bowl|cup|fork|table|coffee|setting|dinner/i.test(instruction)) {
+      setError(
+        "This workcell supports plates, forks, and cups. Try “Set the table for two” or choose a scenario.",
+      );
+      return;
+    }
+    setLoading(true);
+    setError("");
+    setEvents([]);
+    setBackend(null);
+    setPhase("idle");
+    setCompleted(0);
+    setPlan([]);
+    setComparison(null);
+    try {
+      if (apiUrl && scenario === "serving") {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 45000);
+        try {
+          const res = await fetch(apiUrl.replace(/\/$/, "") + "/api/runs", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              instruction,
+              fault,
+              seed,
+              recovery_enabled: recoveryEnabled,
+            }),
+            signal: controller.signal,
+          });
+          if (!res.ok) {
+            const failure = await res
+              .json()
+              .catch(() => ({ detail: "Runtime request failed" }));
+            throw new Error(
+              `${res.status === 422 ? "Task rejected" : "Runtime error"}: ${typeof failure.detail === "string" ? failure.detail : JSON.stringify(failure.detail)}`,
+            );
+          }
+          setBackend(await res.json());
+        } finally {
+          clearTimeout(timeout);
+        }
+      }
+      const isCoffee =
+        /coffee/i.test(instruction) ||
+        (!/plate|fork/i.test(instruction) && /cup/i.test(instruction));
+      const next = (
+        scenario === "serving"
+          ? stepSets.serving
+          : isCoffee
+            ? stepSets.coffee
+            : stepSets.dinner
+      ).map((s) => ({
+        ...s,
+        detail:
+          scenario === "accessible" ? s.detail + " · near edge" : s.detail,
+      }));
+      setPlan(next);
+      setCompleted(0);
+      setPhase("planned");
+      setRecovered(false);
+      setFaultUsed(false);
+      addEvent(
+        apiUrl && scenario === "serving"
+          ? "Backend execution received. Review the plan and inspect the playback."
+          : "Instruction mapped to supported table-setting primitives.",
+      );
+      addEvent(
+        apiUrl && scenario === "serving"
+          ? "Fixed cup-and-bowl task accepted. Inspect backend evidence for execution results."
+          : "Browser template accepted: known objects and bounded placement steps.",
+        "success",
+      );
+      runStart.current = crypto.randomUUID();
+    } catch (e) {
+      setError(
+        `Validation could not complete. ${e instanceof Error ? e.message : "Connection failed"}. Review your instruction or runtime settings.`,
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+  async function compare() {
+    if (!apiUrl) {
+      setError(
+        "Connect the Python runtime in settings to run a real matched-seed comparison.",
+      );
+      return;
+    }
+    setComparing(true);
+    setComparison(null);
+    setError("");
+    try {
+      const results = await Promise.all(
+        [true, false].map(async (recovery) => {
+          const response = await fetch(
+            apiUrl.replace(/\/$/, "") + "/api/runs",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                instruction: scenarios[0].instruction,
+                fault: fault === "none" ? "grip_loss" : fault,
+                seed,
+                recovery_enabled: recovery,
+              }),
+              signal: AbortSignal.timeout(45000),
+            },
+          );
+          if (!response.ok) {
+            const failure = await response.json();
+            throw new Error(
+              typeof failure.detail === "string"
+                ? failure.detail
+                : "Comparison runtime request failed",
+            );
+          }
+          return response.json();
+        }),
+      );
+      setComparison(results);
+    } catch (e) {
+      setError(
+        `Comparison failed: ${e instanceof Error ? e.message : "Runtime unavailable"}. No simulated fallback was substituted.`,
+      );
+    } finally {
+      setComparing(false);
+    }
+  }
+  function run() {
+    setPhase("running");
+    addEvent(
+      phase === "paused"
+        ? "Playback resumed."
+        : "Plan approved by operator. Starting verified placement sequence.",
+      "success",
+    );
+  }
+  function recover() {
+    setRecovered(true);
+    addEvent(
+      fault === "obstacle"
+        ? "Recovery approved: obstacle cleared in simulation. Workspace revalidated."
+        : fault === "grip_loss"
+          ? "Recovery approved: retry grasp with lower approach speed."
+          : "Recovery approved: re-localize object and recompute approach.",
+      "success",
+    );
+    setPhase("running");
+  }
+  function exportRun() {
+    const data = {
+      project: "Granted Robotics",
+      version: "1.0",
+      runtime: backend ? "backend-connected" : "browser-simulation",
+      notice:
+        "Browser playback is illustrative and is not a hardware safety certification.",
+      instruction,
+      scenario,
+      fault,
+      recovered,
+      status: phase,
+      completed,
+      plan,
+      events,
+      backend,
+    };
+    download(
+      "granted-evidence-" + new Date().toISOString().slice(0, 10) + ".json",
+      JSON.stringify(data, null, 2),
+    );
+    setToast("Evidence bundle downloaded");
+  }
+  const busy =
+    loading ||
+    comparing ||
+    phase === "running" ||
+    phase === "paused" ||
+    phase === "blocked";
+  const activeScenario = scenarios.find((s) => s.id === scenario)!;
+  return (
+    <div className="app-shell">
+      <aside className={"sidebar " + (mobileNav ? "open" : "")}>
+        <Logo />
+        <div className="workspace-switch">
+          <span className="avatar">SG</span>
+          <div>
+            Shivam's workspace<small>Personal workspace</small>
+          </div>
+          <ChevronDown size={14} />
+        </div>
+        <div className="nav-caption">WORKSPACE</div>
+        <nav>
+          <button
+            className={tab === "workspace" ? "active" : ""}
+            onClick={() => {
+              setTab("workspace");
+              setMobileNav(false);
+            }}
+          >
+            <Layers3 size={18} />
+            Workcell
+            <span className="nav-dot" />
+          </button>
+          <button
+            className={tab === "runs" ? "active" : ""}
+            onClick={() => {
+              setTab("runs");
+              setMobileNav(false);
+            }}
+          >
+            <History size={18} />
+            Run history<span className="nav-count">{runs.length}</span>
+          </button>
+          <button
+            className={tab === "evaluation" ? "active" : ""}
+            onClick={() => {
+              setTab("evaluation");
+              setMobileNav(false);
+            }}
+          >
+            <FlaskConical size={18} />
+            Evaluation<span className="nav-count">50</span>
+          </button>
+          <button
+            className={tab === "about" ? "active" : ""}
+            onClick={() => {
+              setTab("about");
+              setMobileNav(false);
+            }}
+          >
+            <ShieldCheck size={18} />
+            The safety case
+            <ArrowUpRight size={14} />
+          </button>
+        </nav>
+        <div className="sidebar-bottom">
+          <div className="build-card">
+            <div className="build-icon">
+              <FlaskConical size={19} />
+            </div>
+            <strong>Built for the real world.</strong>
+            <p>
+              Test the unexpected.
+              <br />
+              Before it happens.
+            </p>
+            <span>
+              AI Infra Summit 2026 <ArrowUpRight size={12} />
+            </span>
+          </div>
+          <button
+            className="sidebar-setting"
+            onClick={() => {
+              setApiDraft(apiUrl);
+              setSettings(true);
+            }}
+          >
+            <Settings2 size={17} /> Runtime settings
+          </button>
+          <div className="sidebar-footer">
+            <span className="avatar small">SG</span>
+            <div>
+              Shivam Gupta<small>Builder · Granted Robotics</small>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main>
+        <header className="topbar">
+          <button
+            className="mobile-menu icon-button"
+            onClick={() => setMobileNav(!mobileNav)}
+          >
+            <Menu size={20} />
+          </button>
+          <div className="breadcrumb">
+            Workspace <ChevronRight size={13} />
+            <span>
+              {tab === "workspace"
+                ? "Workcell"
+                : tab === "runs"
+                  ? "Run history"
+                  : tab === "evaluation"
+                    ? "Evaluation"
+                    : "The safety case"}
+            </span>
+          </div>
+          <div className="topbar-right">
+            <span className="connection">
+              <span />{" "}
+              {apiUrl && scenario === "serving"
+                ? "MuJoCo runtime"
+                : "Browser simulation"}
+            </span>
+            <button
+              className="icon-button"
+              aria-label="Help"
+              onClick={() => setShowHelp(true)}
+            >
+              <CircleHelp size={18} />
+            </button>
+            <button
+              className="account-button"
+              onClick={() =>
+                user
+                  ? signOut(auth).then(() => setToast("Signed out"))
+                  : setAuthOpen(true)
+              }
+            >
+              {user ? "Sign out" : "Sign in"}
+              <span className="avatar small">
+                {user ? user.email?.slice(0, 2).toUpperCase() : "SG"}
+              </span>
+            </button>
+          </div>
+        </header>
+        {tab === "workspace" ? (
+          <div className="content">
+            <div className="page-heading">
+              <div>
+                <div className="eyebrow">
+                  <span /> B I M A N U A L &nbsp; W O R K C E L L
+                </div>
+                <h1>
+                  A safer path to action<span>.</span>
+                </h1>
+                <p>Give two arms a task. Know exactly what happens next.</p>
+              </div>
+              <button
+                className="button secondary new-run"
+                onClick={() => {
+                  reset();
+                  setToast("Fresh workcell ready");
+                }}
+                disabled={phase === "running" || loading || comparing}
+              >
+                <Plus size={16} />
+                New run
+              </button>
+            </div>
+            <div className="scenario-bar">
+              <div className="scenario-label">
+                SCENARIO<small>Choose your starting point</small>
+              </div>
+              {scenarios
+                .filter((s) => s.id !== "accessible")
+                .map((s, i) => (
+                  <button
+                    disabled={busy}
+                    key={s.id}
+                    className={
+                      "scenario " + (scenario === s.id ? "selected" : "")
+                    }
+                    onClick={() => selectScenario(s.id)}
+                  >
+                    <span className="scenario-number">0{i + 1}</span>
+                    <span>
+                      {s.name}
+                      <small>{s.subtitle}</small>
+                    </span>
+                    {scenario === s.id && <CheckCircle2 size={17} />}
+                  </button>
+                ))}
+            </div>
+            <div className="work-grid">
+              <section
+                className={"scene-card " + (fullScreen ? "fullscreen" : "")}
+              >
+                <div className="panel-header">
+                  <div>
+                    <span className="live-dot" />
+                    Workcell preview
+                    <span className="badge subtle">TABLETOP / 02 ARMS</span>
+                  </div>
+                  <button
+                    className="icon-button"
+                    onClick={() => setFullScreen(!fullScreen)}
+                    aria-label={
+                      fullScreen ? "Exit full screen" : "Expand workcell"
+                    }
+                  >
+                    {fullScreen ? <X size={16} /> : <Expand size={16} />}
+                  </button>
+                </div>
+                <div className="scene-area">
+                  <div className="scene-top-label">
+                    <span className="scene-pill">
+                      <span />{" "}
+                      {phase === "running"
+                        ? "Executing placement"
+                        : phase === "blocked"
+                          ? "Motion held"
+                          : phase === "complete"
+                            ? "Task completed"
+                            : "Ready for instruction"}
+                    </span>
+                    <span className="scene-meta">
+                      {backend
+                        ? "Illustration · backend evidence below"
+                        : "Illustrative browser simulation"}
+                    </span>
+                  </div>
+                  <Scene
+                    completed={completed}
+                    plan={plan}
+                    phase={phase}
+                    scenario={scenario}
+                  />
+                  <div className="scene-legend">
+                    <span>
+                      <i className="legend-dot left" />
+                      Left arm
+                    </span>
+                    <span>
+                      <i className="legend-dot right" />
+                      Right arm
+                    </span>
+                    <span>
+                      <i className="legend-target" />
+                      Target pose
+                    </span>
+                  </div>
+                  <div className="scene-coordinate">
+                    x <span>↗</span> y <span>↑</span> z
+                  </div>
+                </div>
+                <div className="scene-footer">
+                  <div>
+                    <ShieldCheck size={17} />
+                    <span>
+                      {phase === "blocked"
+                        ? "Illustration paused"
+                        : "Illustrative workcell"}
+                    </span>
+                  </div>
+                  <span>
+                    {completed.toString().padStart(2, "0")} /{" "}
+                    {(plan.length || activeScenario.objects)
+                      .toString()
+                      .padStart(2, "0")}{" "}
+                    placements
+                  </span>
+                  <div className="progress-track">
+                    <span
+                      style={{
+                        width: `${plan.length ? (completed / plan.length) * 100 : 0}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </section>
+              <section className="command-card">
+                <div className="panel-header">
+                  <span>
+                    <Sparkles size={16} />
+                    Intent to action
+                  </span>
+                  <span className="tiny-label">01</span>
+                </div>
+                <div className="command-body">
+                  <label htmlFor="instruction">What should the robot do?</label>
+                  <textarea
+                    id="instruction"
+                    value={instruction}
+                    maxLength={500}
+                    disabled={busy}
+                    onChange={(e) => {
+                      setInstruction(e.target.value);
+                      if (phase !== "idle") reset();
+                    }}
+                    placeholder="Set the table for two…"
+                  />
+                  <div className="input-hint">
+                    <span>Plain language. Bounded actions.</span>
+                    <span>{instruction.length}/500</span>
+                  </div>
+                  <div className="constraint-row">
+                    <ShieldCheck size={14} />
+                    <span>Gripper separation monitoring</span>
+                    <Check size={13} />
+                  </div>
+                  <div className="constraint-row">
+                    <Layers3 size={14} />
+                    <span>Bounded placement contract</span>
+                    <Check size={13} />
+                  </div>
+                  <div className="fault-control">
+                    <label htmlFor="fault">
+                      Test the unexpected <span>FAULT INJECTION</span>
+                    </label>
+                    <select
+                      id="fault"
+                      disabled={busy}
+                      value={fault}
+                      onChange={(e) => {
+                        setFault(e.target.value);
+                        setComparison(null);
+                        if (phase === "planned") reset();
+                      }}
+                    >
+                      <option value="none">No fault · nominal run</option>
+                      <option value="object_displaced">
+                        Object moved after planning
+                      </option>
+                      <option value="grip_loss">
+                        Grip lost during placement
+                      </option>
+                      <option value="obstacle">
+                        Obstacle enters workspace
+                      </option>
+                    </select>
+                  </div>
+                  {scenario === "serving" && (
+                    <div className="run-options">
+                      <label htmlFor="seed">
+                        Random seed
+                        <input
+                          id="seed"
+                          type="number"
+                          min={0}
+                          max={2147483647}
+                          step={1}
+                          disabled={busy}
+                          value={seed}
+                          onChange={(e) => {
+                            setSeed(
+                              Math.max(
+                                0,
+                                Math.min(
+                                  2147483647,
+                                  Math.floor(Number(e.target.value) || 0),
+                                ),
+                              ),
+                            );
+                            setComparison(null);
+                            if (phase === "planned") reset();
+                          }}
+                        />
+                      </label>
+                      <label className="recovery-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={recoveryEnabled}
+                          disabled={busy}
+                          onChange={(e) => {
+                            setRecoveryEnabled(e.target.checked);
+                            setComparison(null);
+                            if (phase === "planned") reset();
+                          }}
+                        />
+                        Recovery enabled
+                      </label>
+                    </div>
+                  )}
+                  {error && (
+                    <div className="error-box" role="alert">
+                      <TriangleAlert size={15} />
+                      {error}
+                    </div>
+                  )}
+                  {phase === "idle" || phase === "complete" ? (
+                    <button
+                      className="button primary generate"
+                      aria-busy={loading}
+                      disabled={loading || comparing}
+                      onClick={createPlan}
+                    >
+                      {loading ? (
+                        <LoaderCircle className="spin" size={17} />
+                      ) : (
+                        <Sparkles size={16} />
+                      )}{" "}
+                      {loading
+                        ? "Running physics validation…"
+                        : phase === "complete"
+                          ? "Plan another run"
+                          : apiUrl && scenario === "serving"
+                            ? "Validate in MuJoCo"
+                            : "Generate safe plan"}
+                      <ArrowRight size={16} />
+                    </button>
+                  ) : phase === "planned" ? (
+                    <button
+                      className="button primary generate"
+                      onClick={run}
+                      disabled={!!backend && !backend.metrics.success}
+                    >
+                      <Play size={16} />
+                      {backend
+                        ? backend.metrics.success
+                          ? "Approve playback"
+                          : "Motion blocked"
+                        : "Approve & run"}
+                      <ArrowRight size={16} />
+                    </button>
+                  ) : phase === "blocked" ? (
+                    <button
+                      className="button warning generate"
+                      onClick={recover}
+                      disabled={!recoveryEnabled}
+                    >
+                      <RotateCcw size={16} />
+                      {recoveryEnabled
+                        ? "Approve recovery"
+                        : "Recovery disabled"}
+                      <ArrowRight size={16} />
+                    </button>
+                  ) : (
+                    <button
+                      className="button primary generate"
+                      onClick={() => {
+                        if (phase === "running") {
+                          setPhase("paused");
+                          addEvent("Playback paused by operator.");
+                        } else run();
+                      }}
+                    >
+                      {phase === "running" ? (
+                        <Pause size={16} />
+                      ) : (
+                        <Play size={16} />
+                      )}{" "}
+                      {phase === "running"
+                        ? "Pause execution"
+                        : "Resume execution"}
+                    </button>
+                  )}
+                  {scenario === "serving" && (
+                    <button
+                      className="compare-button"
+                      aria-busy={comparing}
+                      disabled={busy || !apiUrl}
+                      onClick={compare}
+                    >
+                      {comparing ? (
+                        <LoaderCircle className="spin" size={13} />
+                      ) : (
+                        <FlaskConical size={13} />
+                      )}
+                      Compare recovery on / off
+                      <ArrowRight size={12} />
+                    </button>
+                  )}
+                  <div className="command-note">
+                    {phase === "planned"
+                      ? backend
+                        ? backend.metrics.success
+                          ? "Physics check finished. Approve the explanatory playback."
+                          : "Motion blocked. Inspect evidence or start a new run."
+                        : "Review the plan below. You stay in control."
+                      : phase === "blocked"
+                        ? "Motion stopped. Review the trace before recovery."
+                        : "Every action has a precondition. Every run has a record."}
+                  </div>
+                </div>
+              </section>
+            </div>
+            {comparison && (
+              <Comparison
+                runs={comparison}
+                seed={comparison[0].seed}
+                fault={comparison[0].fault}
+              />
+            )}
+            <PhysicsReplay />
+            {backend && <BackendEvidence run={backend} />}
+            <div className="bottom-grid">
+              <section className="plan-card">
+                <div className="panel-header">
+                  <span>
+                    <Layers3 size={16} />
+                    Execution plan{" "}
+                    <span className="badge">{plan.length || "0"} steps</span>
+                  </span>
+                  <span
+                    className={
+                      "status-text " + (phase === "complete" ? "green" : "")
+                    }
+                  >
+                    {phase === "idle"
+                      ? "AWAITING INTENT"
+                      : phase === "complete"
+                        ? "VERIFIED"
+                        : phase === "blocked"
+                          ? "ON HOLD"
+                          : "SEQUENTIAL · CHECKED"}
+                  </span>
+                </div>
+                {!plan.length ? (
+                  <div className="empty-plan">
+                    <div className="empty-icon">
+                      <Layers3 size={23} />
+                    </div>
+                    <h3>Understand first. Move second.</h3>
+                    <p>
+                      Your instruction becomes an inspectable sequence
+                      <br />
+                      of bounded robot actions.
+                    </p>
+                    <div className="mini-flow">
+                      <span>Intent</span>
+                      <ChevronRight size={12} />
+                      <span>Validation</span>
+                      <ChevronRight size={12} />
+                      <span>Action</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="step-list">
+                    {plan.map((s, i) => (
+                      <div
+                        key={s.id}
+                        className={
+                          "step " +
+                          (i < completed
+                            ? "done"
+                            : i === completed && busy
+                              ? "current"
+                              : "")
+                        }
+                      >
+                        <div className="step-number">
+                          {i < completed ? (
+                            <Check size={13} />
+                          ) : i === completed && phase === "running" ? (
+                            <LoaderCircle size={14} className="spin" />
+                          ) : (
+                            String(i + 1).padStart(2, "0")
+                          )}
+                        </div>
+                        <div>
+                          <strong>{s.action}</strong>
+                          <small>{s.detail}</small>
+                        </div>
+                        <span
+                          className={
+                            "arm-tag " + (s.arm === "Right arm" ? "orange" : "")
+                          }
+                        >
+                          {s.arm}
+                        </span>
+                        {i < completed && (
+                          <CheckCircle2 size={14} className="success-icon" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+              <section className="trace-card">
+                <div className="panel-header">
+                  <span>
+                    <Terminal size={16} />
+                    {backend ? "Illustration trace" : "Decision trace"}
+                  </span>
+                  <button
+                    className="text-button"
+                    disabled={!events.length}
+                    onClick={exportRun}
+                  >
+                    <Download size={13} />
+                    Export
+                  </button>
+                </div>
+                <div className="trace-body">
+                  {events.length ? (
+                    events.map((e, i) => (
+                      <div className={"event " + e.type} key={i}>
+                        <span className="event-dot" />
+                        <div>
+                          <time>{e.time}</time>
+                          <p>{e.message}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="trace-empty">
+                      <div className="trace-prompt">
+                        ›<span className="cursor" />
+                      </div>
+                      <p>Nothing hidden in the black box.</p>
+                      <small>
+                        Decisions, safety checks, and recovery events
+                        <br />
+                        will appear here as your run unfolds.
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="trace-footer">
+                  <span className="live-dot" /> Stored on this device{" "}
+                  <span>JSON export available</span>
+                </div>
+              </section>
+            </div>
+            <div className="workspace-footnote">
+              <span>
+                <FlaskConical size={14} />
+                Browser simulation is illustrative. Connect the Python backend
+                for MuJoCo execution.
+              </span>
+              <button onClick={() => setTab("about")}>
+                Read the safety case <ArrowUpRight size={13} />
+              </button>
+            </div>
+          </div>
+        ) : tab === "runs" ? (
+          <div className="content">
+            <div className="page-heading">
+              <div>
+                <div className="eyebrow">AN AUDIT TRAIL FOR EVERY ACTION</div>
+                <h1>
+                  Nothing lost in motion<span>.</span>
+                </h1>
+                <p>
+                  Completed runs, recovered faults, and the decisions behind
+                  them.
+                </p>
+              </div>
+              <button
+                className="button primary"
+                onClick={() => {
+                  setTab("workspace");
+                  reset();
+                }}
+              >
+                <Plus size={16} />
+                New run
+              </button>
+            </div>
+            <div className="history-stats">
+              <div>
+                <span>Completed runs</span>
+                <strong>{runs.length.toString().padStart(2, "0")}</strong>
+              </div>
+              <div>
+                <span>Faults recovered</span>
+                <strong>
+                  {runs
+                    .filter((r) => r.recovered)
+                    .length.toString()
+                    .padStart(2, "0")}
+                </strong>
+              </div>
+              <div>
+                <span>Storage</span>
+                <strong className="small-value">This browser</strong>
+              </div>
+            </div>
+            <section className="history-list">
+              {!runs.length ? (
+                <div className="empty-plan">
+                  <History size={28} />
+                  <h3>Your first run starts a paper trail.</h3>
+                  <p>
+                    Complete a workcell simulation to save an evidence record.
+                  </p>
+                  <button
+                    className="button primary"
+                    onClick={() => setTab("workspace")}
+                  >
+                    Open workcell <ArrowRight size={15} />
+                  </button>
+                </div>
+              ) : (
+                runs.map((r) => (
+                  <button
+                    key={r.id}
+                    className="history-row"
+                    onClick={() => setSelectedRun(r)}
+                  >
+                    <span className="history-check">
+                      <CheckCircle2 size={21} />
+                    </span>
+                    <div>
+                      <strong>
+                        {scenarios.find((s) => s.id === r.scenario)?.name ||
+                          "Custom run"}
+                      </strong>
+                      <small>
+                        {new Date(r.date).toLocaleString()} · {r.runtime}
+                      </small>
+                    </div>
+                    <span className="history-instruction">{r.instruction}</span>
+                    <span
+                      className={"badge " + (r.recovered ? "recovered" : "")}
+                    >
+                      {r.recovered ? "Recovered" : "Completed"}
+                    </span>
+                    <ArrowUpRight size={16} />
+                  </button>
+                ))
+              )}
+            </section>
+          </div>
+        ) : tab === "evaluation" ? (
+          <Evaluation
+            onStart={() => {
+              setTab("workspace");
+              selectScenario("serving");
+              setFault("grip_loss");
+            }}
+          />
+        ) : (
+          <About onStart={() => setTab("workspace")} />
+        )}
+        <footer className="main-footer">
+          <span>GRANTED ROBOTICS</span>
+          <span>Built by Shivam Gupta · AI Infra Summit 2026</span>
+          <a
+            href="https://github.com/shi1720/AI-Infra-Summit-Hackathon"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open source <ArrowUpRight size={12} />
+          </a>
+        </footer>
+      </main>
+      {authOpen && (
+        <AuthModal
+          close={() => setAuthOpen(false)}
+          onSuccess={() => {
+            setAuthOpen(false);
+            setToast("Welcome. You are signed in.");
+          }}
+        />
+      )}
+      {toast && (
+        <div className="toast" role="status">
+          <CheckCircle2 size={18} />
+          {toast}
+        </div>
+      )}
+      {settings && (
+        <Modal title="Runtime settings" close={() => setSettings(false)}>
+          <p className="modal-lead">
+            Start in the browser. Connect the robotics backend when you are
+            ready.
+          </p>
+          <label className="field-label" htmlFor="backend-url">
+            Backend API URL
+          </label>
+          <input
+            id="backend-url"
+            className="text-input"
+            value={apiDraft}
+            onChange={(e) => setApiDraft(e.target.value)}
+            placeholder="https://your-backend.example.com"
+          />
+          <p className="help-text">
+            Leave empty for local browser simulation. The backend must allow
+            this website through CORS and expose POST /api/runs. No API keys
+            belong in this field.
+          </p>
+          <div className="info-box">
+            <ShieldCheck size={20} />
+            <div>
+              <strong>Honest by design</strong>
+              <p>
+                The browser view illustrates the action sequence. Backend
+                evidence is included in your exported run when connected. This
+                is a prototype, not a certified robot safety system.
+              </p>
+            </div>
+          </div>
+          <button
+            className="button primary"
+            onClick={() => {
+              if (apiDraft && !/^https?:\/\//.test(apiDraft)) {
+                setToast("Use a full http:// or https:// URL");
+                return;
+              }
+              setApiUrl(apiDraft.trim());
+              localStorage.setItem("granted-api-url", apiDraft.trim());
+              setSettings(false);
+              setToast("Runtime settings saved");
+            }}
+          >
+            Save settings <Check size={16} />
+          </button>
+        </Modal>
+      )}
+      {showHelp && (
+        <Modal title="Your first safe run" close={() => setShowHelp(false)}>
+          <div className="help-steps">
+            <p>
+              <b>01</b> Choose a scenario or describe a supported table-setting
+              task.
+            </p>
+            <p>
+              <b>02</b> Select an optional fault to see how recovery works.
+            </p>
+            <p>
+              <b>03</b> Generate the plan, inspect each step, then approve the
+              run.
+            </p>
+            <p>
+              <b>04</b> If motion stops, inspect the trace and approve recovery.
+            </p>
+            <p>
+              <b>05</b> Export the evidence or revisit completed runs in
+              history.
+            </p>
+          </div>
+          <p className="help-text">
+            Guest workspace requires no account. Runs stay in this browser.
+            Clearing browser data removes them, so export important evidence.
+          </p>
+          <button className="button primary" onClick={() => setShowHelp(false)}>
+            Let's build <ArrowRight size={15} />
+          </button>
+        </Modal>
+      )}
+      {selectedRun && (
+        <Modal title="Run evidence" close={() => setSelectedRun(null)}>
+          <span className="badge">{selectedRun.runtime}</span>
+          <h3>{selectedRun.instruction}</h3>
+          <p className="help-text">
+            {new Date(selectedRun.date).toLocaleString()} · {selectedRun.steps}{" "}
+            placements ·{" "}
+            {selectedRun.recovered ? "Fault recovered" : "Nominal execution"}
+          </p>
+          <div className="modal-events">
+            {selectedRun.events.map((e, i) => (
+              <p key={i}>
+                <time>{e.time}</time> {e.message}
+              </p>
+            ))}
+          </div>
+          <button
+            className="button primary"
+            onClick={() =>
+              download(
+                `granted-${selectedRun.id.slice(0, 8)}.json`,
+                JSON.stringify(selectedRun, null, 2),
+              )
+            }
+          >
+            <Download size={16} />
+            Download evidence
+          </button>
+        </Modal>
+      )}
+    </div>
+  );
+}
+function Comparison({
+  runs,
+  seed,
+  fault,
+}: {
+  runs: BackendRun[];
+  seed: number;
+  fault: string;
+}) {
+  return (
+    <section className="comparison-panel">
+      <div className="panel-header">
+        <span>
+          <FlaskConical size={16} />
+          Live matched-seed comparison
+        </span>
+        <span className="badge">
+          SEED {seed} · {fault.replaceAll("_", " ")}
+        </span>
+      </div>
+      <div className="comparison-grid">
+        {runs.map((r, i) => (
+          <div key={r.id}>
+            <span className="eyebrow">
+              {i === 0 ? "RECOVERY ENABLED" : "RECOVERY DISABLED"}
+            </span>
+            <strong
+              className={r.metrics.success ? "value-green" : "value-orange"}
+            >
+              {r.summary.completed_objects}/{r.summary.total_objects}
+              <small> objects verified</small>
+            </strong>
+            <p>{r.summary.message}</p>
+            <div>
+              <span>Cup / bowl placement error</span>
+              <b>
+                {Object.values(r.metrics.placement_error_mm)
+                  .map((n) => n.toFixed(2))
+                  .join(" / ")}{" "}
+                mm
+              </b>
+            </div>
+            <div>
+              <span>Recovery events</span>
+              <b>{r.summary.recoveries}</b>
+            </div>
+            <button
+              className="text-button"
+              onClick={() =>
+                download(
+                  `granted-comparison-${i === 0 ? "recovery" : "baseline"}-seed-${seed}.json`,
+                  JSON.stringify(r, null, 2),
+                )
+              }
+            >
+              <Download size={12} />
+              Export actual run
+            </button>
+          </div>
+        ))}
+      </div>
+      <p className="backend-notice">
+        Both results were requested from the live backend using the same seed
+        and fault. One pair is a reproducibility check, not a statistical
+        reliability estimate.
+      </p>
+    </section>
+  );
+}
+function PhysicsReplay() {
+  const [open, setOpen] = useState(false);
+  return (
+    <section className="physics-replay">
+      <button
+        className="replay-header"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+      >
+        <span className="replay-play">
+          <Play size={15} />
+        </span>
+        <span>
+          <strong>See the real physics</strong>
+          <small>
+            SO-101 robot meshes · MuJoCo rendering · grip-loss recovery
+          </small>
+        </span>
+        <span className="replay-proof">50 seeded evaluation runs</span>
+        <ChevronDown
+          size={16}
+          style={{ transform: open ? "rotate(180deg)" : "none" }}
+        />
+      </button>
+      {open && (
+        <div className="replay-content">
+          <video
+            controls
+            playsInline
+            preload="metadata"
+            poster="/evidence/workcell.png"
+          >
+            <source src="/evidence/so101-recovery.mp4" type="video/mp4" />
+            <p>
+              Your browser cannot play this video.{" "}
+              <a href="/evidence/so101-recovery.mp4">
+                Download the physics replay
+              </a>
+              .
+            </p>
+          </video>
+          <div className="replay-caption">
+            <strong>Recovery changes the outcome.</strong>
+            <div className="recovery-results">
+              <div>
+                <b>10/10</b>
+                <span>Grip-loss runs recovered</span>
+              </div>
+              <div>
+                <b>0/10</b>
+                <span>Completed without recovery</span>
+              </div>
+            </div>
+            <p>
+              Imported SO-101 meshes, contact-based grasp attachment, joint
+              control, and a recovery path following an injected grip loss. Ten
+              randomized seeds vary object position, mass, and friction. All 10
+              obstacle trials stopped safely. These small controlled tests are
+              not a generalization claim. The simulated grasp is simplified;
+              this is not a VLA policy benchmark or hardware validation.
+            </p>
+            <div>
+              <a href="/evidence/so101-recovery.json" download>
+                Run evidence <Download size={12} />
+              </a>
+              <a href="/evidence/evaluation.json" download>
+                50-run evaluation <Download size={12} />
+              </a>
+              <a
+                href="/evidence/ten-seed-montage.mp4"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Watch 10 seeds <ArrowUpRight size={12} />
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+function AuthModal({
+  close,
+  onSuccess,
+}: {
+  close: () => void;
+  onSuccess: () => void;
+}) {
+  const [register, setRegister] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      if (register) await createUserWithEmailAndPassword(auth, email, password);
+      else await signInWithEmailAndPassword(auth, email, password);
+      onSuccess();
+    } catch (e) {
+      const code = (e as { code?: string }).code;
+      setError(
+        code === "auth/email-already-in-use"
+          ? "An account already exists for that email. Sign in instead."
+          : code === "auth/invalid-credential"
+            ? "Email or password was not recognized."
+            : code === "auth/weak-password"
+              ? "Choose a password of at least 6 characters."
+              : code === "auth/invalid-email"
+                ? "Enter a valid email address."
+                : "Could not complete sign in. Please try again.",
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
+  return (
+    <Modal
+      title={register ? "Create your account" : "Welcome to Granted"}
+      close={close}
+    >
+      <p className="modal-lead">
+        Your workcell is ready. Sign in securely with Firebase Authentication or
+        continue as a guest.
+      </p>
+      <form onSubmit={submit}>
+        <label className="field-label" htmlFor="email">
+          Email address
+        </label>
+        <input
+          className="text-input"
+          id="email"
+          type="email"
+          autoComplete="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label className="field-label" htmlFor="password">
+          Password
+        </label>
+        <input
+          className="text-input"
+          id="password"
+          type="password"
+          autoComplete={register ? "new-password" : "current-password"}
+          minLength={6}
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {error && (
+          <p className="error-box" role="alert">
+            {error}
+          </p>
+        )}
+        <button
+          className="button primary auth-submit"
+          disabled={busy}
+          type="submit"
+        >
+          {busy ? <LoaderCircle size={16} className="spin" /> : null}
+          {register ? "Create account" : "Sign in"}
+          <ArrowRight size={15} />
+        </button>
+      </form>
+      <button
+        className="auth-toggle"
+        onClick={() => {
+          setRegister(!register);
+          setError("");
+        }}
+      >
+        {register
+          ? "Already have an account? Sign in"
+          : "New here? Create an account"}
+      </button>
+      <p className="help-text">
+        Run history is stored on this device only. Signing in does not sync runs
+        to the cloud. No account is required to test the complete demo.
+      </p>
+    </Modal>
+  );
+}
+function BackendEvidence({ run }: { run: BackendRun }) {
+  return (
+    <section className="backend-evidence">
+      <div className="backend-heading">
+        <div>
+          <FlaskConical size={19} />
+          <strong>Physics evidence</strong>
+          <span className="badge">{run.engine}</span>
+        </div>
+        <span className={run.metrics.success ? "verified" : "not-verified"}>
+          {run.metrics.success ? "TARGETS VERIFIED" : run.status.toUpperCase()}
+        </span>
+      </div>
+      <div className="backend-metrics">
+        <div>
+          <span>Verified objects</span>
+          <strong>
+            {run.summary.completed_objects} / {run.summary.total_objects}
+          </strong>
+        </div>
+        <div>
+          <span>Placement error</span>
+          <strong>
+            {Object.values(run.metrics.placement_error_mm)
+              .map((n) => n.toFixed(2))
+              .join(" / ")}
+            <small> mm</small>
+          </strong>
+        </div>
+        <div>
+          <span>Physics steps</span>
+          <strong>{run.metrics.physics_steps.toLocaleString()}</strong>
+        </div>
+        <div>
+          <span>Recovery events</span>
+          <strong>{run.summary.recoveries}</strong>
+        </div>
+      </div>
+      <div className="live-provenance">
+        <div>
+          <span>Language planner</span>
+          <strong>{run.planner}</strong>
+        </div>
+        <div>
+          <span>Camera validation</span>
+          <strong>{run.camera_observation || "Not used"}</strong>
+        </div>
+        {run.policy && (
+          <>
+            <div>
+              <span>Joint proposal policy</span>
+              <strong>{run.policy.engine}</strong>
+            </div>
+            <div>
+              <span>Policy scope</span>
+              <strong>{run.policy.role}</strong>
+            </div>
+          </>
+        )}
+      </div>
+      {run.observation_image && (
+        <details>
+          <summary>
+            Inspect actual camera image sent to the language model
+            <ChevronDown size={14} />
+          </summary>
+          <img
+            className="camera-evidence"
+            src={run.observation_image}
+            alt="Actual rendered MuJoCo observation sent to the language model for this run"
+          />
+          <p className="help-text">
+            This is the observation attached to this API run, not the
+            illustrative SVG workcell.
+          </p>
+        </details>
+      )}
+      <details>
+        <summary>
+          Inspect {run.events.length} backend events and limitations{" "}
+          <ChevronDown size={14} />
+        </summary>
+        <div className="backend-events">
+          {run.events.map((e, i) => (
+            <p key={i}>
+              <time>{Number(e.time).toFixed(2)}s</time>
+              <span className="badge">{e.kind}</span> {e.message}
+            </p>
+          ))}
+        </div>
+        <div className="backend-limitations">
+          {run.limitations.map((l, i) => (
+            <p key={i}>{l}</p>
+          ))}
+        </div>
+      </details>
+      <p className="backend-notice">
+        These metrics come from the Python physics runtime. The workcell
+        illustration above is a separate explanatory animation.
+      </p>
+    </section>
+  );
+}
+function Modal({
+  title,
+  close,
+  children,
+}: {
+  title: string;
+  close: () => void;
+  children: React.ReactNode;
+}) {
+  const dialog = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const prior = document.activeElement as HTMLElement | null;
+    dialog.current?.querySelector<HTMLElement>("button,input")?.focus();
+    return () => prior?.focus();
+  }, []);
+  useEffect(() => {
+    function key(e: KeyboardEvent) {
+      if (e.key === "Escape") close();
+      if (e.key === "Tab") {
+        const list = dialog.current?.querySelectorAll<HTMLElement>(
+          "button:not(:disabled),input,select,textarea,a[href]",
+        );
+        if (!list?.length) return;
+        const first = list[0],
+          last = list[list.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+    document.addEventListener("keydown", key);
+    return () => document.removeEventListener("keydown", key);
+  }, [close]);
+  return (
+    <div className="modal-backdrop" onClick={close}>
+      <div
+        ref={dialog}
+        className="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="modal-heading">
+          <h2>{title}</h2>
+          <button className="icon-button" onClick={close} aria-label="Close">
+            <X size={20} />
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+}
+function About({ onStart }: { onStart: () => void }) {
+  return (
+    <div className="content about">
+      <div className="eyebrow">THE SAFETY CASE</div>
+      <h1>
+        The expensive part of robotics
+        <br />
+        is the unexpected<span>.</span>
+      </h1>
+      <p className="about-intro">
+        A cup moves. A grip slips. A person steps in. Granted is the missing
+        decision layer between a robot's instruction and its next move.
+      </p>
+      <div className="about-hero">
+        <ShieldCheck size={36} />
+        <h2>
+          Permission to act.
+          <br />
+          Evidence to trust.
+        </h2>
+        <p>
+          For robotics integrators moving table-setting workflows from a
+          controlled demo to a changing environment.
+        </p>
+      </div>
+      <div className="about-cards">
+        <article>
+          <span>01 / THE PROBLEM</span>
+          <h3>
+            Happy paths are easy.
+            <br />
+            Recovery is expensive.
+          </h3>
+          <p>
+            Integrators spend engineering time reproducing failures and
+            explaining decisions. A successful demo rarely shows what happens
+            when reality changes.
+          </p>
+        </article>
+        <article>
+          <span>02 / THE PRODUCT</span>
+          <h3>
+            An inspectable contract
+            <br />
+            for every movement.
+          </h3>
+          <p>
+            Bounded task planning, explicit approval, fault injection, recovery,
+            and exportable evidence in one workbench. Humans can inspect what
+            the system will do before it does it.
+          </p>
+        </article>
+        <article>
+          <span>03 / THE BUSINESS</span>
+          <h3>
+            Sell faster debugging.
+            <br />
+            Earn deployment trust.
+          </h3>
+          <p>
+            Our initial customer is a small robotics integrator. The proposed
+            model is a per-workcell subscription for shared regression suites
+            and auditable run histories. Customer demand and pricing still need
+            validation.
+          </p>
+        </article>
+      </div>
+      <div className="architecture">
+        <div>
+          <span>01</span>
+          <strong>Natural language</strong>
+          <small>Operator intent</small>
+        </div>
+        <ArrowRight size={20} />
+        <div>
+          <span>02</span>
+          <strong>Bounded plan</strong>
+          <small>Supported primitives</small>
+        </div>
+        <ArrowRight size={20} />
+        <div>
+          <span>03</span>
+          <strong>Safety checks</strong>
+          <small>Stop and recover</small>
+        </div>
+        <ArrowRight size={20} />
+        <div>
+          <span>04</span>
+          <strong>Evidence</strong>
+          <small>Replay and export</small>
+        </div>
+      </div>
+      <div className="limits">
+        <h3>What this prototype proves</h3>
+        <p>
+          A complete interaction from instruction to inspectable plan, simulated
+          execution, fault recovery, and a portable run record. The optional
+          Python service provides physics-backed evidence. The static browser
+          preview is an illustration, not a physics engine.
+        </p>
+        <h3>What comes next</h3>
+        <p>
+          Hardware validation, measured regression benchmarks, VLA model
+          integration, and design partnerships with integrators. Safety
+          certification, production multi-user authentication, and customer
+          traction are not claimed.
+        </p>
+      </div>
+      <button className="button primary" onClick={onStart}>
+        Explore the workcell <ArrowRight size={16} />
+      </button>
+    </div>
+  );
+}
+function Scene({
+  completed,
+  plan,
+  phase,
+  scenario,
+}: {
+  completed: number;
+  plan: Step[];
+  phase: Phase;
+  scenario: string;
+}) {
+  const done = (obj: string) =>
+    plan.findIndex((s) => s.object === obj) >= 0 &&
+    plan.findIndex((s) => s.object === obj) < completed;
+  const moving = phase === "running";
+  const active = plan[completed];
+  const near = scenario === "accessible" ? 25 : 0;
+  const poses: Record<string, [number, number]> = {
+    "plate-a": done("plate-a") ? [310, 280 + near] : [186, 256],
+    "plate-b": done("plate-b") ? [492, 280 + near] : [620, 256],
+    "cup-a": done("cup-a") ? [350, 227 + near] : [202, 210],
+    "cup-b": done("cup-b") ? [532, 227 + near] : [602, 210],
+    "fork-a": done("fork-a") ? [257, 280 + near] : [230, 283],
+    "fork-b": done("fork-b") ? [439, 280 + near] : [571, 283],
+  };
+  return (
+    <svg
+      className={"workcell-svg " + (moving ? "moving" : "")}
+      viewBox="0 0 800 425"
+      role="img"
+      aria-label="Illustrated dual arm robot table setting workcell"
+    >
+      <defs>
+        <linearGradient id="table" x1="0" y1="0" x2="1" y2="1">
+          <stop stopColor="#fafbf7" />
+          <stop offset="1" stopColor="#e7ece4" />
+        </linearGradient>
+        <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+          <stop stopColor="#d5ddd1" />
+          <stop offset="1" stopColor="#b5c2b1" />
+        </linearGradient>
+        <linearGradient id="leftarm">
+          <stop stopColor="#255d51" />
+          <stop offset=".5" stopColor="#579182" />
+          <stop offset="1" stopColor="#1d5448" />
+        </linearGradient>
+        <linearGradient id="rightarm">
+          <stop stopColor="#bc7648" />
+          <stop offset=".5" stopColor="#e7ad79" />
+          <stop offset="1" stopColor="#c18353" />
+        </linearGradient>
+        <radialGradient id="plate">
+          <stop stopColor="#fff" />
+          <stop offset=".78" stopColor="#eff0e7" />
+          <stop offset=".82" stopColor="#d1d8c9" />
+          <stop offset="1" stopColor="#fff" />
+        </radialGradient>
+        <filter id="shadow">
+          <feGaussianBlur stdDeviation="9" />
+        </filter>
+        <pattern id="grid" width="32" height="18" patternUnits="userSpaceOnUse">
+          <path
+            d="M 32 0 L 0 0 0 18"
+            fill="none"
+            stroke="#d4ddd1"
+            strokeWidth=".55"
+          />
+        </pattern>
+      </defs>
+      <ellipse
+        cx="401"
+        cy="337"
+        rx="295"
+        ry="38"
+        fill="#899783"
+        opacity=".18"
+        filter="url(#shadow)"
+      />
+      <path
+        d="M110 184L408 105 701 188 696 317 399 409 112 316Z"
+        fill="url(#grid)"
+        opacity=".52"
+      />
+      <path
+        d="M126 246L400 163 678 246 678 282 400 368 126 282Z"
+        fill="url(#edge)"
+      />
+      <path d="M150 280v54l17 7v-55M637 285v51l-18 8v-53" fill="#a2afa0" />
+      <path
+        d="M126 246L400 163 678 246 400 334Z"
+        fill="url(#table)"
+        stroke="#cbd5c7"
+      />
+      <path
+        d="M149 245L400 173 655 245 400 320Z"
+        fill="none"
+        stroke="#a5b99d"
+        strokeDasharray="4 5"
+        opacity=".75"
+      />
+      <path d="M400 175v146" stroke="#cbd5c7" strokeDasharray="3 5" />
+      <ellipse
+        cx="310"
+        cy={280 + near}
+        rx="52"
+        ry="19"
+        fill="#dce8cf"
+        fillOpacity=".25"
+        stroke="#9aac92"
+        strokeDasharray="4 5"
+      />
+      <ellipse
+        cx="492"
+        cy={280 + near}
+        rx="52"
+        ry="19"
+        fill="#dce8cf"
+        fillOpacity=".25"
+        stroke="#9aac92"
+        strokeDasharray="4 5"
+      />
+      <text
+        x="310"
+        y={284 + near}
+        fill="#a0ad96"
+        fontSize="11"
+        textAnchor="middle"
+        fontFamily="monospace"
+      >
+        A
+      </text>
+      <text
+        x="492"
+        y={284 + near}
+        fill="#a0ad96"
+        fontSize="11"
+        textAnchor="middle"
+        fontFamily="monospace"
+      >
+        B
+      </text>
+      <g
+        className={
+          "robot-arm left-arm " +
+          (moving && active?.arm === "Left arm" ? "arm-active" : "")
+        }
+      >
+        <ellipse cx="265" cy="195" rx="38" ry="15" fill="#a9bbae" />
+        <path d="M231 187v13c0 17 67 17 67 0v-13" fill="#335e53" />
+        <ellipse cx="265" cy="187" rx="34" ry="13" fill="#659080" />
+        <path
+          d="M264 184L236 137 281 88 323 137"
+          fill="none"
+          stroke="#173e34"
+          strokeWidth="26"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M264 179L237 135 281 88 323 137"
+          fill="none"
+          stroke="url(#leftarm)"
+          strokeWidth="20"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="238" cy="137" r="15" fill="#2b584c" />
+        <circle cx="238" cy="137" r="8" fill="#9db5a6" />
+        <circle cx="280" cy="90" r="14" fill="#406c5d" />
+        <circle cx="280" cy="90" r="6" fill="#b7cbbc" />
+        <path
+          d="M323 134v25"
+          stroke="#3b5e51"
+          strokeWidth="15"
+          strokeLinecap="round"
+        />
+        <path d="M316 162v16m14-16v16" stroke="#294337" strokeWidth="4" />
+        <path d="M249 157l12 20" stroke="#a2c6b2" strokeWidth="3" />
+      </g>
+      <g
+        className={
+          "robot-arm right-arm " +
+          (moving && active?.arm === "Right arm" ? "arm-active" : "")
+        }
+      >
+        <ellipse cx="535" cy="195" rx="38" ry="15" fill="#c6b7a5" />
+        <path d="M501 187v13c0 17 67 17 67 0v-13" fill="#aa774f" />
+        <ellipse cx="535" cy="187" rx="34" ry="13" fill="#d3a37c" />
+        <path
+          d="M535 184L565 137 520 88 478 137"
+          fill="none"
+          stroke="#a87149"
+          strokeWidth="26"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M535 179L564 135 520 88 478 137"
+          fill="none"
+          stroke="url(#rightarm)"
+          strokeWidth="20"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="563" cy="137" r="15" fill="#b48560" />
+        <circle cx="563" cy="137" r="8" fill="#eed4b4" />
+        <circle cx="520" cy="90" r="14" fill="#bc8b61" />
+        <circle cx="520" cy="90" r="6" fill="#f0d6b8" />
+        <path
+          d="M478 134v25"
+          stroke="#ac805c"
+          strokeWidth="15"
+          strokeLinecap="round"
+        />
+        <path d="M471 162v16m14-16v16" stroke="#5e5443" strokeWidth="4" />
+        <path d="M550 157l-12 20" stroke="#efcda8" strokeWidth="3" />
+      </g>
+      {Object.entries(poses)
+        .filter(([k]) =>
+          scenario === "serving"
+            ? ["cup-a", "plate-b"].includes(k)
+            : scenario !== "coffee" || k.startsWith("cup"),
+        )
+        .map(([name, [x, y]]) => (
+          <g
+            key={name}
+            style={{
+              transform: `translate(${x}px, ${y}px)`,
+              transition: "transform 1s cubic-bezier(.4,0,.2,1)",
+            }}
+          >
+            {name.startsWith("plate") ? (
+              <>
+                <ellipse cy="5" rx="37" ry="13" fill="#839381" opacity=".18" />
+                {scenario === "serving" && (
+                  <path
+                    d="M-37 0q6 26 37 26T37 0"
+                    fill="#d0dbc2"
+                    stroke="#b8c8aa"
+                  />
+                )}
+                <ellipse rx="37" ry="13" fill="url(#plate)" stroke="#ccd4c5" />
+                <ellipse rx="28" ry="9" fill="none" stroke="#d7dece" />
+              </>
+            ) : name.startsWith("cup") ? (
+              <>
+                <ellipse cy="10" rx="16" ry="6" fill="#849681" opacity=".2" />
+                <path
+                  d="M11-6c18-3 17 15 0 12"
+                  fill="none"
+                  stroke={name.endsWith("a") ? "#7b9885" : "#bf9973"}
+                  strokeWidth="5"
+                />
+                <path
+                  d="M-13-10v17c0 8 26 8 26 0v-17"
+                  fill={name.endsWith("a") ? "#aac0ab" : "#dbbb96"}
+                />
+                <ellipse
+                  cy="-10"
+                  rx="13"
+                  ry="5"
+                  fill={name.endsWith("a") ? "#c8d7bf" : "#ead5b7"}
+                  stroke={name.endsWith("a") ? "#7b9885" : "#bf9973"}
+                />
+                <ellipse cy="-10" rx="8" ry="2.5" fill="#616b52" />
+              </>
+            ) : (
+              <g transform="rotate(-15)">
+                <path
+                  d="M0 13V-6m-4-8v7q4 7 8 0v-7m-4 0v8"
+                  stroke="#829182"
+                  strokeWidth="2.5"
+                  fill="none"
+                  strokeLinecap="round"
+                />
+              </g>
+            )}
+          </g>
+        ))}
+      <g>
+        <path
+          d="M239 93L197 74H150"
+          fill="none"
+          stroke="#9cb4a3"
+          strokeWidth=".8"
+        />
+        <rect
+          x="98"
+          y="54"
+          width="90"
+          height="25"
+          rx="6"
+          fill="#fff"
+          fillOpacity=".8"
+        />
+        <circle cx="111" cy="67" r="3" fill="#427c68" />
+        <text
+          x="121"
+          y="71"
+          fontSize="10"
+          fill="#50725e"
+          fontFamily="monospace"
+        >
+          ARM / L
+        </text>
+        <path
+          d="M562 93L604 74H650"
+          fill="none"
+          stroke="#c2ac92"
+          strokeWidth=".8"
+        />
+        <rect
+          x="613"
+          y="54"
+          width="90"
+          height="25"
+          rx="6"
+          fill="#fff"
+          fillOpacity=".8"
+        />
+        <circle cx="626" cy="67" r="3" fill="#c89563" />
+        <text
+          x="636"
+          y="71"
+          fontSize="10"
+          fill="#947354"
+          fontFamily="monospace"
+        >
+          ARM / R
+        </text>
+      </g>
+      {phase === "blocked" && (
+        <g>
+          <rect
+            x="278"
+            y="355"
+            width="244"
+            height="32"
+            rx="16"
+            fill="#fff4e3"
+            stroke="#d8a767"
+          />
+          <text
+            x="400"
+            y="375"
+            textAnchor="middle"
+            fill="#9a6629"
+            fontSize="11"
+            fontWeight="600"
+          >
+            SAFETY HOLD · RECOVERY REQUIRED
+          </text>
+        </g>
+      )}
+      {phase === "complete" && (
+        <g>
+          <rect
+            x="304"
+            y="355"
+            width="192"
+            height="32"
+            rx="16"
+            fill="#e2eddc"
+            stroke="#a6bf96"
+          />
+          <text
+            x="400"
+            y="375"
+            textAnchor="middle"
+            fill="#426637"
+            fontSize="11"
+            fontWeight="600"
+          >
+            ALL PLACEMENTS VERIFIED
+          </text>
+        </g>
+      )}
+    </svg>
+  );
 }
 
-createRoot(document.getElementById('root')!).render(<React.StrictMode><App/></React.StrictMode>);
+createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);

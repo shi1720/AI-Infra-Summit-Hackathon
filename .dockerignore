@@ -9,3 +9,4 @@ firebase-debug.log
 .env*
 backend/.venv
 .codex-finalizer
+.chart-data-*

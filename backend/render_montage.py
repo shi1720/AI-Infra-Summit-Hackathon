@@ -1,5 +1,6 @@
 """Ten seeded real physics rollouts, rendered into one audit montage."""
 import tempfile
+import argparse
 from pathlib import Path
 import subprocess
 import mujoco
@@ -8,6 +9,7 @@ from PIL import Image,ImageDraw
 from .so101 import SO101Simulation
 
 def main():
+    parser=argparse.ArgumentParser();parser.add_argument('--output',default='backend/evidence/ten-seed-montage.mp4');args=parser.parse_args()
     all_frames=[]
     with tempfile.TemporaryDirectory() as folder:
         for seed in range(10):
@@ -23,6 +25,6 @@ def main():
             canvas=Image.new('RGB',(1600,480),'#101722')
             for seed,frames in enumerate(all_frames):canvas.paste(frames[min(i,len(frames)-1)],((seed%5)*320,(seed//5)*240))
             canvas.save(Path(folder)/f'{i:05d}.png')
-        subprocess.run(['ffmpeg','-y','-loglevel','error','-framerate','4','-i',folder+'/%05d.png','-c:v','libx264','-pix_fmt','yuv420p','-movflags','+faststart','backend/evidence/ten-seed-montage.mp4'],check=True)
-    print('backend/evidence/ten-seed-montage.mp4')
+        subprocess.run(['ffmpeg','-y','-loglevel','error','-framerate','4','-i',folder+'/%05d.png','-c:v','libx264','-pix_fmt','yuv420p','-movflags','+faststart',args.output],check=True)
+    print(args.output)
 if __name__=='__main__':main()

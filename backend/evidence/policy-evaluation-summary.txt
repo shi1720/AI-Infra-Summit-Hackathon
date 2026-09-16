@@ -1,0 +1,41 @@
+{
+  "training": {
+    "model": "degree-4 polynomial joint-target imitation policy",
+    "teacher": "SO101 damped least-squares inverse kinematics",
+    "training_samples": 480,
+    "heldout_samples": 120,
+    "seed": 1720,
+    "heldout_joint_rmse_rad": 0.19644109810233165,
+    "heldout_joint_mae_rad": 0.05372766892402708,
+    "training_seconds": 1.317428916998324,
+    "deployment": "OpenVINO CPU FP32; prediction initializes mandatory numerical pose correction",
+    "limitations": "Learns local IK mapping, not vision or language. No task success is claimed from joint prediction error alone."
+  },
+  "host": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "groups": {
+    "ik_only": {
+      "successes": 10,
+      "trials": 10,
+      "mean_ik_iterations": 4528.1,
+      "mean_compute_ms": 271.051,
+      "mean_cup_error_mm": 16.557
+    },
+    "learned_plus_correction": {
+      "successes": 10,
+      "trials": 10,
+      "mean_ik_iterations": 4288.2,
+      "mean_compute_ms": 255.756,
+      "mean_cup_error_mm": 14.047999999999998
+    }
+  },
+  "policy_benchmark": {
+    "engine": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+    "samples": 1000,
+    "warmup": 100,
+    "p50_ms": 0.03750000905711204,
+    "p95_ms": 0.051262498163850964,
+    "serial_inferences_per_second": 24157.70528827979,
+    "max_abs_vs_numpy_rad": 6.887747279193945e-07
+  },
+  "limitations": "Learned joint-target proposals initialize numerical pose correction. Success includes that correction, not unassisted learned control. Camera and language validation are separate from this state-based imitation policy."
+}

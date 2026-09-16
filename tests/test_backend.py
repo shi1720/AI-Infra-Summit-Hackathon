@@ -109,3 +109,17 @@ def test_language_budget_never_calls_provider_after_cap(monkeypatch):
     response=client.post('/api/runs',json={'instruction':'Set the table'})
     assert response.status_code==200
     assert response.json()['language_plan']['provider_status']=='not_used'
+
+def test_learned_openvino_policy_matches_reference():
+    from backend.policy import JointPolicy,features
+    policy=JointPolicy()
+    assert policy.available
+    x=np.array([.31,.09,.12],dtype=np.float32)
+    assert np.max(abs(policy.predict(x)-features(x)@policy.weights))<1e-5
+
+def test_learned_policy_reports_mandatory_correction():
+    result=Simulation(4).run('Set the table','grip_loss')
+    assert result['status']=='completed'
+    assert result['policy']['learned'] is True
+    assert 'correction' in result['policy']['role']
+    assert result['metrics']['ik_iterations']>0

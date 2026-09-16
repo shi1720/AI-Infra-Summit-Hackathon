@@ -1,3 +1,5 @@
+# Reference freeze from macOS arm64 Python 3.14; not a cross-platform installation lock.
+# Docker and Intel validation install requirements.txt so pip selects compatible wheels.
 absl-py==2.5.0
 annotated-doc==0.0.5
 annotated-types==0.8.0

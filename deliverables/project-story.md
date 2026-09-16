@@ -16,11 +16,11 @@ Granted Robotics lets a reviewer configure a table-setting mission, inspect a si
 
 The local backend uses MuJoCo for physics. An OpenVINO graph evaluates geometric safety signals. The system keeps the simulation and the user interface separate so recorded evidence can remain available even when a compute service is offline.
 
-The project is a simulation MVP. Its deterministic controller is not a trained vision-language-action model, and its checks are not a certification that a physical robot is safe. The repository explains these boundaries explicitly.
+The project is a simulation MVP. Its learned joint-target proposals still require numerical correction and do not form an end-to-end vision-language-action model, and its checks are not a certification that a physical robot is safe. The repository explains these boundaries explicitly.
 
 ## How we built it
 
-The interface uses React and TypeScript. The Python backend models two SO101 articulated arms from MuJoCo Menagerie, tabletop objects, inverse-kinematics targets, and simulated grasp constraints in MuJoCo. Disturbance scenarios exercise failure detection and recovery behavior. OpenVINO provides an executable graph for geometric safety evaluation.
+The interface uses React and TypeScript. The Python backend models two SO101 articulated arms from MuJoCo Menagerie, tabletop objects, inverse-kinematics targets, and simulated grasp constraints in MuJoCo. Disturbance scenarios exercise failure detection and recovery behavior. OpenVINO runs both the geometric safety graph and a small learned joint-target model. We trained that model on 480 inverse-kinematics demonstrations and held out 120. Its proposals initialize mandatory numerical correction. In a paired ten-seed comparison, the learned initialization reduced numerical iterations by about 5.3%, with both controllers completing every trial.
 
 We designed the product around evidence: a reviewer should understand the requested task, the disturbance, the intervention, and the resulting outcome. The first deployment keeps infrastructure small and provides a public web interface without requiring a paid model API to inspect the core demonstration.
 
@@ -36,7 +36,7 @@ Another challenge was defining useful safety checks without overstating them. Ge
 
 ## Accomplishments that we're proud of
 
-Our final local evaluation ran ten seeds across five conditions, for fifty simulations. Grip-loss recovery completed ten out of ten trials, while the same fault without recovery completed zero. Nominal and displaced-object runs also completed ten out of ten. The obstacle cases stopped safely in all ten trials. We randomized placement by +/-8 mm and mass and sliding friction by 0.8x to 1.2x. These are bounded fixture results on an Apple development machine, not Intel Core Ultra validation or real-world reliability claims.
+Our final local evaluation ran ten seeds across five conditions, for fifty simulations. Grip-loss recovery completed ten out of ten trials, while the same fault without recovery completed zero. Nominal and displaced-object runs also completed ten out of ten. The obstacle cases stopped safely in all ten trials. We randomized placement by +/-8 mm and mass and sliding friction by 0.8x to 1.2x, plus cylinder radius and height by +/-8%, lighting, and table color. These are bounded fixture results on an Apple development machine, not Intel Core Ultra validation or real-world reliability claims.
 
 We made a technical infrastructure problem understandable through an everyday task. A displaced object and a failed grasp show why recovery belongs in the product, not just in an error log.
 
@@ -50,6 +50,6 @@ Infrastructure earns trust when it exposes its limits. A small reproducible expe
 
 ## What's next for Granted Robotics
 
-The next technical milestone is connecting a trained VLA policy to the same evaluation interface, then comparing its behavior with and without action checks across a fixed disturbance suite. We also plan richer perception inputs and hardware-specific safety constraints.
+The next technical milestone is connecting an end-to-end VLA policy to the same evaluation interface, then comparing its behavior with and without action checks across a fixed disturbance suite. We also plan richer perception inputs and hardware-specific safety constraints.
 
 The first commercial experiment would be a paid pilot with a robotics integrator: import one existing task, reproduce their most frequent failure cases, and measure the time needed to diagnose a regression. Pricing and customer demand remain hypotheses until those pilots provide evidence.

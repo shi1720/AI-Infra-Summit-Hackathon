@@ -17,9 +17,9 @@ A moved cup or a failed grasp can invalidate an otherwise reasonable plan. Robot
 
 The React and TypeScript workbench explains planning, approval, intervention, and recovery. The Python service executes a separate MuJoCo fixture with two SO101 arms from MuJoCo Menagerie and two tabletop objects. It uses inverse kinematics and position control, free-body objects, and simulated grasp weld constraints. An OpenVINO CPU graph computes geometric safety signals.
 
-Fault scenarios include a displaced object, grip loss, and a workspace obstacle. The backend exports events, sampled states, placement errors, physics step counts, and monitor latency. Structured language planning can optionally use OpenAI through a server-side environment variable. Without a key, the backend clearly labels its deterministic planner.
+Fault scenarios include a displaced object, grip loss, and a workspace obstacle. The backend exports events, sampled states, placement errors, physics step counts, and monitor latency. Camera and language validation can optionally use OpenAI through a server-side environment variable. A raw MuJoCo camera image accompanies the task and the output must pass a strict schema. Without a key, the backend clearly labels its deterministic planner.
 
-**Scope:** this is a simulation MVP. The controller is deterministic, not a trained VLA policy. The safety graph is geometric, not a learned safety model. Nothing here certifies a physical robot. The browser visualization illustrates workflow and must not be confused with a live physics renderer. Refer to the explicitly labeled backend evidence for MuJoCo measurements.
+**Scope:** this is a simulation MVP. The controller uses a small learned joint-target proposal model followed by mandatory numerical correction. This is not an end-to-end VLA policy. The safety graph is geometric, not a learned safety model. Nothing here certifies a physical robot. The browser visualization illustrates workflow and must not be confused with a live physics renderer. Refer to the explicitly labeled backend evidence for MuJoCo measurements.
 
 ## Track compliance
 
@@ -94,10 +94,18 @@ The files in `backend/evidence/` are actual local MuJoCo executions. The final e
 | Grip loss, recovery off | 0/10 | 0/10 |
 | Workspace obstacle | 0/10 | 10/10 |
 
-The fixture randomizes each object's initial XY position by +/-8 mm and scales mass and sliding friction from 0.8x to 1.2x. Mean cup error for grip-loss recovery is 14.76 mm, compared with 159.82 mm without recovery. These controlled fixture results do not establish broad generalization to new tasks, lighting, shapes, or hardware.
+The fixture randomizes each object's initial XY position by +/-8 mm and scales mass and sliding friction from 0.8x to 1.2x, varies cylinder radius and height by +/-8%, and varies lighting and table color. Mean cup error for grip-loss recovery is 14.05 mm, compared with 160.96 mm without recovery. These controlled fixture results do not establish broad generalization to new tasks, novel objects, or hardware.
 
 The FP32 OpenVINO geometric graph benchmark reports p50 0.02367 ms and p95 0.03050 ms across 1,000 samples after 100 warmups. This was measured on an Apple arm64 development machine. It is **not an Intel Core Ultra benchmark** and does not measure VLA inference. See `backend/evidence/evaluation.json` for full configuration and records. `backend/evidence/so101-recovery.mp4` shows actual MuJoCo rendering.
 
+
+## Learned policy and paired evaluation
+
+A degree-4 polynomial model learns joint-target proposals from 600 SO101 inverse-kinematics demonstrations, split into 480 training and 120 held-out examples. Held-out joint RMSE is 0.19644 radians and MAE is 0.05373 radians. The model exports to OpenVINO FP32 IR. Its output initializes mandatory numerical pose correction rather than replacing it.
+
+Across ten paired grip-loss seeds, both the baseline and learned-plus-correction controller completed 10/10 trials. Mean numerical IK iterations fell from 4,528.1 to 4,288.2, about 5.3%. Local mean simulation compute time changed from 271.05 ms to 255.76 ms. These timings include workload and host variation and do not establish Intel performance. The learned policy's local OpenVINO median inference was 0.03712 ms across 1,000 samples after 100 warmups. See `backend/evidence/policy-evaluation.json` and `backend/assets/joint_policy/training-report.json`.
+
+This state-based imitation model does not learn vision or language. The camera-aware language validator is a separate component. Neither the joint prediction error nor the small fixture evaluation establishes unassisted learned manipulation.
 
 ## Architecture
 
@@ -120,7 +128,7 @@ The proposed customer is a robotics integrator with recurring deployment failure
 
 ## Before production use
 
-A commercial deployment needs durable storage, real identity and access control, tenant isolation, workload quotas, operational monitoring, and hardware-specific safety validation. A local demo session is not production authentication. The current in-memory API is designed for demonstration, not long-term customer data retention.
+A commercial deployment needs durable storage, tenant authorization and isolation, workload quotas, operational monitoring, and hardware-specific safety validation. Firebase Authentication provides sign-in. Run history remains browser-local, and sign-in does not provide cross-device synchronization. The current in-memory API is designed for demonstration, not long-term customer data retention.
 
 ## Submission assets
 

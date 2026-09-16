@@ -1,0 +1,21 @@
+{
+  "status": "completed",
+  "device": "CPU",
+  "device_name": "Apple M4 Pro",
+  "available_devices": [
+    "CPU"
+  ],
+  "openvino_version": "2026.4.0-22959-99c81491cc3-releases/2026/4",
+  "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "precision": "FP32 input and inference precision hint",
+  "graph": "policy",
+  "description": "OpenVINO CPU learned polynomial imitation policy (FP32)",
+  "warmup": 100,
+  "samples": 1000,
+  "latency_p50_ms": 0.03704099799506366,
+  "latency_p95_ms": 0.04384230633149854,
+  "serial_inferences_per_second": 25711.792896360686,
+  "max_abs_reference_error": 7.00866631175856e-07,
+  "error_unit": "radians",
+  "limitations": "Host-specific graph microbenchmark. Learned policy output is a joint-target proposal with mandatory numerical correction. Does not measure end-to-end VLA or Intel Core Ultra performance unless device_name identifies that hardware."
+}

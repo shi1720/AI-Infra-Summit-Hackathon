@@ -49,7 +49,7 @@ def dual_model():
     return mujoco.MjModel.from_xml_string(ET.tostring(root,encoding='unicode'))
 
 class SO101Simulation(Simulation):
-    def __init__(self,seed=42):
+    def __init__(self,seed=42,use_policy=True):
         self.model=dual_model();self.data=mujoco.MjData(self.model)
         self.monitor=SafetyMonitor();self.events=[];self.frames=[]
         self.min_separation=float('inf');self.seed=seed;self.rng=np.random.default_rng(seed)
@@ -65,8 +65,19 @@ class SO101Simulation(Simulation):
             geom=self.model.body_geomadr[body]
             friction=float(self.rng.uniform(.8,1.2))
             self.model.geom_friction[geom,0]*=friction
-            self.perturbations[name]={'xy_delta_mm':(delta*1000).round(3).tolist(),'mass_factor':round(factor,3),'friction_factor':round(friction,3)}
+            shape=self.rng.uniform(.92,1.08,2)
+            self.model.geom_size[geom,:2]*=shape
+            self.perturbations[name]={'xy_delta_mm':(delta*1000).round(3).tolist(),'mass_factor':round(factor,3),'friction_factor':round(friction,3),'radius_height_factors':shape.round(3).tolist()}
+        diffuse=self.rng.uniform(.65,1.0,3)
+        ambient=self.rng.uniform(.10,.25,3)
+        self.model.light_diffuse[0]=diffuse;self.model.light_ambient[0]=ambient
+        background=self.rng.uniform([.06,.08,.11],[.14,.17,.23])
+        self.model.geom_rgba[self.model.geom('table').id,:3]=background
+        self.perturbations['environment']={'light_diffuse':diffuse.round(3).tolist(),'light_ambient':ambient.round(3).tolist(),'table_rgb':background.round(3).tolist(),'shape_scope':'Cylinder radius and height vary; no alternate shape families'}
         self.robot='Dual SO101 (MuJoCo Menagerie)'
+        from .policy import JointPolicy
+        self.policy=JointPolicy() if use_policy else None
+        self.ik_iterations=0
         for side in BASES:
             q=self.solve_ik(side,[*STARTS['cup' if side=='left' else 'bowl'][:2],.15])
             offset=0 if side=='left' else 6
@@ -80,11 +91,17 @@ class SO101Simulation(Simulation):
         site=self.model.site(side+'_tip').id
         dofs=np.arange(offset,offset+5)
         limits=self.model.jnt_range[dofs]
+        if self.policy and self.policy.available:
+            relative=np.asarray(point)-np.asarray(BASES[side]);relative[2]=point[2]
+            proposal=self.policy.predict(relative)
+            if np.all(np.isfinite(proposal)):
+                temp.qpos[dofs]=np.clip(proposal,limits[:,0]+.005,limits[:,1]-.005)
         best=(1e9,None)
         # Damped least-squares pose IK: xyz plus a vertical gripper axis.
         for restart in range(5):
             if restart:temp.qpos[dofs]=self.rng.uniform(limits[:,0]*.7,limits[:,1]*.7)
             for _ in range(180):
+                self.ik_iterations+=1
                 mujoco.mj_forward(self.model,temp)
                 delta=np.asarray(point)-temp.site_xpos[site]
                 body=self.model.body(side+'_gripper').id
@@ -124,5 +141,7 @@ class SO101Simulation(Simulation):
         result=super().run(*args,**kwargs)
         result['robot']=self.robot
         result['perturbations']=self.perturbations
-        result['limitations']=['SO101 kinematics and inertias from MuJoCo Menagerie, not real hardware','Ground-truth object poses, not camera perception','Grasping uses weld constraints, not contact-based finger control','Arm mesh contacts disabled; gripper separation gate is not full-body collision checking','OpenVINO executes a geometric graph, not a trained VLA policy','Simulation results do not certify physical robot safety']
+        result['policy']={'engine':self.policy.engine if self.policy and self.policy.available else 'numerical IK only','learned':bool(self.policy and self.policy.available),'role':'joint-target proposal with mandatory numerical pose correction','ik_iterations':self.ik_iterations,'inference_median_ms':float(np.median(self.policy.times)) if self.policy and self.policy.times else None}
+        result['metrics']['ik_iterations']=self.ik_iterations
+        result['limitations']=['SO101 kinematics and inertias from MuJoCo Menagerie, not real hardware','Ground-truth object poses, not camera perception','Grasping uses weld constraints, not contact-based finger control','Arm mesh contacts disabled; gripper separation gate is not full-body collision checking','Learned policy imitates local IK; vision-language model validates task separately, not an end-to-end trained VLA','Simulation results do not certify physical robot safety']
         return result

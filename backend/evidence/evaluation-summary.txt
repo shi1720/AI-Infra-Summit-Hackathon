@@ -7,35 +7,35 @@
   },
   "seed_count": 10,
   "total_runs": 50,
-  "randomization": "Each object: +/-8 mm XY, mass and sliding friction 0.8x to 1.2x",
+  "randomization": "Each object: +/-8 mm XY, mass and sliding friction 0.8x to 1.2x, cylinder radius/height 0.92x to 1.08x. Light diffuse/ambient and table background RGB also vary. No alternate shape families.",
   "groups": {
     "none:recovery=True": {
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 16.11,
-      "mean_compute_ms": 224.71
+      "mean_cup_error_mm": 15.71,
+      "mean_compute_ms": 211.08
     },
     "object_displaced:recovery=True": {
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 10.54,
-      "mean_compute_ms": 205.39
+      "mean_cup_error_mm": 9.09,
+      "mean_compute_ms": 201.2
     },
     "grip_loss:recovery=True": {
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 14.76,
-      "mean_compute_ms": 264.8
+      "mean_cup_error_mm": 14.05,
+      "mean_compute_ms": 247.87
     },
     "grip_loss:recovery=False": {
       "runs": 10,
       "completed": 0,
       "blocked": 0,
-      "mean_cup_error_mm": 159.82,
-      "mean_compute_ms": 228.06
+      "mean_cup_error_mm": 160.96,
+      "mean_compute_ms": 220.05
     },
     "obstacle:recovery=True": {
       "runs": 10,
@@ -50,9 +50,9 @@
     "precision": "FP32 input and FP32 inference precision hint",
     "warmup": 100,
     "samples": 1000,
-    "p50_ms": 0.02408,
-    "p95_ms": 0.02934,
-    "serial_inferences_per_second": 38792.7,
+    "p50_ms": 0.02433,
+    "p95_ms": 0.03001,
+    "serial_inferences_per_second": 38274.6,
     "max_abs_distance_error_m": 2.384185791015625e-07,
     "scope": "Geometric separation graph only, not end-to-end VLA or Intel hardware benchmark"
   }

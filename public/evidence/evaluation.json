@@ -13,29 +13,29 @@
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 16.11,
-      "mean_compute_ms": 224.71
+      "mean_cup_error_mm": 15.66,
+      "mean_compute_ms": 209.99
     },
     "object_displaced:recovery=True": {
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 10.54,
-      "mean_compute_ms": 205.39
+      "mean_cup_error_mm": 9.12,
+      "mean_compute_ms": 190.63
     },
     "grip_loss:recovery=True": {
       "runs": 10,
       "completed": 10,
       "blocked": 0,
-      "mean_cup_error_mm": 14.76,
-      "mean_compute_ms": 264.8
+      "mean_cup_error_mm": 13.81,
+      "mean_compute_ms": 244.48
     },
     "grip_loss:recovery=False": {
       "runs": 10,
       "completed": 0,
       "blocked": 0,
-      "mean_cup_error_mm": 159.82,
-      "mean_compute_ms": 228.06
+      "mean_cup_error_mm": 160.87,
+      "mean_compute_ms": 214.93
     },
     "obstacle:recovery=True": {
       "runs": 10,
@@ -50,9 +50,9 @@
     "precision": "FP32 input and FP32 inference precision hint",
     "warmup": 100,
     "samples": 1000,
-    "p50_ms": 0.02408,
-    "p95_ms": 0.02934,
-    "serial_inferences_per_second": 38792.7,
+    "p50_ms": 0.02404,
+    "p95_ms": 0.02854,
+    "serial_inferences_per_second": 39819.2,
     "max_abs_distance_error_m": 2.384185791015625e-07,
     "scope": "Geometric separation graph only, not end-to-end VLA or Intel hardware benchmark"
   },
@@ -64,16 +64,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 16.2,
-          "bowl": 15.74
+          "cup": 15.87,
+          "bowl": 13.3
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 252.98,
+        "compute_ms": 232.15,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 295.75,
-        "monitor_median_ms": 0.0317,
-        "recoveries": 0
+        "min_gripper_separation_mm": 303.86,
+        "monitor_median_ms": 0.0307,
+        "recoveries": 0,
+        "ik_iterations": 4713
       },
       "perturbations": {
         "cup": {
@@ -101,16 +102,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.6,
-          "bowl": 15.72
+          "cup": 9.19,
+          "bowl": 13.3
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 196.79,
+        "compute_ms": 180.62,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 311.43,
-        "monitor_median_ms": 0.0309,
-        "recoveries": 1
+        "min_gripper_separation_mm": 309.03,
+        "monitor_median_ms": 0.0295,
+        "recoveries": 1,
+        "ik_iterations": 3465
       },
       "perturbations": {
         "cup": {
@@ -138,16 +140,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.29,
-          "bowl": 15.74
+          "cup": 13.52,
+          "bowl": 13.3
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 268.53,
+        "compute_ms": 261.82,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 305.54,
-        "monitor_median_ms": 0.0305,
-        "recoveries": 1
+        "min_gripper_separation_mm": 303.86,
+        "monitor_median_ms": 0.0294,
+        "recoveries": 1,
+        "ik_iterations": 4718
       },
       "perturbations": {
         "cup": {
@@ -175,16 +178,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 161.97,
-          "bowl": 15.74
+          "cup": 156.76,
+          "bowl": 13.3
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 237.9,
+        "compute_ms": 234.26,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 295.75,
-        "monitor_median_ms": 0.0304,
-        "recoveries": 0
+        "min_gripper_separation_mm": 303.86,
+        "monitor_median_ms": 0.03,
+        "recoveries": 0,
+        "ik_iterations": 4713
       },
       "perturbations": {
         "cup": {
@@ -221,7 +225,8 @@
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 198
       },
       "perturbations": {
         "cup": {
@@ -249,16 +254,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.63,
-          "bowl": 16.61
+          "cup": 15.28,
+          "bowl": 12.92
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 201.41,
+        "compute_ms": 189.63,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 277.29,
-        "monitor_median_ms": 0.0304,
-        "recoveries": 0
+        "min_gripper_separation_mm": 280.29,
+        "monitor_median_ms": 0.0293,
+        "recoveries": 0,
+        "ik_iterations": 3667
       },
       "perturbations": {
         "cup": {
@@ -286,16 +292,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.66,
-          "bowl": 16.6
+          "cup": 9.1,
+          "bowl": 12.92
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 195.47,
+        "compute_ms": 196.35,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 302.58,
-        "monitor_median_ms": 0.0303,
-        "recoveries": 1
+        "min_gripper_separation_mm": 302.33,
+        "monitor_median_ms": 0.0304,
+        "recoveries": 1,
+        "ik_iterations": 3652
       },
       "perturbations": {
         "cup": {
@@ -323,16 +330,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.28,
-          "bowl": 16.61
+          "cup": 14.27,
+          "bowl": 12.92
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 230.37,
+        "compute_ms": 222.03,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 274.25,
-        "monitor_median_ms": 0.0298,
-        "recoveries": 1
+        "min_gripper_separation_mm": 282.2,
+        "monitor_median_ms": 0.0301,
+        "recoveries": 1,
+        "ik_iterations": 3689
       },
       "perturbations": {
         "cup": {
@@ -360,16 +368,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 160.03,
-          "bowl": 16.61
+          "cup": 164.58,
+          "bowl": 12.92
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 201.88,
+        "compute_ms": 195.06,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 277.29,
-        "monitor_median_ms": 0.0301,
-        "recoveries": 0
+        "min_gripper_separation_mm": 280.29,
+        "monitor_median_ms": 0.0297,
+        "recoveries": 0,
+        "ik_iterations": 3667
       },
       "perturbations": {
         "cup": {
@@ -402,11 +411,12 @@
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.07,
+        "compute_ms": 0.08,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 197
       },
       "perturbations": {
         "cup": {
@@ -434,16 +444,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 17.07,
-          "bowl": 16.28
+          "cup": 16.86,
+          "bowl": 13.12
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 225.31,
+        "compute_ms": 209.78,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 300.09,
-        "monitor_median_ms": 0.0304,
-        "recoveries": 0
+        "min_gripper_separation_mm": 300.45,
+        "monitor_median_ms": 0.0298,
+        "recoveries": 0,
+        "ik_iterations": 4200
       },
       "perturbations": {
         "cup": {
@@ -471,16 +482,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.52,
-          "bowl": 16.28
+          "cup": 9.64,
+          "bowl": 13.12
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 209.2,
+        "compute_ms": 194.88,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 308.7,
-        "monitor_median_ms": 0.0299,
-        "recoveries": 1
+        "min_gripper_separation_mm": 306.15,
+        "monitor_median_ms": 0.0295,
+        "recoveries": 1,
+        "ik_iterations": 3815
       },
       "perturbations": {
         "cup": {
@@ -508,16 +520,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.91,
-          "bowl": 16.28
+          "cup": 14.94,
+          "bowl": 13.12
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 265.41,
+        "compute_ms": 258.4,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 299.22,
-        "monitor_median_ms": 0.03,
-        "recoveries": 1
+        "min_gripper_separation_mm": 300.45,
+        "monitor_median_ms": 0.0299,
+        "recoveries": 1,
+        "ik_iterations": 4580
       },
       "perturbations": {
         "cup": {
@@ -545,16 +558,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 165.23,
-          "bowl": 16.28
+          "cup": 165.02,
+          "bowl": 13.12
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 226.5,
+        "compute_ms": 216.08,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 300.09,
-        "monitor_median_ms": 0.03,
-        "recoveries": 0
+        "min_gripper_separation_mm": 300.45,
+        "monitor_median_ms": 0.0305,
+        "recoveries": 0,
+        "ik_iterations": 4200
       },
       "perturbations": {
         "cup": {
@@ -587,11 +601,12 @@
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.07,
+        "compute_ms": 0.08,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 198
       },
       "perturbations": {
         "cup": {
@@ -619,16 +634,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 17.27,
-          "bowl": 17.18
+          "cup": 17.1,
+          "bowl": 13.01
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 235.98,
+        "compute_ms": 235.79,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 299.97,
-        "monitor_median_ms": 0.0293,
-        "recoveries": 0
+        "min_gripper_separation_mm": 298.41,
+        "monitor_median_ms": 0.0294,
+        "recoveries": 0,
+        "ik_iterations": 4925
       },
       "perturbations": {
         "cup": {
@@ -656,16 +672,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.95,
-          "bowl": 17.16
+          "cup": 9.99,
+          "bowl": 13.01
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 213.5,
+        "compute_ms": 194.3,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 307.09,
-        "monitor_median_ms": 0.0306,
-        "recoveries": 1
+        "min_gripper_separation_mm": 307.26,
+        "monitor_median_ms": 0.0295,
+        "recoveries": 1,
+        "ik_iterations": 3821
       },
       "perturbations": {
         "cup": {
@@ -693,16 +710,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 16.13,
-          "bowl": 17.18
+          "cup": 15.1,
+          "bowl": 13.01
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 277.54,
+        "compute_ms": 267.96,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 296.46,
-        "monitor_median_ms": 0.0293,
-        "recoveries": 1
+        "min_gripper_separation_mm": 297.49,
+        "monitor_median_ms": 0.0297,
+        "recoveries": 1,
+        "ik_iterations": 4981
       },
       "perturbations": {
         "cup": {
@@ -730,16 +748,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 166.71,
-          "bowl": 17.18
+          "cup": 166.83,
+          "bowl": 13.01
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 242.88,
+        "compute_ms": 242.11,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 299.97,
-        "monitor_median_ms": 0.0296,
-        "recoveries": 0
+        "min_gripper_separation_mm": 298.41,
+        "monitor_median_ms": 0.029,
+        "recoveries": 0,
+        "ik_iterations": 4925
       },
       "perturbations": {
         "cup": {
@@ -776,7 +795,8 @@
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 203
       },
       "perturbations": {
         "cup": {
@@ -804,16 +824,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.26,
-          "bowl": 15.87
+          "cup": 14.76,
+          "bowl": 12.76
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 227.41,
+        "compute_ms": 191.64,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 295.5,
-        "monitor_median_ms": 0.0304,
-        "recoveries": 0
+        "min_gripper_separation_mm": 298.47,
+        "monitor_median_ms": 0.0296,
+        "recoveries": 0,
+        "ik_iterations": 3666
       },
       "perturbations": {
         "cup": {
@@ -841,16 +862,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.83,
-          "bowl": 15.87
+          "cup": 8.55,
+          "bowl": 12.76
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 198.77,
+        "compute_ms": 190.9,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 312.2,
-        "monitor_median_ms": 0.0306,
-        "recoveries": 1
+        "min_gripper_separation_mm": 306.97,
+        "monitor_median_ms": 0.0297,
+        "recoveries": 1,
+        "ik_iterations": 3666
       },
       "perturbations": {
         "cup": {
@@ -878,16 +900,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.02,
-          "bowl": 15.87
+          "cup": 12.98,
+          "bowl": 12.76
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 270.08,
+        "compute_ms": 220.58,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 295.91,
-        "monitor_median_ms": 0.03,
-        "recoveries": 1
+        "min_gripper_separation_mm": 297.22,
+        "monitor_median_ms": 0.0288,
+        "recoveries": 1,
+        "ik_iterations": 3671
       },
       "perturbations": {
         "cup": {
@@ -915,16 +938,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 151.96,
-          "bowl": 15.87
+          "cup": 154.19,
+          "bowl": 12.76
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 234.31,
+        "compute_ms": 195.46,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 295.5,
-        "monitor_median_ms": 0.0294,
-        "recoveries": 0
+        "min_gripper_separation_mm": 298.46,
+        "monitor_median_ms": 0.0292,
+        "recoveries": 0,
+        "ik_iterations": 3666
       },
       "perturbations": {
         "cup": {
@@ -961,7 +985,8 @@
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 201
       },
       "perturbations": {
         "cup": {
@@ -989,16 +1014,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.26,
-          "bowl": 17.21
+          "cup": 14.79,
+          "bowl": 12.96
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 235.76,
+        "compute_ms": 209.82,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 291.31,
-        "monitor_median_ms": 0.03,
-        "recoveries": 0
+        "min_gripper_separation_mm": 280.18,
+        "monitor_median_ms": 0.0297,
+        "recoveries": 0,
+        "ik_iterations": 4208
       },
       "perturbations": {
         "cup": {
@@ -1026,16 +1052,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 9.92,
-          "bowl": 17.21
+          "cup": 8.54,
+          "bowl": 12.96
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 226.66,
+        "compute_ms": 194.92,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 300.76,
-        "monitor_median_ms": 0.03,
-        "recoveries": 1
+        "min_gripper_separation_mm": 303.15,
+        "monitor_median_ms": 0.0299,
+        "recoveries": 1,
+        "ik_iterations": 3817
       },
       "perturbations": {
         "cup": {
@@ -1063,16 +1090,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.18,
-          "bowl": 17.21
+          "cup": 12.91,
+          "bowl": 12.96
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 274.74,
+        "compute_ms": 238.99,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 288.26,
-        "monitor_median_ms": 0.0295,
-        "recoveries": 1
+        "min_gripper_separation_mm": 280.83,
+        "monitor_median_ms": 0.03,
+        "recoveries": 1,
+        "ik_iterations": 4213
       },
       "perturbations": {
         "cup": {
@@ -1100,16 +1128,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 155.38,
-          "bowl": 17.21
+          "cup": 158.27,
+          "bowl": 12.96
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 241.24,
+        "compute_ms": 215.47,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 291.31,
+        "min_gripper_separation_mm": 280.18,
         "monitor_median_ms": 0.0305,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 4208
       },
       "perturbations": {
         "cup": {
@@ -1142,11 +1171,12 @@
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.08,
+        "compute_ms": 0.06,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 199
       },
       "perturbations": {
         "cup": {
@@ -1174,16 +1204,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 17.5,
-          "bowl": 15.32
+          "cup": 16.05,
+          "bowl": 12.85
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 175.07,
+        "compute_ms": 216.3,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 308.58,
-        "monitor_median_ms": 0.0302,
-        "recoveries": 0
+        "min_gripper_separation_mm": 303.87,
+        "monitor_median_ms": 0.0299,
+        "recoveries": 0,
+        "ik_iterations": 4406
       },
       "perturbations": {
         "cup": {
@@ -1211,16 +1242,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 11.59,
-          "bowl": 15.32
+          "cup": 9.26,
+          "bowl": 12.85
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 172.58,
+        "compute_ms": 164.69,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 301.94,
-        "monitor_median_ms": 0.0296,
-        "recoveries": 1
+        "min_gripper_separation_mm": 311.34,
+        "monitor_median_ms": 0.0297,
+        "recoveries": 1,
+        "ik_iterations": 2974
       },
       "perturbations": {
         "cup": {
@@ -1248,16 +1280,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.35,
-          "bowl": 15.32
+          "cup": 13.88,
+          "bowl": 12.85
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 253.95,
+        "compute_ms": 248.24,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 282.27,
-        "monitor_median_ms": 0.03,
-        "recoveries": 1
+        "min_gripper_separation_mm": 301.74,
+        "monitor_median_ms": 0.0298,
+        "recoveries": 1,
+        "ik_iterations": 4411
       },
       "perturbations": {
         "cup": {
@@ -1285,16 +1318,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 159.97,
-          "bowl": 15.32
+          "cup": 160.45,
+          "bowl": 12.85
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 182.57,
+        "compute_ms": 224.28,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 308.57,
-        "monitor_median_ms": 0.031,
-        "recoveries": 0
+        "min_gripper_separation_mm": 303.87,
+        "monitor_median_ms": 0.0305,
+        "recoveries": 0,
+        "ik_iterations": 4406
       },
       "perturbations": {
         "cup": {
@@ -1327,11 +1361,12 @@
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.08,
+        "compute_ms": 0.09,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 207
       },
       "perturbations": {
         "cup": {
@@ -1359,16 +1394,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.58,
-          "bowl": 16.75
+          "cup": 15.13,
+          "bowl": 13.56
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 242.64,
+        "compute_ms": 209.51,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 295.79,
-        "monitor_median_ms": 0.031,
-        "recoveries": 0
+        "min_gripper_separation_mm": 297.98,
+        "monitor_median_ms": 0.03,
+        "recoveries": 0,
+        "ik_iterations": 4226
       },
       "perturbations": {
         "cup": {
@@ -1396,16 +1432,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.18,
-          "bowl": 16.75
+          "cup": 8.69,
+          "bowl": 13.56
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 234.22,
+        "compute_ms": 195.64,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 304.87,
-        "monitor_median_ms": 0.0306,
-        "recoveries": 1
+        "min_gripper_separation_mm": 305.57,
+        "monitor_median_ms": 0.0304,
+        "recoveries": 1,
+        "ik_iterations": 3820
       },
       "perturbations": {
         "cup": {
@@ -1433,16 +1470,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.68,
-          "bowl": 16.75
+          "cup": 12.54,
+          "bowl": 13.56
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 281.43,
+        "compute_ms": 251.84,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 278.49,
+        "min_gripper_separation_mm": 297.35,
         "monitor_median_ms": 0.0301,
-        "recoveries": 1
+        "recoveries": 1,
+        "ik_iterations": 4231
       },
       "perturbations": {
         "cup": {
@@ -1470,16 +1508,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 158.55,
-          "bowl": 16.75
+          "cup": 159.25,
+          "bowl": 13.56
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 248.78,
+        "compute_ms": 217.73,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 295.79,
-        "monitor_median_ms": 0.0304,
-        "recoveries": 0
+        "min_gripper_separation_mm": 297.98,
+        "monitor_median_ms": 0.031,
+        "recoveries": 0,
+        "ik_iterations": 4226
       },
       "perturbations": {
         "cup": {
@@ -1512,11 +1551,12 @@
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.08,
+        "compute_ms": 0.07,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 203
       },
       "perturbations": {
         "cup": {
@@ -1544,16 +1584,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.84,
-          "bowl": 15.36
+          "cup": 15.64,
+          "bowl": 12.68
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 214.13,
+        "compute_ms": 208.4,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 287.86,
-        "monitor_median_ms": 0.0305,
-        "recoveries": 0
+        "min_gripper_separation_mm": 279.7,
+        "monitor_median_ms": 0.0301,
+        "recoveries": 0,
+        "ik_iterations": 4020
       },
       "perturbations": {
         "cup": {
@@ -1581,16 +1622,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.9,
-          "bowl": 15.36
+          "cup": 9.23,
+          "bowl": 12.68
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 205.17,
+        "compute_ms": 196.05,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 276.3,
-        "monitor_median_ms": 0.029,
-        "recoveries": 1
+        "min_gripper_separation_mm": 299.39,
+        "monitor_median_ms": 0.0305,
+        "recoveries": 1,
+        "ik_iterations": 3820
       },
       "perturbations": {
         "cup": {
@@ -1618,16 +1660,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 16.21,
-          "bowl": 15.36
+          "cup": 14.47,
+          "bowl": 12.68
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 252.0,
+        "compute_ms": 243.69,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 272.06,
-        "monitor_median_ms": 0.0303,
-        "recoveries": 1
+        "min_gripper_separation_mm": 281.85,
+        "monitor_median_ms": 0.0297,
+        "recoveries": 1,
+        "ik_iterations": 4220
       },
       "perturbations": {
         "cup": {
@@ -1655,16 +1698,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 163.98,
-          "bowl": 15.36
+          "cup": 168.41,
+          "bowl": 12.68
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 222.11,
+        "compute_ms": 206.33,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 287.85,
-        "monitor_median_ms": 0.0317,
-        "recoveries": 0
+        "min_gripper_separation_mm": 279.71,
+        "monitor_median_ms": 0.0308,
+        "recoveries": 0,
+        "ik_iterations": 4020
       },
       "perturbations": {
         "cup": {
@@ -1701,7 +1745,8 @@
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 204
       },
       "perturbations": {
         "cup": {
@@ -1729,16 +1774,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 15.48,
-          "bowl": 15.95
+          "cup": 15.08,
+          "bowl": 13.42
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 236.45,
+        "compute_ms": 196.86,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 308.07,
-        "monitor_median_ms": 0.0303,
-        "recoveries": 0
+        "min_gripper_separation_mm": 306.79,
+        "monitor_median_ms": 0.031,
+        "recoveries": 0,
+        "ik_iterations": 3846
       },
       "perturbations": {
         "cup": {
@@ -1766,16 +1812,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 10.3,
-          "bowl": 15.97
+          "cup": 9.0,
+          "bowl": 13.42
         },
         "success": true,
         "simulated_seconds": 11.188,
-        "compute_ms": 201.58,
+        "compute_ms": 197.97,
         "physics_steps": 5594,
-        "min_gripper_separation_mm": 289.89,
-        "monitor_median_ms": 0.0301,
-        "recoveries": 1
+        "min_gripper_separation_mm": 313.97,
+        "monitor_median_ms": 0.0308,
+        "recoveries": 1,
+        "ik_iterations": 3846
       },
       "perturbations": {
         "cup": {
@@ -1803,16 +1850,17 @@
       "status": "completed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 14.56,
-          "bowl": 15.97
+          "cup": 13.47,
+          "bowl": 13.42
         },
         "success": true,
         "simulated_seconds": 16.882,
-        "compute_ms": 273.93,
+        "compute_ms": 231.27,
         "physics_steps": 8441,
-        "min_gripper_separation_mm": 284.85,
-        "monitor_median_ms": 0.0298,
-        "recoveries": 1
+        "min_gripper_separation_mm": 305.77,
+        "monitor_median_ms": 0.0296,
+        "recoveries": 1,
+        "ik_iterations": 3851
       },
       "perturbations": {
         "cup": {
@@ -1840,16 +1888,17 @@
       "status": "failed",
       "metrics": {
         "placement_error_mm": {
-          "cup": 154.44,
-          "bowl": 15.95
+          "cup": 154.93,
+          "bowl": 13.42
         },
         "success": false,
         "simulated_seconds": 11.788,
-        "compute_ms": 242.48,
+        "compute_ms": 202.56,
         "physics_steps": 5894,
-        "min_gripper_separation_mm": 308.06,
-        "monitor_median_ms": 0.0301,
-        "recoveries": 0
+        "min_gripper_separation_mm": 306.78,
+        "monitor_median_ms": 0.03,
+        "recoveries": 0,
+        "ik_iterations": 3846
       },
       "perturbations": {
         "cup": {
@@ -1882,11 +1931,12 @@
         },
         "success": false,
         "simulated_seconds": 0.0,
-        "compute_ms": 0.07,
+        "compute_ms": 0.08,
         "physics_steps": 0,
         "min_gripper_separation_mm": null,
         "monitor_median_ms": null,
-        "recoveries": 0
+        "recoveries": 0,
+        "ik_iterations": 229
       },
       "perturbations": {
         "cup": {
