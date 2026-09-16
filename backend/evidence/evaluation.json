@@ -1,0 +1,1911 @@
+{
+  "robot": "MuJoCo Menagerie dual SO101",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "processor": "arm64",
+    "intel_hardware": false
+  },
+  "seed_count": 10,
+  "total_runs": 50,
+  "randomization": "Each object: +/-8 mm XY, mass and sliding friction 0.8x to 1.2x",
+  "groups": {
+    "none:recovery=True": {
+      "runs": 10,
+      "completed": 10,
+      "blocked": 0,
+      "mean_cup_error_mm": 16.11,
+      "mean_compute_ms": 224.71
+    },
+    "object_displaced:recovery=True": {
+      "runs": 10,
+      "completed": 10,
+      "blocked": 0,
+      "mean_cup_error_mm": 10.54,
+      "mean_compute_ms": 205.39
+    },
+    "grip_loss:recovery=True": {
+      "runs": 10,
+      "completed": 10,
+      "blocked": 0,
+      "mean_cup_error_mm": 14.76,
+      "mean_compute_ms": 264.8
+    },
+    "grip_loss:recovery=False": {
+      "runs": 10,
+      "completed": 0,
+      "blocked": 0,
+      "mean_cup_error_mm": 159.82,
+      "mean_compute_ms": 228.06
+    },
+    "obstacle:recovery=True": {
+      "runs": 10,
+      "completed": 0,
+      "blocked": 10,
+      "mean_cup_error_mm": 169.1,
+      "mean_compute_ms": 0.08
+    }
+  },
+  "monitor_benchmark": {
+    "engine": "OpenVINO CPU geometric safety graph",
+    "precision": "FP32 input and FP32 inference precision hint",
+    "warmup": 100,
+    "samples": 1000,
+    "p50_ms": 0.02408,
+    "p95_ms": 0.02934,
+    "serial_inferences_per_second": 38792.7,
+    "max_abs_distance_error_m": 2.384185791015625e-07,
+    "scope": "Geometric separation graph only, not end-to-end VLA or Intel hardware benchmark"
+  },
+  "runs": [
+    {
+      "seed": 0,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 16.2,
+          "bowl": 15.74
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 252.98,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 295.75,
+        "monitor_median_ms": 0.0317,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.191,
+            -3.683
+          ],
+          "mass_factor": 0.816,
+          "friction_factor": 0.807
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.012,
+            6.604
+          ],
+          "mass_factor": 1.043,
+          "friction_factor": 1.092
+        }
+      }
+    },
+    {
+      "seed": 0,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 10.6,
+          "bowl": 15.72
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 196.79,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 311.43,
+        "monitor_median_ms": 0.0309,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.191,
+            -3.683
+          ],
+          "mass_factor": 0.816,
+          "friction_factor": 0.807
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.012,
+            6.604
+          ],
+          "mass_factor": 1.043,
+          "friction_factor": 1.092
+        }
+      }
+    },
+    {
+      "seed": 0,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 10.29,
+          "bowl": 15.74
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 268.53,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 305.54,
+        "monitor_median_ms": 0.0305,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.191,
+            -3.683
+          ],
+          "mass_factor": 0.816,
+          "friction_factor": 0.807
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.012,
+            6.604
+          ],
+          "mass_factor": 1.043,
+          "friction_factor": 1.092
+        }
+      }
+    },
+    {
+      "seed": 0,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 161.97,
+          "bowl": 15.74
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 237.9,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 295.75,
+        "monitor_median_ms": 0.0304,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.191,
+            -3.683
+          ],
+          "mass_factor": 0.816,
+          "friction_factor": 0.807
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.012,
+            6.604
+          ],
+          "mass_factor": 1.043,
+          "friction_factor": 1.092
+        }
+      }
+    },
+    {
+      "seed": 0,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 167.85,
+          "bowl": 165.12
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.08,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.191,
+            -3.683
+          ],
+          "mass_factor": 0.816,
+          "friction_factor": 0.807
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.012,
+            6.604
+          ],
+          "mass_factor": 1.043,
+          "friction_factor": 1.092
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.63,
+          "bowl": 16.61
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 201.41,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 277.29,
+        "monitor_median_ms": 0.0304,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.189,
+            7.207
+          ],
+          "mass_factor": 0.858,
+          "friction_factor": 1.179
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.011,
+            -1.227
+          ],
+          "mass_factor": 1.131,
+          "friction_factor": 0.964
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 10.66,
+          "bowl": 16.6
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 195.47,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 302.58,
+        "monitor_median_ms": 0.0303,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.189,
+            7.207
+          ],
+          "mass_factor": 0.858,
+          "friction_factor": 1.179
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.011,
+            -1.227
+          ],
+          "mass_factor": 1.131,
+          "friction_factor": 0.964
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.28,
+          "bowl": 16.61
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 230.37,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 274.25,
+        "monitor_median_ms": 0.0298,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.189,
+            7.207
+          ],
+          "mass_factor": 0.858,
+          "friction_factor": 1.179
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.011,
+            -1.227
+          ],
+          "mass_factor": 1.131,
+          "friction_factor": 0.964
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 160.03,
+          "bowl": 16.61
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 201.88,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 277.29,
+        "monitor_median_ms": 0.0301,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.189,
+            7.207
+          ],
+          "mass_factor": 0.858,
+          "friction_factor": 1.179
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.011,
+            -1.227
+          ],
+          "mass_factor": 1.131,
+          "friction_factor": 0.964
+        }
+      }
+    },
+    {
+      "seed": 1,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 169.96,
+          "bowl": 173.02
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.07,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.189,
+            7.207
+          ],
+          "mass_factor": 0.858,
+          "friction_factor": 1.179
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.011,
+            -1.227
+          ],
+          "mass_factor": 1.131,
+          "friction_factor": 0.964
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 17.07,
+          "bowl": 16.28
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 225.31,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 300.09,
+        "monitor_median_ms": 0.0304,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -3.814,
+            -3.224
+          ],
+          "mass_factor": 1.126,
+          "friction_factor": 0.837
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.602,
+            3.657
+          ],
+          "mass_factor": 0.875,
+          "friction_factor": 0.822
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 10.52,
+          "bowl": 16.28
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 209.2,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 308.7,
+        "monitor_median_ms": 0.0299,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -3.814,
+            -3.224
+          ],
+          "mass_factor": 1.126,
+          "friction_factor": 0.837
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.602,
+            3.657
+          ],
+          "mass_factor": 0.875,
+          "friction_factor": 0.822
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 14.91,
+          "bowl": 16.28
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 265.41,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 299.22,
+        "monitor_median_ms": 0.03,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -3.814,
+            -3.224
+          ],
+          "mass_factor": 1.126,
+          "friction_factor": 0.837
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.602,
+            3.657
+          ],
+          "mass_factor": 0.875,
+          "friction_factor": 0.822
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 165.23,
+          "bowl": 16.28
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 226.5,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 300.09,
+        "monitor_median_ms": 0.03,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -3.814,
+            -3.224
+          ],
+          "mass_factor": 1.126,
+          "friction_factor": 0.837
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.602,
+            3.657
+          ],
+          "mass_factor": 0.875,
+          "friction_factor": 0.822
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 173.84,
+          "bowl": 168.44
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.07,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -3.814,
+            -3.224
+          ],
+          "mass_factor": 1.126,
+          "friction_factor": 0.837
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.602,
+            3.657
+          ],
+          "mass_factor": 0.875,
+          "friction_factor": 0.822
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 17.27,
+          "bowl": 17.18
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 235.98,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 299.97,
+        "monitor_median_ms": 0.0293,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -6.63,
+            -4.211
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 1.033
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -6.494,
+            -1.07
+          ],
+          "mass_factor": 0.992,
+          "friction_factor": 0.864
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 10.95,
+          "bowl": 17.16
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 213.5,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 307.09,
+        "monitor_median_ms": 0.0306,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -6.63,
+            -4.211
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 1.033
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -6.494,
+            -1.07
+          ],
+          "mass_factor": 0.992,
+          "friction_factor": 0.864
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 16.13,
+          "bowl": 17.18
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 277.54,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 296.46,
+        "monitor_median_ms": 0.0293,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -6.63,
+            -4.211
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 1.033
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -6.494,
+            -1.07
+          ],
+          "mass_factor": 0.992,
+          "friction_factor": 0.864
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 166.71,
+          "bowl": 17.18
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 242.88,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 299.97,
+        "monitor_median_ms": 0.0296,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -6.63,
+            -4.211
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 1.033
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -6.494,
+            -1.07
+          ],
+          "mass_factor": 0.992,
+          "friction_factor": 0.864
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 176.68,
+          "bowl": 176.5
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.09,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -6.63,
+            -4.211
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 1.033
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -6.494,
+            -1.07
+          ],
+          "mass_factor": 0.992,
+          "friction_factor": 0.864
+        }
+      }
+    },
+    {
+      "seed": 4,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.26,
+          "bowl": 15.87
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 227.41,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 295.5,
+        "monitor_median_ms": 0.0304,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            7.089,
+            0.181
+          ],
+          "mass_factor": 1.19,
+          "friction_factor": 0.832
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.718,
+            -1.976
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 0.87
+        }
+      }
+    },
+    {
+      "seed": 4,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 9.83,
+          "bowl": 15.87
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 198.77,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 312.2,
+        "monitor_median_ms": 0.0306,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            7.089,
+            0.181
+          ],
+          "mass_factor": 1.19,
+          "friction_factor": 0.832
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.718,
+            -1.976
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 0.87
+        }
+      }
+    },
+    {
+      "seed": 4,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.02,
+          "bowl": 15.87
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 270.08,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 295.91,
+        "monitor_median_ms": 0.03,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            7.089,
+            0.181
+          ],
+          "mass_factor": 1.19,
+          "friction_factor": 0.832
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.718,
+            -1.976
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 0.87
+        }
+      }
+    },
+    {
+      "seed": 4,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 151.96,
+          "bowl": 15.87
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 234.31,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 295.5,
+        "monitor_median_ms": 0.0294,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            7.089,
+            0.181
+          ],
+          "mass_factor": 1.19,
+          "friction_factor": 0.832
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.718,
+            -1.976
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 0.87
+        }
+      }
+    },
+    {
+      "seed": 4,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 162.91,
+          "bowl": 168.29
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.08,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            7.089,
+            0.181
+          ],
+          "mass_factor": 1.19,
+          "friction_factor": 0.832
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            1.718,
+            -1.976
+          ],
+          "mass_factor": 1.121,
+          "friction_factor": 0.87
+        }
+      }
+    },
+    {
+      "seed": 5,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.26,
+          "bowl": 17.21
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 235.76,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 291.31,
+        "monitor_median_ms": 0.03,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            4.88,
+            4.927
+          ],
+          "mass_factor": 1.006,
+          "friction_factor": 0.914
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -7.137,
+            -1.866
+          ],
+          "mass_factor": 0.963,
+          "friction_factor": 0.818
+        }
+      }
+    },
+    {
+      "seed": 5,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 9.92,
+          "bowl": 17.21
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 226.66,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 300.76,
+        "monitor_median_ms": 0.03,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            4.88,
+            4.927
+          ],
+          "mass_factor": 1.006,
+          "friction_factor": 0.914
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -7.137,
+            -1.866
+          ],
+          "mass_factor": 0.963,
+          "friction_factor": 0.818
+        }
+      }
+    },
+    {
+      "seed": 5,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.18,
+          "bowl": 17.21
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 274.74,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 288.26,
+        "monitor_median_ms": 0.0295,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            4.88,
+            4.927
+          ],
+          "mass_factor": 1.006,
+          "friction_factor": 0.914
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -7.137,
+            -1.866
+          ],
+          "mass_factor": 0.963,
+          "friction_factor": 0.818
+        }
+      }
+    },
+    {
+      "seed": 5,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 155.38,
+          "bowl": 17.21
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 241.24,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 291.31,
+        "monitor_median_ms": 0.0305,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            4.88,
+            4.927
+          ],
+          "mass_factor": 1.006,
+          "friction_factor": 0.914
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -7.137,
+            -1.866
+          ],
+          "mass_factor": 0.963,
+          "friction_factor": 0.818
+        }
+      }
+    },
+    {
+      "seed": 5,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 165.19,
+          "bowl": 177.15
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.08,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            4.88,
+            4.927
+          ],
+          "mass_factor": 1.006,
+          "friction_factor": 0.914
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -7.137,
+            -1.866
+          ],
+          "mass_factor": 0.963,
+          "friction_factor": 0.818
+        }
+      }
+    },
+    {
+      "seed": 6,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 17.5,
+          "bowl": 15.32
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 175.07,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 308.58,
+        "monitor_median_ms": 0.0302,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.611,
+            -2.508
+          ],
+          "mass_factor": 0.948,
+          "friction_factor": 0.95
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            7.799,
+            2.124
+          ],
+          "mass_factor": 1.07,
+          "friction_factor": 0.932
+        }
+      }
+    },
+    {
+      "seed": 6,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 11.59,
+          "bowl": 15.32
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 172.58,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 301.94,
+        "monitor_median_ms": 0.0296,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.611,
+            -2.508
+          ],
+          "mass_factor": 0.948,
+          "friction_factor": 0.95
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            7.799,
+            2.124
+          ],
+          "mass_factor": 1.07,
+          "friction_factor": 0.932
+        }
+      }
+    },
+    {
+      "seed": 6,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 14.35,
+          "bowl": 15.32
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 253.95,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 282.27,
+        "monitor_median_ms": 0.03,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.611,
+            -2.508
+          ],
+          "mass_factor": 0.948,
+          "friction_factor": 0.95
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            7.799,
+            2.124
+          ],
+          "mass_factor": 1.07,
+          "friction_factor": 0.932
+        }
+      }
+    },
+    {
+      "seed": 6,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 159.97,
+          "bowl": 15.32
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 182.57,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 308.57,
+        "monitor_median_ms": 0.031,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.611,
+            -2.508
+          ],
+          "mass_factor": 0.948,
+          "friction_factor": 0.95
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            7.799,
+            2.124
+          ],
+          "mass_factor": 1.07,
+          "friction_factor": 0.932
+        }
+      }
+    },
+    {
+      "seed": 6,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 169.41,
+          "bowl": 162.21
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.08,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            0.611,
+            -2.508
+          ],
+          "mass_factor": 0.948,
+          "friction_factor": 0.95
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            7.799,
+            2.124
+          ],
+          "mass_factor": 1.07,
+          "friction_factor": 0.932
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.58,
+          "bowl": 16.75
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 242.64,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 295.79,
+        "monitor_median_ms": 0.031,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.002,
+            6.355
+          ],
+          "mass_factor": 1.11,
+          "friction_factor": 0.89
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.197,
+            5.977
+          ],
+          "mass_factor": 0.802,
+          "friction_factor": 1.128
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 10.18,
+          "bowl": 16.75
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 234.22,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 304.87,
+        "monitor_median_ms": 0.0306,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.002,
+            6.355
+          ],
+          "mass_factor": 1.11,
+          "friction_factor": 0.89
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.197,
+            5.977
+          ],
+          "mass_factor": 0.802,
+          "friction_factor": 1.128
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.68,
+          "bowl": 16.75
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 281.43,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 278.49,
+        "monitor_median_ms": 0.0301,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.002,
+            6.355
+          ],
+          "mass_factor": 1.11,
+          "friction_factor": 0.89
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.197,
+            5.977
+          ],
+          "mass_factor": 0.802,
+          "friction_factor": 1.128
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 158.55,
+          "bowl": 16.75
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 248.78,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 295.79,
+        "monitor_median_ms": 0.0304,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.002,
+            6.355
+          ],
+          "mass_factor": 1.11,
+          "friction_factor": 0.89
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.197,
+            5.977
+          ],
+          "mass_factor": 0.802,
+          "friction_factor": 1.128
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 168.12,
+          "bowl": 173.3
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.08,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            2.002,
+            6.355
+          ],
+          "mass_factor": 1.11,
+          "friction_factor": 0.89
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            -3.197,
+            5.977
+          ],
+          "mass_factor": 0.802,
+          "friction_factor": 1.128
+        }
+      }
+    },
+    {
+      "seed": 8,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.84,
+          "bowl": 15.36
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 214.13,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 287.86,
+        "monitor_median_ms": 0.0305,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -2.768,
+            7.796
+          ],
+          "mass_factor": 0.927,
+          "friction_factor": 1.115
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.918,
+            -1.743
+          ],
+          "mass_factor": 0.975,
+          "friction_factor": 0.949
+        }
+      }
+    },
+    {
+      "seed": 8,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 10.9,
+          "bowl": 15.36
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 205.17,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 276.3,
+        "monitor_median_ms": 0.029,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -2.768,
+            7.796
+          ],
+          "mass_factor": 0.927,
+          "friction_factor": 1.115
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.918,
+            -1.743
+          ],
+          "mass_factor": 0.975,
+          "friction_factor": 0.949
+        }
+      }
+    },
+    {
+      "seed": 8,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 16.21,
+          "bowl": 15.36
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 252.0,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 272.06,
+        "monitor_median_ms": 0.0303,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -2.768,
+            7.796
+          ],
+          "mass_factor": 0.927,
+          "friction_factor": 1.115
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.918,
+            -1.743
+          ],
+          "mass_factor": 0.975,
+          "friction_factor": 0.949
+        }
+      }
+    },
+    {
+      "seed": 8,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 163.98,
+          "bowl": 15.36
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 222.11,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 287.85,
+        "monitor_median_ms": 0.0317,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -2.768,
+            7.796
+          ],
+          "mass_factor": 0.927,
+          "friction_factor": 1.115
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.918,
+            -1.743
+          ],
+          "mass_factor": 0.975,
+          "friction_factor": 0.949
+        }
+      }
+    },
+    {
+      "seed": 8,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 172.94,
+          "bowl": 164.09
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.08,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            -2.768,
+            7.796
+          ],
+          "mass_factor": 0.927,
+          "friction_factor": 1.115
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            5.918,
+            -1.743
+          ],
+          "mass_factor": 0.975,
+          "friction_factor": 0.949
+        }
+      }
+    },
+    {
+      "seed": 9,
+      "fault": "none",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 15.48,
+          "bowl": 15.95
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 236.45,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 308.07,
+        "monitor_median_ms": 0.0303,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            5.924,
+            -3.411
+          ],
+          "mass_factor": 1.041,
+          "friction_factor": 1.111
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            3.457,
+            6.646
+          ],
+          "mass_factor": 1.144,
+          "friction_factor": 1.167
+        }
+      }
+    },
+    {
+      "seed": 9,
+      "fault": "object_displaced",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 10.3,
+          "bowl": 15.97
+        },
+        "success": true,
+        "simulated_seconds": 11.188,
+        "compute_ms": 201.58,
+        "physics_steps": 5594,
+        "min_gripper_separation_mm": 289.89,
+        "monitor_median_ms": 0.0301,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            5.924,
+            -3.411
+          ],
+          "mass_factor": 1.041,
+          "friction_factor": 1.111
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            3.457,
+            6.646
+          ],
+          "mass_factor": 1.144,
+          "friction_factor": 1.167
+        }
+      }
+    },
+    {
+      "seed": 9,
+      "fault": "grip_loss",
+      "recovery_enabled": true,
+      "status": "completed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 14.56,
+          "bowl": 15.97
+        },
+        "success": true,
+        "simulated_seconds": 16.882,
+        "compute_ms": 273.93,
+        "physics_steps": 8441,
+        "min_gripper_separation_mm": 284.85,
+        "monitor_median_ms": 0.0298,
+        "recoveries": 1
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            5.924,
+            -3.411
+          ],
+          "mass_factor": 1.041,
+          "friction_factor": 1.111
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            3.457,
+            6.646
+          ],
+          "mass_factor": 1.144,
+          "friction_factor": 1.167
+        }
+      }
+    },
+    {
+      "seed": 9,
+      "fault": "grip_loss",
+      "recovery_enabled": false,
+      "status": "failed",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 154.44,
+          "bowl": 15.95
+        },
+        "success": false,
+        "simulated_seconds": 11.788,
+        "compute_ms": 242.48,
+        "physics_steps": 5894,
+        "min_gripper_separation_mm": 308.06,
+        "monitor_median_ms": 0.0301,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            5.924,
+            -3.411
+          ],
+          "mass_factor": 1.041,
+          "friction_factor": 1.111
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            3.457,
+            6.646
+          ],
+          "mass_factor": 1.144,
+          "friction_factor": 1.167
+        }
+      }
+    },
+    {
+      "seed": 9,
+      "fault": "obstacle",
+      "recovery_enabled": true,
+      "status": "blocked",
+      "metrics": {
+        "placement_error_mm": {
+          "cup": 164.11,
+          "bowl": 166.68
+        },
+        "success": false,
+        "simulated_seconds": 0.0,
+        "compute_ms": 0.07,
+        "physics_steps": 0,
+        "min_gripper_separation_mm": null,
+        "monitor_median_ms": null,
+        "recoveries": 0
+      },
+      "perturbations": {
+        "cup": {
+          "xy_delta_mm": [
+            5.924,
+            -3.411
+          ],
+          "mass_factor": 1.041,
+          "friction_factor": 1.111
+        },
+        "bowl": {
+          "xy_delta_mm": [
+            3.457,
+            6.646
+          ],
+          "mass_factor": 1.144,
+          "friction_factor": 1.167
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "robot": "MuJoCo Menagerie dual SO101",
+  "host": {
+    "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+    "processor": "arm64",
+    "intel_hardware": false
+  },
+  "seed_count": 10,
+  "total_runs": 50,
+  "randomization": "Each object: +/-8 mm XY, mass and sliding friction 0.8x to 1.2x",
+  "groups": {
+    "none:recovery=True": {
+      "runs": 10,
+      "completed": 10,
+      "blocked": 0,
+      "mean_cup_error_mm": 16.11,
+      "mean_compute_ms": 224.71
+    },
+    "object_displaced:recovery=True": {
+      "runs": 10,
+      "completed": 10,
+      "blocked": 0,
+      "mean_cup_error_mm": 10.54,
+      "mean_compute_ms": 205.39
+    },
+    "grip_loss:recovery=True": {
+      "runs": 10,
+      "completed": 10,
+      "blocked": 0,
+      "mean_cup_error_mm": 14.76,
+      "mean_compute_ms": 264.8
+    },
+    "grip_loss:recovery=False": {
+      "runs": 10,
+      "completed": 0,
+      "blocked": 0,
+      "mean_cup_error_mm": 159.82,
+      "mean_compute_ms": 228.06
+    },
+    "obstacle:recovery=True": {
+      "runs": 10,
+      "completed": 0,
+      "blocked": 10,
+      "mean_cup_error_mm": 169.1,
+      "mean_compute_ms": 0.08
+    }
+  },
+  "monitor_benchmark": {
+    "engine": "OpenVINO CPU geometric safety graph",
+    "precision": "FP32 input and FP32 inference precision hint",
+    "warmup": 100,
+    "samples": 1000,
+    "p50_ms": 0.02408,
+    "p95_ms": 0.02934,
+    "serial_inferences_per_second": 38792.7,
+    "max_abs_distance_error_m": 2.384185791015625e-07,
+    "scope": "Geometric separation graph only, not end-to-end VLA or Intel hardware benchmark"
+  }
+}

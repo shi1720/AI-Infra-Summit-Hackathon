@@ -1,0 +1,19 @@
+{
+  "status": "completed",
+  "device": "CPU",
+  "device_name": "Apple M4 Pro",
+  "available_devices": [
+    "CPU"
+  ],
+  "openvino_version": "2026.4.0-22959-99c81491cc3-releases/2026/4",
+  "platform": "macOS-27.0-arm64-arm-64bit-Mach-O",
+  "precision": "FP32 input and inference precision hint",
+  "graph": "Euclidean gripper separation, geometric operations, not trained ML",
+  "warmup": 100,
+  "samples": 1000,
+  "latency_p50_ms": 0.023667002096772194,
+  "latency_p95_ms": 0.030502049776259806,
+  "serial_inferences_per_second": 38728.14800289061,
+  "max_abs_error_m": 2.384185791015625e-07,
+  "limitations": "Host-specific microbenchmark. Does not measure end-to-end policy or Intel Core Ultra hardware unless device_name identifies that hardware."
+}

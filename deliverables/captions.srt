@@ -1,0 +1,115 @@
+1
+00:00:00,000 --> 00:00:03,653
+A robot setting a table looks impressive. But move a cup after the plan
+
+2
+00:00:03,653 --> 00:00:07,307
+starts, and the real test begins. Can it notice the change, stop an
+
+3
+00:00:07,307 --> 00:00:10,960
+unsafe action, and still finish the job? This is Granted Robotics, created
+
+4
+00:00:10,960 --> 00:00:14,614
+by Shivam Gupta.
+
+5
+00:00:15,314 --> 00:00:19,274
+For robotics teams, the difficult work often starts after a demonstration
+
+6
+00:00:19,274 --> 00:00:23,234
+fails. What changed? Which action caused the problem? Did the recovery
+
+7
+00:00:23,234 --> 00:00:27,195
+actually complete the task? Granted makes that investigation visible
+
+8
+00:00:27,195 --> 00:00:31,155
+through a familiar two arm table setting scenario.
+
+9
+00:00:31,855 --> 00:00:35,985
+The workbench puts the mission, workspace, and execution evidence together.
+
+10
+00:00:35,985 --> 00:00:40,116
+A reviewer can explore the task, inspect a disturbance, and understand
+
+11
+00:00:40,116 --> 00:00:44,246
+the recovery sequence. The goal is to make the important decisions readable,
+
+12
+00:00:44,246 --> 00:00:48,377
+instead of asking a judge to trust a success animation.
+
+13
+00:00:49,077 --> 00:00:53,715
+Under the interface, a Python backend uses MuJoCo for articulated arms,
+
+14
+00:00:53,715 --> 00:00:58,353
+tabletop objects, and simulated grasp constraints. An OpenVINO graph
+
+15
+00:00:58,353 --> 00:01:02,990
+evaluates geometric safety signals. The browser is the presentation
+
+16
+00:01:02,990 --> 00:01:07,628
+layer. Simulation evidence is separate from that visual explanation.
+
+17
+00:01:08,328 --> 00:01:12,853
+Across ten randomized seeds, grip loss completed ten out of ten times
+
+18
+00:01:12,853 --> 00:01:17,378
+with recovery, and zero out of ten without it. We varied object placement,
+
+19
+00:01:17,378 --> 00:01:21,903
+mass, and friction. These are fifty local simulation runs, with deterministic
+
+20
+00:01:21,903 --> 00:01:26,427
+control. We have not yet demonstrated on Intel Core Ultra hardware.
+
+21
+00:01:27,127 --> 00:01:30,645
+The first customer hypothesis is robotics integrators. A paid pilot
+
+22
+00:01:30,645 --> 00:01:34,162
+would import one task and reproduce its recurring failures. We would
+
+23
+00:01:34,162 --> 00:01:37,679
+measure engineering time spent diagnosing regressions. A five hundred
+
+24
+00:01:37,679 --> 00:01:41,196
+dollar monthly workspace is a pricing experiment, not a claim of customer
+
+25
+00:01:41,196 --> 00:01:44,714
+demand or revenue.
+
+26
+00:01:45,414 --> 00:01:49,541
+Granted Robotics makes the recovery part of the product. It gives teams
+
+27
+00:01:49,541 --> 00:01:53,669
+a clear place to inspect what failed, how the system responded, and
+
+28
+00:01:53,669 --> 00:01:57,797
+what the evidence supports. Explore the workbench and the open source
+
+29
+00:01:57,797 --> 00:02:01,925
+implementation. Created by Shivam Gupta for the AI Infra Summit Hackathon.

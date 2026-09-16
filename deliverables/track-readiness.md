@@ -1,0 +1,20 @@
+# Intel online track readiness
+
+The published track brief asks for dual SO-101 manipulation, camera-based multimodal reasoning, training or fine-tuning, randomized evaluation over 10 seeds, and a final demonstration on Intel Core Ultra Series 2/3. This prototype must not be described as fully meeting that specification.
+
+## Implemented foundation
+
+- A public recovery workbench and reproducible Python simulation source.
+- MuJoCo object manipulation, fault injection, recovery, and JSON evidence.
+- An OpenVINO geometric safety graph, with local timing evidence.
+- A deterministic planner/controller and optional constrained language planning.
+
+## Material gaps
+
+- No final demonstration on Intel Core Ultra Series 2/3 has been performed. Development-machine timings are not Intel Core Ultra benchmark results.
+- The geometric OpenVINO graph is not a trained VLA policy and does not establish model optimization quality for a VLA.
+- The project does not claim completed VLA training or fine-tuning.
+- The current table-setting fixture is narrower than the full drawer, utensils, hand-off, and pouring sequence in the brief.
+- A 50-run evaluation across 10 seeds now exists using MuJoCo Menagerie SO101 arms. Randomization covers small position perturbations, mass, and friction. Lighting, shape, and background generalization are not demonstrated.
+
+The submission should present its actual contribution and these gaps honestly. No eligibility or track-compliance guarantee is made.

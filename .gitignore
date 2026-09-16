@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+firebase-debug.log
+.firebase/
+.DS_Store
+backend/.venv/
+backend/runs/
+*.tsbuildinfo
+.codex-finalizer/
+deliverables/.build/
